@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "agentwattary",
+  "private_key_id": "eea35c2a785b0496445f50696f9455ad5b3d6469",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDxSml+PNMhmd/C\nBtZltm5kE5sxwaVbnsJdm5l97QOx5mF42ZlqWf0uSFn6BlSrz8A5fTGRnR3v8jA1\n7GZCrI3tYrsFRqALZlTrt6/Rj3Uum8YgE3FRbVMiPIjORMZ30LP1bt1Z28/3gRgE\nyGyUPlTMJCw45aJgf9rvAtSqiJZOhC9cJZLlcLW69luAFbSV6ugFkaRrjM2WJBQ4\nhptlFxTlfgUKZ3dcGjb9GL4+zVX4iPnE9vWcsoEuyplLlXOeCT3jbFNdONb6McTf\nfAd2TulMTuFE0iYoo3me+Pq9g0C2cgZGRUdt/84F7U6KO/N89ygTzgnqLgkkQZ8w\nC2lfsMUtAgMBAAECggEACzelI14DB70eUqgcOALM64Cg1qWUwSdmjFEDSAAoi5D1\nB5gAIppX45qv+ihor8sa+eE42HboMSM+fAdHMsLQX1CXdrWTk6wYdxPlS9YCQd4y\njgOxYTJ2qrELQCGg42mTsC2NA1QtfSlmezRxHcwvB4WH+8YrMBbJkBJ+3gW3DSPP\nbPbhKmwOGEw91at4+N4ErW1iJhZtyDwQEoi925PvWhXbV60loUA8h1ct8rYBy1Y5\ngkXjsvo2fKAeh+o8jipe9wiq7I83lN7O136w4YaOjXmnkWyGFmElrmbAol6wIWrC\nFpuESaJVzfwLU8JBoqL0+llr/K57Hbho56XDb0MDEQKBgQD/H7UVzdps7WYS8ev1\nY/cJv6+CCahoCNeh3zB+w9lW9B7ffcN2v1/hZltecPaHyM0ibkCo0UB/lZOVVTdS\n8ht1WTRp6cbuga99JQVb81dHYb8JG3TKzjL+EojVex4YAvKRLTjz6Z8enSuHfAZd\nSyhlSQGS2nOA/hd0Yo+owmNQUQKBgQDyHosSQFdT+DLRD0g28VbIHcG8lv0htbon\n+sh03sOeeWOQYg/37J/4JdCnjHjjHx3OGKXgKbTkb0yN8qXtuCO3PS2kvgZ+HC0F\nIouk9eV0qqpO7EAi9dfOVECrRG05qkkdTdkveqmfhdeI2jEEK3+ERgycMPvbQLww\nuLchIobsHQKBgGghC+s7WwSMnNXssg81XvY2q67avEbCHSjvjL6gt0u7VgKINUh5\ncevwuChC2Qyw07FS6Mc+qSGp7lPMNUmAkd6Cq1bzWQOuIO9mNdrC5oO3DJ7t+uxv\n3vY+oGTp3G2WfmTs3UsItq5rHgIth/d6HqHAe4jx6qTikLYrKFGMDbcRAoGAR5FX\nsnFqXtvCyaEmy3bTHBwPpFtNP6Wj/SVYE5O1Zyaik48pATPkpUkoQB55rUkJWl5W\nycgKPGvZySuseHQxunxO/Z9d8/EILbhkZsJ4rN+1r9aNrsfUnpyw8O8tChqXuh3E\n0RAFC65YY497Zawl6Ud7er/P8qNT/WLcXuMB1tECgYEA3EsEOZkyTJ1NBycqpVlD\nJ8QqD3biuybnGAOidsYT+G7i1E94uzIl4tW5xilAddZ5xqtRLJz/B/UwPpwJkWEO\notOqiXGGkzWw37D53o1hYZCLXYLSdWtU+3AMykrcBiJUC5DymxnZPhcfrbxB2rJ1\nF9ShMlqpSotX1yO1JBiQrEo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "voicerecog@agentwattary.iam.gserviceaccount.com",
+  "client_id": "115217620009763269907",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/voicerecog%40agentwattary.iam.gserviceaccount.com"
+}
