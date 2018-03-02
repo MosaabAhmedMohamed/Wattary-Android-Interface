@@ -89,7 +89,7 @@ dependencies {
     protobuf 'com.google.protobuf:protobuf-java:3.5.1'
 
     // OAuth2 for Google API
-    api ('com.google.auth:google-auth-library-oauth2-http:0.7.0') {
+    api('com.google.auth:google-auth-library-oauth2-http:0.7.0') {
         exclude module: 'httpclient'
     }
 

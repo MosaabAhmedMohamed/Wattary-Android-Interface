@@ -25,9 +25,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class VoiceActivity extends AppCompatActivity implements MessageDialogFragment.Listener {
+public class VoiceActivity extends AppCompatActivity{
+        //implements MessageDialogFragment.Listener {
 
-    private static final String FRAGMENT_MESSAGE_DIALOG = "message_dialog";
+   /* private static final String FRAGMENT_MESSAGE_DIALOG = "message_dialog";
 
     private static final String STATE_RESULTS = "results";
 
@@ -87,13 +88,13 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
             mSpeechService = null;
         }
 
-    };
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+/*
         final Resources resources = getResources();
         final Resources.Theme theme = getTheme();
         mColorHearing = ResourcesCompat.getColor(resources, R.color.status_hearing, theme);
@@ -290,5 +291,5 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
         }
 
     }
-
-}
+*/
+}}
