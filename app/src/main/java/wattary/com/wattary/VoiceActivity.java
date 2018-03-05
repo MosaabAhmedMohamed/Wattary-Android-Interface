@@ -1,5 +1,10 @@
 package wattary.com.wattary;
 
+/**
+ * Editing the Errors .. functions is still buggy
+ * amryar10 3/5/2018
+ */
+
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -25,10 +30,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class VoiceActivity extends AppCompatActivity{
-        //implements MessageDialogFragment.Listener {
+public class VoiceActivity extends AppCompatActivity implements MessageDialogFragment.Listener {
 
-   /* private static final String FRAGMENT_MESSAGE_DIALOG = "message_dialog";
+    private static final String FRAGMENT_MESSAGE_DIALOG = "message_dialog";
 
     private static final String STATE_RESULTS = "results";
 
@@ -88,23 +92,23 @@ public class VoiceActivity extends AppCompatActivity{
             mSpeechService = null;
         }
 
-    };*/
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-/*
+        setContentView(R.layout.activity_voice);
+
         final Resources resources = getResources();
         final Resources.Theme theme = getTheme();
         mColorHearing = ResourcesCompat.getColor(resources, R.color.status_hearing, theme);
         mColorNotHearing = ResourcesCompat.getColor(resources, R.color.status_not_hearing, theme);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        /*setSupportActionBar((Toolbar) findViewById(R.id.toolbar));*/
         mStatus = (TextView) findViewById(R.id.status);
-        mText = (TextView) findViewById(R.id.text);
+        mText = (TextView) findViewById(R.id.text); //de tb3 al detection msh al text bta3t al layout
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         final ArrayList<String> results = savedInstanceState == null ? null :
                 savedInstanceState.getStringArrayList(STATE_RESULTS);
@@ -168,7 +172,7 @@ public class VoiceActivity extends AppCompatActivity{
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -183,7 +187,7 @@ public class VoiceActivity extends AppCompatActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     private void startVoiceRecorder() {
         if (mVoiceRecorder != null) {
@@ -237,7 +241,7 @@ public class VoiceActivity extends AppCompatActivity{
                                     mAdapter.addResult(text);
                                     mRecyclerView.smoothScrollToPosition(0);
                                 } else {
-                                    mText.setText(text);
+                                    mText.setText(text); //de btgeb al text ally at3mlo recog
                                 }
                             }
                         });
@@ -250,8 +254,8 @@ public class VoiceActivity extends AppCompatActivity{
         TextView text;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.item_result, parent, false));
-            text = (TextView) itemView.findViewById(R.id.text);
+            super(inflater.inflate(R.layout.activity_voice, parent, false));
+            text = (TextView) itemView.findViewById(R.id.text); // anma de hia al textview bta3t al layout
         }
 
     }
@@ -291,5 +295,5 @@ public class VoiceActivity extends AppCompatActivity{
         }
 
     }
-*/
-}}
+
+}
