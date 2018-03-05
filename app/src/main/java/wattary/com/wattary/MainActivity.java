@@ -30,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void SignUpOnClick(View view)
+    {
+        Intent intent =new Intent(MainActivity.this,SignUp.class);
+        startActivity(intent);
+    }
+
+
+ // Asking for Permission
 
     public  boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
