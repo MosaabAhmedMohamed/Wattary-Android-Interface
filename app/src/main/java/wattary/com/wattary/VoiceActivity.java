@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,6 +42,20 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
     private SpeechService mSpeechService;
 
     private VoiceRecorder mVoiceRecorder;
+
+    //Variables
+    ImageButton tapIn;
+
+    // Resource caches
+    private int mColorHearing;
+    private int mColorNotHearing;
+
+    // View references
+    private TextView mStatus;
+    private TextView mText;
+    private ResultAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+
     private final VoiceRecorder.Callback mVoiceCallback = new VoiceRecorder.Callback() {
 
         @Override
@@ -67,16 +82,6 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
         }
 
     };
-
-    // Resource caches
-    private int mColorHearing;
-    private int mColorNotHearing;
-
-    // View references
-    private TextView mStatus;
-    private TextView mText;
-    private ResultAdapter mAdapter;
-    private RecyclerView mRecyclerView;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -142,9 +147,9 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
         stopVoiceRecorder();
 
         // Stop Cloud Speech API
-        mSpeechService.removeListener(mSpeechServiceListener);
         unbindService(mServiceConnection);
         mSpeechService = null;
+        /*mSpeechService.removeListener(mSpeechServiceListener);*/  //this line causing the crash error
 
         super.onStop();
     }

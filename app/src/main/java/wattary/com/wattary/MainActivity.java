@@ -36,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void testOnClick(View view)
+    {
+        Intent intent =new Intent(MainActivity.this,VoiceActivity.class);
+        startActivity(intent);
+    }
+
 
  // Asking for Permission
 
