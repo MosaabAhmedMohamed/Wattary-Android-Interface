@@ -1,4 +1,0 @@
-<resources>
-    <string name="app_name">Wattary</string>
-    <string name="permission_message">This app needs mic to record audio and recognize your speech.</string>
-</resources>
