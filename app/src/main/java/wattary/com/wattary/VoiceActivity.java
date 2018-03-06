@@ -26,7 +26,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,9 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
     private SpeechService mSpeechService;
 
     private VoiceRecorder mVoiceRecorder;
+
+    //Variables
+    ImageButton tapIn;
 
     // Resource caches
     private int mColorHearing;
@@ -115,6 +120,15 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
                 savedInstanceState.getStringArrayList(STATE_RESULTS);
         mAdapter = new ResultAdapter(results);
         mRecyclerView.setAdapter(mAdapter);
+
+
+        //set the button of mic --> causing error :\
+        /*tapIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mSpeechService, "test", Toast.LENGTH_SHORT).show();
+            }
+        });*/
     }
 
     @Override
