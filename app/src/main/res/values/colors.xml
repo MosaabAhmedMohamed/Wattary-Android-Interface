@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#31244e</color>
+    <color name="colorPrimaryDark">#6b394c</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--Colors from Google API -->
+    <color name="accent">#536DFE</color>
+    <color name="status_hearing">#7B1FA2</color>
+    <color name="status_not_hearing">#757575</color>
+</resources>

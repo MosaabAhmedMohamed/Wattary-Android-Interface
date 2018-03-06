@@ -48,7 +48,7 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:text="test"
-        android:onClick="testOnClick"
+        android:onClick="test"
         />
 
 </RelativeLayout>

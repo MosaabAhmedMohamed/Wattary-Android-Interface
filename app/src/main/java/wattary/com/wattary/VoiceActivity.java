@@ -26,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,9 +41,6 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
     private SpeechService mSpeechService;
 
     private VoiceRecorder mVoiceRecorder;
-
-    //Variables
-    ImageButton tapIn;
 
     // Resource caches
     private int mColorHearing;
@@ -147,9 +143,9 @@ public class VoiceActivity extends AppCompatActivity implements MessageDialogFra
         stopVoiceRecorder();
 
         // Stop Cloud Speech API
+        /*mSpeechService.removeListener(mSpeechServiceListener);*/ //this is what causing the crash
         unbindService(mServiceConnection);
         mSpeechService = null;
-        /*mSpeechService.removeListener(mSpeechServiceListener);*/  //this line causing the crash error
 
         super.onStop();
     }

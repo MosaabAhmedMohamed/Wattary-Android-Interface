@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void testOnClick(View view)
+    //test button
+    public void test(View view)
     {
         Intent intent =new Intent(MainActivity.this,VoiceActivity.class);
         startActivity(intent);
