@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         isPermissionGranted();
+        isPermissionGrantedRecord();
     }
     public void login(View view)
     {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     public  boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.CAMERA)
+            if (checkSelfPermission(Manifest.permission.CAMERA )
                     == PackageManager.PERMISSION_GRANTED) {
                 Log.v("TAG","Permission is granted");
                 return true;
@@ -56,6 +57,25 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.v("TAG","Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+
+    public  boolean isPermissionGrantedRecord() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO )
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
                 return false;
             }
         }
