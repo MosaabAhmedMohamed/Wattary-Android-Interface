@@ -1,11 +1,15 @@
 package wattary.com.wattary;
 
+/**
+ * Created by mosabahmed55 on 05/03/2018.
+ */
+
+
 import android.hardware.Camera;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EdgeEffect;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
