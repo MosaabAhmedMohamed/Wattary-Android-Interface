@@ -51,6 +51,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="Tap on Mic to Speak"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="15dp"
         android:textStyle="normal"
@@ -76,7 +77,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376" />
+        app:layout_constraintVertical_bias="0.376"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <!--
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
