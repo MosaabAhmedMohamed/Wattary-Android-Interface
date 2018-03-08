@@ -2,313 +2,234 @@ package wattary.com.wattary;
 
 /**
  * Editing the Errors .. functions is still buggy
- * amryar10 3/5/2018
+ * amryar10 8/3/2018
  */
 
-import android.Manifest;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
-public class VoiceActivity extends AppCompatActivity implements MessageDialogFragment.Listener {
+public class VoiceActivity extends AppCompatActivity implements RecognitionListener {
 
-    private static final String FRAGMENT_MESSAGE_DIALOG = "message_dialog";
+    private TextView returnedText;
+    ImageButton recordbtn;
+    private ProgressBar progressBar;
+    private SpeechRecognizer speech = null;
+    private Intent recognizerIntent;
+    static final int REQUEST_PERMISSION_KEY = 1;
 
-    private static final String STATE_RESULTS = "results";
-
-    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 1;
-
-    private SpeechService mSpeechService;
-
-    private VoiceRecorder mVoiceRecorder;
-
-    //Variables
-    ImageButton tapIn;
-
-    // Resource caches
-    private int mColorHearing;
-    private int mColorNotHearing;
-
-    // View references
-    private TextView mStatus;
-    private TextView mText;
-    private ResultAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-
-    private final VoiceRecorder.Callback mVoiceCallback = new VoiceRecorder.Callback() {
-
-        @Override
-        public void onVoiceStart() {
-            showStatus(true);
-            if (mSpeechService != null) {
-                mSpeechService.startRecognizing(mVoiceRecorder.getSampleRate());
-            }
-        }
-
-        @Override
-        public void onVoice(byte[] data, int size) {
-            if (mSpeechService != null) {
-                mSpeechService.recognize(data, size);
-            }
-        }
-
-        @Override
-        public void onVoiceEnd() {
-            showStatus(false);
-            if (mSpeechService != null) {
-                mSpeechService.finishRecognizing();
-            }
-        }
-
-    };
-
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder binder) {
-            mSpeechService = SpeechService.from(binder);
-            mSpeechService.addListener(mSpeechServiceListener);
-            mStatus.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mSpeechService = null;
-        }
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*getSupportActionBar().hide();*/
         setContentView(R.layout.activity_voice);
+        returnedText = (TextView) findViewById(R.id.textofSpeech);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
 
-        final Resources resources = getResources();
-        final Resources.Theme theme = getTheme();
-        mColorHearing = ResourcesCompat.getColor(resources, R.color.status_hearing, theme);
-        mColorNotHearing = ResourcesCompat.getColor(resources, R.color.status_not_hearing, theme);
-
-        /*setSupportActionBar((Toolbar) findViewById(R.id.toolbar));*/
-        mStatus = (TextView) findViewById(R.id.status);
-        mText = (TextView) findViewById(R.id.text); //de tb3 al detection msh al text bta3t al layout
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final ArrayList<String> results = savedInstanceState == null ? null :
-                savedInstanceState.getStringArrayList(STATE_RESULTS);
-        mAdapter = new ResultAdapter(results);
-        mRecyclerView.setAdapter(mAdapter);
+        String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
+        if(!Function.hasPermissions(this, PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
+        }
 
 
-        //set the button of mic --> causing error :\
-        /*tapIn.setOnClickListener(new View.OnClickListener() {
+        progressBar.setVisibility(View.INVISIBLE);
+        speech = SpeechRecognizer.createSpeechRecognizer(this);
+        speech.setRecognitionListener(this);
+        recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
+                "en");
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                this.getPackageName());
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+
+        /*
+        Minimum time to listen in millis. Here 5 seconds
+         */
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+        recognizerIntent.putExtra("android.speech.extra.DICTATION_MODE", true);
+
+
+
+
+        recordbtn.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public void onClick(View v) {
-                Toast.makeText(mSpeechService, "test", Toast.LENGTH_SHORT).show();
+            public void onClick(View v)
+            {
+                progressBar.setVisibility(View.VISIBLE);
+                speech.startListening(recognizerIntent);
+                recordbtn.setEnabled(false);
+
+                /*To stop listening
+                    progressBar.setVisibility(View.INVISIBLE);
+                    speech.stopListening();
+                    recordbtn.setEnabled(true);
+                 */
             }
-        });*/
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        // Prepare Cloud Speech API
-        bindService(new Intent(this, SpeechService.class), mServiceConnection, BIND_AUTO_CREATE);
-
-        // Start listening to voices
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                == PackageManager.PERMISSION_GRANTED) {
-            startVoiceRecorder();
-        } else if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.RECORD_AUDIO)) {
-            showPermissionMessageDialog();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
-                    REQUEST_RECORD_AUDIO_PERMISSION);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        // Stop listening to voice
-        stopVoiceRecorder();
-
-        // Stop Cloud Speech API
-        /*mSpeechService.removeListener(mSpeechServiceListener);*/ //this is what causing the crash
-        unbindService(mServiceConnection);
-        mSpeechService = null;
-
-        super.onStop();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mAdapter != null) {
-            outState.putStringArrayList(STATE_RESULTS, mAdapter.getResults());
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
-            if (permissions.length == 1 && grantResults.length == 1
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startVoiceRecorder();
-            } else {
-                showPermissionMessageDialog();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_file:
-                mSpeechService.recognizeInputStream(getResources().openRawResource(R.raw.audio));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
-
-    private void startVoiceRecorder() {
-        if (mVoiceRecorder != null) {
-            mVoiceRecorder.stop();
-        }
-        mVoiceRecorder = new VoiceRecorder(mVoiceCallback);
-        mVoiceRecorder.start();
-    }
-
-    private void stopVoiceRecorder() {
-        if (mVoiceRecorder != null) {
-            mVoiceRecorder.stop();
-            mVoiceRecorder = null;
-        }
-    }
-
-    private void showPermissionMessageDialog() {
-        MessageDialogFragment
-                .newInstance(getString(R.string.permission_message))
-                .show(getSupportFragmentManager(), FRAGMENT_MESSAGE_DIALOG);
-    }
-
-    private void showStatus(final boolean hearingVoice) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mStatus.setTextColor(hearingVoice ? mColorHearing : mColorNotHearing);
-            }
         });
+
+
+
     }
 
     @Override
-    public void onMessageDialogDismissed() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},
-                REQUEST_RECORD_AUDIO_PERMISSION);
+    public void onResume() {
+
+        super.onResume();
     }
 
-    private final SpeechService.Listener mSpeechServiceListener =
-            new SpeechService.Listener() {
-                @Override
-                public void onSpeechRecognized(final String text, final boolean isFinal) {
-                    if (isFinal) {
-                        mVoiceRecorder.dismiss();
-                    }
-                    if (mText != null && !TextUtils.isEmpty(text)) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (isFinal) {
-                                    mText.setText(null);
-                                    mAdapter.addResult(text);
-                                    mRecyclerView.smoothScrollToPosition(0);
-                                } else {
-                                    mText.setText(text); //de btgeb al text ally at3mlo recog
-                                }
-                            }
-                        });
-                    }
-                }
-            };
-
-    private static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView text;
-
-        ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.activity_voice, parent, false));
-            text = (TextView) itemView.findViewById(R.id.text); // anma de hia al textview bta3t al layout
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (speech != null) {
+            speech.destroy();
+            Log.d("Log", "destroy");
         }
 
     }
 
-    private static class ResultAdapter extends RecyclerView.Adapter<ViewHolder> {
+    @Override
+    public void onBeginningOfSpeech() {
+        Log.d("Log", "onBeginningOfSpeech");
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
-        private final ArrayList<String> mResults = new ArrayList<>();
+    @Override
+    public void onBufferReceived(byte[] buffer) {
+        Log.d("Log", "onBufferReceived: " + buffer);
+    }
 
-        ResultAdapter(ArrayList<String> results) {
-            if (results != null) {
-                mResults.addAll(results);
-            }
+    @Override
+    public void onEndOfSpeech() {
+        Log.d("Log", "onEndOfSpeech");
+        progressBar.setVisibility(View.INVISIBLE);
+        recordbtn.setEnabled(true);
+    }
+
+    @Override
+    public void onError(int errorCode) {
+        String errorMessage = getErrorText(errorCode);
+        Log.d("Log", "FAILED " + errorMessage);
+        progressBar.setVisibility(View.INVISIBLE);
+        returnedText.setText(errorMessage);
+        recordbtn.setEnabled(true);
+    }
+
+    @Override
+    public void onEvent(int arg0, Bundle arg1) {
+        Log.d("Log", "onEvent");
+    }
+
+    @Override
+    public void onPartialResults(Bundle arg0) {
+        Log.d("Log", "onPartialResults");
+
+        ArrayList<String> matches = arg0.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        String text = "";
+        /* To get all close matchs
+        for (String result : matches)
+        {
+            text += result + "\n";
         }
+        */
+        text = matches.get(0); //  Remove this line while uncommenting above    codes
 
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+
+        returnedText.setText(text);
+    }
+
+    @Override
+    public void onReadyForSpeech(Bundle arg0) {
+        Log.d("Log", "onReadyForSpeech");
+    }
+
+    @Override
+    public void onResults(Bundle results) {
+        Log.d("Log", "onResults");
+
+    }
+
+    @Override
+    public void onRmsChanged(float rmsdB) {
+        Log.d("Log", "onRmsChanged: " + rmsdB);
+        progressBar.setProgress((int) rmsdB);
+
+    }
+
+    public static String getErrorText(int errorCode) {
+        String message;
+        switch (errorCode) {
+            case SpeechRecognizer.ERROR_AUDIO:
+                message = "Audio recording error";
+                break;
+            case SpeechRecognizer.ERROR_CLIENT:
+                message = "Client side error";
+                break;
+            case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                message = "Insufficient permissions";
+                break;
+            case SpeechRecognizer.ERROR_NETWORK:
+                message = "Network error";
+                break;
+            case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+                message = "Network timeout";
+                break;
+            case SpeechRecognizer.ERROR_NO_MATCH:
+                message = "No match";
+                break;
+            case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
+                message = "RecognitionService busy";
+                break;
+            case SpeechRecognizer.ERROR_SERVER:
+                message = "error from server";
+                break;
+            case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+                message = "No speech input";
+                break;
+            default:
+                message = "Didn't understand, please try again.";
+                break;
         }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.text.setText(mResults.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mResults.size();
-        }
-
-        void addResult(String result) {
-            mResults.add(0, result);
-            notifyItemInserted(0);
-        }
-
-        public ArrayList<String> getResults() {
-            return mResults;
-        }
-
+        return message;
     }
 
 }
+class Function {
+
+    public static  boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+
