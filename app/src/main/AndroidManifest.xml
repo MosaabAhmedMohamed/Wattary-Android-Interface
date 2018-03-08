@@ -29,9 +29,6 @@
         <activity android:name=".VoiceActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUp" />
-
-        <!--Added by : amryar10 in 7/3/2018-->
-        <service android:name=".SpeechService"/>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ package wattary.com.wattary;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.Manifest;
 import android.content.Context;
@@ -22,29 +23,43 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener {
 
     private TextView returnedText;
+    private TextView Status;
     ImageButton recordbtn;
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
+    private ListView listView;
+    private ArrayList<String> arrayList;
+    private ArrayAdapter<String> adapter;
     static final int REQUEST_PERMISSION_KEY = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*getSupportActionBar().hide();*/
         setContentView(R.layout.activity_voice);
         returnedText = (TextView) findViewById(R.id.textofSpeech);
+        Status = (TextView) findViewById(R.id.status);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
+
+        //for listview
+        listView = (ListView) findViewById(R.id.listview);
+        arrayList=new ArrayList<String>();
+        adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1,arrayList);
+        listView.setAdapter(adapter);
 
         String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
         if(!Function.hasPermissions(this, PERMISSIONS)){
@@ -81,6 +96,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 progressBar.setVisibility(View.VISIBLE);
                 speech.startListening(recognizerIntent);
                 recordbtn.setEnabled(false);
+                Status.setText("Listening");
+                Status.setTextColor(Color.parseColor("#CCA2FF"));
 
                 /*To stop listening
                     progressBar.setVisibility(View.INVISIBLE);
@@ -128,6 +145,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Log.d("Log", "onEndOfSpeech");
         progressBar.setVisibility(View.INVISIBLE);
         recordbtn.setEnabled(true);
+        Status.setText("Tap on Mic to Speak");
+        Status.setTextColor(Color.parseColor("#FFFFFF"));
+        //for listview
+        //arrayList.add(text); --> here's the right place for arrayList.add but it can't get (text)
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -160,6 +182,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
         returnedText.setText(text);
+        //for listview
+        arrayList.add(text);
     }
 
     @Override

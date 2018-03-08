@@ -72,6 +72,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.933" />
 
+    <!--
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -89,8 +90,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.376"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    -->
 
-    <!--
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listview"
         android:layout_width="wrap_content"
@@ -105,7 +106,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.376" />
-        -->
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButtonMain"
@@ -144,8 +145,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.882"
-        android:onClick="test"/>
+        app:layout_constraintVertical_bias="0.882" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButtonRM"
