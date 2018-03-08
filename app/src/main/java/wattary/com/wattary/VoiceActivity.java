@@ -7,6 +7,7 @@ package wattary.com.wattary;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.Manifest;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -33,15 +35,19 @@ import java.util.Arrays;
 
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener {
 
+
     private TextView returnedText;
     private TextView Status;
     ImageButton recordbtn;
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
+    //
     private ListView listView;
+    FloatingActionButton chatButton;
+    //
     private ArrayList<String> arrayList;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter adapter;
     static final int REQUEST_PERMISSION_KEY = 1;
 
 
@@ -54,11 +60,29 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
 
+        //chat button
+        chatButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
+
         //for listview
         listView = (ListView) findViewById(R.id.listview);
         arrayList=new ArrayList<String>();
         adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1,arrayList);
+                android.R.layout.simple_list_item_1,arrayList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Get the Item from ListView
+                View view = super.getView(position, convertView, parent);
+
+                // Initialize a TextView for ListView each Item
+                TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                // Set the text color of TextView (ListView Item)
+                tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+                // Generate ListView Item using TextView
+                return view;
+            }
+        };
         listView.setAdapter(adapter);
 
         String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
@@ -239,6 +263,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 break;
         }
         return message;
+    }
+
+    public void chat(View view)
+    {
+        Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
+        startActivity(intent);
     }
 
 }
