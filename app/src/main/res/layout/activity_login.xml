@@ -22,5 +22,16 @@
         android:layout_marginTop="12dp"
         android:gravity="center_horizontal"
         android:text="Capture"
+        android:background="?android:attr/selectableItemBackground"
         android:onClick="CaptuerLogin"/>
+
+    <Button
+        android:id="@+id/exit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EXIT [Back Press]"
+        android:layout_below="@+id/CaptureLoginBu"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="51dp" />
+
 </RelativeLayout>

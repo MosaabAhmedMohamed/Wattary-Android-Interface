@@ -26,6 +26,7 @@
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:text="Login"
+        android:background="?android:attr/selectableItemBackground"
         android:onClick="login"
         />
 
@@ -37,6 +38,7 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:text="Sign up"
+        android:background="?android:attr/selectableItemBackground"
         android:onClick="SignUpOnClick"
         />
 
@@ -48,6 +50,7 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:text="test"
+        android:background="?android:attr/selectableItemBackground"
         android:onClick="test"
         />
 

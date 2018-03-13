@@ -265,12 +265,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         return message;
     }
 
-    public void chat(View view)
+  /**  public void chat(View view)
     {
         Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
         startActivity(intent);
     }
-
+**/
 }
 class Function {
 

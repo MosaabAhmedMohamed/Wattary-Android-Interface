@@ -11,7 +11,9 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
         isPermissionGranted();
         isPermissionGrantedRecord();
+
     }
+
     public void login(View view)
     {
         Intent intent =new Intent(MainActivity.this,LoginActivity.class);
