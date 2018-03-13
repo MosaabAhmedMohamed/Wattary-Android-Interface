@@ -7,7 +7,6 @@ package wattary.com.wattary;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.Manifest;
 import android.content.Context;
@@ -30,11 +29,17 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.FloatingActionButton;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener {
 
+    FloatingActionMenu floatingActionMenu ;
+    FloatingActionButton Air,TV,Speak;
 
     private TextView returnedText;
     private TextView Status;
@@ -59,6 +64,33 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Status = (TextView) findViewById(R.id.status);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
+
+       //Floating action Mnue Implmentation
+       floatingActionMenu=(FloatingActionMenu)findViewById(R.id.floatingActionMenu);
+        Air=(FloatingActionButton)findViewById(R.id.AirActivity);
+        Speak=(FloatingActionButton)findViewById(R.id.SpeakActivity);
+        TV=(FloatingActionButton)findViewById(R.id.TVActivity);
+
+        Air.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Speak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(VoiceActivity.this,"Speak clicked",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(VoiceActivity.this,"TV clicked",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //chat button
         chatButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
