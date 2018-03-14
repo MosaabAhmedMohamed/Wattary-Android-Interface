@@ -50,6 +50,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     //
     private ListView listView;
     FloatingActionButton chatButton;
+
     //
     private ArrayList<String> arrayList;
     private ArrayAdapter adapter;
@@ -65,7 +66,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
 
-       //Floating action Mnue Implmentation
+       //Floating action Menu Implmentation
        floatingActionMenu=(FloatingActionMenu)findViewById(R.id.floatingActionMenu);
         Air=(FloatingActionButton)findViewById(R.id.AirActivity);
         Speak=(FloatingActionButton)findViewById(R.id.SpeakActivity);
@@ -297,12 +298,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         return message;
     }
 
-  /**  public void chat(View view)
+    public void chat(View view)
     {
         Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
         startActivity(intent);
     }
-**/
+
 }
 class Function {
 
