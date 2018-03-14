@@ -136,9 +136,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
 
-        /*
-        Minimum time to listen in millis. Here 5 seconds
-         */
+        //Minimum time to listen in millis. Here 5 seconds
+
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
         recognizerIntent.putExtra("android.speech.extra.DICTATION_MODE", true);
 
