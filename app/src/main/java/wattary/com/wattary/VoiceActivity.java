@@ -50,7 +50,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     //
     private ListView listView;
     FloatingActionButton chatButton;
-
+    String sentString;
     //
     private ArrayList<String> arrayList;
     private ArrayAdapter adapter;
@@ -166,8 +166,6 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
         });
 
-
-
     }
 
     @Override
@@ -205,8 +203,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Status.setText("Tap on Mic to Speak");
         Status.setTextColor(Color.parseColor("#FFFFFF"));
         //for listview
-        //arrayList.add(text); --> here's the right place for arrayList.add but it can't get (text)
-        adapter.notifyDataSetChanged();
+        if (sentString != null) {
+            arrayList.add(sentString); //--> here's the right place for arrayList.add but it can't get (text)
+            sentString = null;
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -237,10 +238,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         */
         text = matches.get(0); //  Remove this line while uncommenting above    codes
 
-
         returnedText.setText(text);
         //for listview
-        arrayList.add(text);
+        if (returnedText != null) {
+            sentString = text;
+        }
     }
 
     @Override
