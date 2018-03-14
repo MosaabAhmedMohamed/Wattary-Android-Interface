@@ -120,6 +120,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 // Set the text color of TextView (ListView Item)
                 tv.setTextColor(Color.parseColor("#FFFFFF"));
 
+                // Set the text size of TextView (ListView Item)
+                tv.setTextSize(20.0f);
+
                 // Generate ListView Item using TextView
                 return view;
             }
@@ -199,6 +202,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
     @Override
     public void onBufferReceived(byte[] buffer) {
+
         Log.d("Log", "onBufferReceived: " + buffer);
     }
 
@@ -306,12 +310,6 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         }
         return message;
     }
-
-    /*public void chat(View view)
-    {
-        Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
-        startActivity(intent);
-    }*/
 
 }
 class Function {
