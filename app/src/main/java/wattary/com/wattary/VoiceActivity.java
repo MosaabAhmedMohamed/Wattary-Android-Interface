@@ -39,7 +39,7 @@ import java.util.ArrayList;
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener {
 
     FloatingActionMenu floatingActionMenu ;
-    FloatingActionButton Air,TV,Speak;
+    FloatingActionButton Air,TV,Speak,Chat;
 
     private TextView returnedText;
     private TextView Status;
@@ -71,7 +71,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Air=(FloatingActionButton)findViewById(R.id.AirActivity);
         Speak=(FloatingActionButton)findViewById(R.id.SpeakActivity);
         TV=(FloatingActionButton)findViewById(R.id.TVActivity);
+        Chat = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
 
+        //Activities Buttons
         Air.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,8 +95,14 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             }
         });
 
-        //chat button
-        chatButton = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
+        Chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         //for listview
         listView = (ListView) findViewById(R.id.listview);
@@ -299,11 +307,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         return message;
     }
 
-    public void chat(View view)
+    /*public void chat(View view)
     {
         Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
         startActivity(intent);
-    }
+    }*/
 
 }
 class Function {

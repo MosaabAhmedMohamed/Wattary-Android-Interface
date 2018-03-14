@@ -154,7 +154,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:onClick="chat"
         app:fab_colorNormal="#FFEAEBEF"
         android:src="@drawable/text"/>
 

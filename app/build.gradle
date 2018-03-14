@@ -73,6 +73,7 @@ android {
         implementation "com.android.support:cardview-v7:26.1.0"
 
         //websocket implementation amryar10   14/3/2018
+        implementation "com.squareup.okhttp3:okhttp:3.9.1"
 
         //created by mosabahmed55
         implementation 'com.github.clans:fab:1.6.4'
