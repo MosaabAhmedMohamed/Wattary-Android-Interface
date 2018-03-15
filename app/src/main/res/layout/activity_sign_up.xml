@@ -7,7 +7,7 @@
     tools:context="wattary.com.wattary.SignUp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="100dp"
         android:id="@+id/WattaryView"
         >
         <ImageView
@@ -18,16 +18,14 @@
 
     </LinearLayout>
 
-<LinearLayout
+<android.support.design.widget.TextInputLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
+    android:padding="10dp"
     android:orientation="vertical"
-    android:id="@+id/EditTextLayout"
+    android:id="@+id/EditTextLayout1"
     android:layout_below="@id/WattaryView"
     >
-
-
     <EditText
         android:id="@+id/FristNameET"
         android:layout_width="wrap_content"
@@ -38,6 +36,16 @@
         android:hint="Frist Name"
         />
 
+
+</android.support.design.widget.TextInputLayout>
+
+<android.support.design.widget.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:id="@+id/EditTextLayout2"
+    android:layout_below="@id/EditTextLayout1">
     <EditText
         android:id="@+id/LastNameET"
         android:layout_width="wrap_content"
@@ -45,39 +53,48 @@
         android:ems="8"
         android:inputType="textPersonName"
         android:layout_margin="15dp"
-        android:hint="Last Name" />
-
-</LinearLayout>
+        android:hint="Last Name"
+        />
+</android.support.design.widget.TextInputLayout>
 
 <LinearLayout
 
     android:layout_width="match_parent"
+
     android:orientation="horizontal"
-    android:layout_below="@id/EditTextLayout"
-
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:id="@+id/CameraViewSignUp"
-        android:layout_width="150dp"
-        android:layout_height="155dp"
-        android:padding="5dp"
-        android:layout_marginLeft="40dp"
-        >
-
-    </FrameLayout>
+    android:layout_below="@id/EditTextLayout2"
+    android:id="@+id/CaptureLayout"
+    android:layout_height="220dp">
+   <ImageView
+       android:id="@+id/myViewSginup"
+       android:layout_width="200dp"
+       android:layout_margin="10dp"
+       android:layout_height="200dp" />
     <Button
         android:id="@+id/CaptuerSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:text="Captuer"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:text="Take a photo"
         android:onClick="CaptuerSignUpOnClick"
         />
 
-
-
 </LinearLayout>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_below="@id/CaptureLayout">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_gravity="center"
+
+        />
+</LinearLayout>
 
 
 </RelativeLayout>

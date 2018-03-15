@@ -23,11 +23,12 @@ ImageView MyView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button Capture=(Button)findViewById(R.id.CaptureLoginBu);
+       // Button Capture=(Button)findViewById(R.id.CaptureLoginBu);
          MyView=(ImageView)findViewById(R.id.MyLoginImage);
 
-        if(!hasCamera())
-        {Capture.setEnabled(false);}
+//        if(!hasCamera())
+//        {Capture.setEnabled(false);}
+       CaptuerLogin();
 
     }
 
@@ -36,7 +37,7 @@ ImageView MyView;
         return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
     }
 
-    public void CaptuerLogin(View view)
+    public void CaptuerLogin()
     {
         Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
        startActivityForResult(intent, REQUEST_iMAGE_CAPTURE);

@@ -9,11 +9,12 @@
 
     <ImageView
         android:id="@+id/MyLoginImage"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
          />
 
-    <Button
+    <!--Button
         android:id="@+id/CaptureLoginBu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,15 +24,6 @@
         android:gravity="center_horizontal"
         android:text="Capture"
         android:background="?android:attr/selectableItemBackground"
-        android:onClick="CaptuerLogin"/>
-
-    <Button
-        android:id="@+id/exit_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="EXIT [Back Press]"
-        android:layout_below="@+id/CaptureLoginBu"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="51dp" />
+        android:onClick="CaptuerLogin"/-->
 
 </RelativeLayout>

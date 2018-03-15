@@ -5,24 +5,27 @@ package wattary.com.wattary;
  */
 
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 public class SignUp extends AppCompatActivity {
 
     private EditText FristNameET;
     private EditText LastNameET;
-    private FrameLayout frameLayout;
-    private Button CaptuerBU;
+    ImageView MyView;
+    private Button CaptureBu;
+    static final int REQUEST_iMAGE_CAPTURE=1;
 
-
-    ShowCamera showCamera;
-    Camera camera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,30 +34,36 @@ public class SignUp extends AppCompatActivity {
 
         FristNameET=(EditText)findViewById(R.id.FristNameET);
         LastNameET=(EditText)findViewById(R.id.LastNameET);
-        frameLayout=(FrameLayout)findViewById(R.id.CameraViewSignUp);
-        CaptuerBU=(Button)findViewById(R.id.CaptuerSignUp);
+        MyView=(ImageView)findViewById(R.id.myViewSginup);
+        CaptureBu=(Button)findViewById(R.id.CaptuerSignUp);
+
+        if(!hasCamera())
+        {CaptureBu.setEnabled(false);}
 
 
-        camera = Camera.open();
 
-        showCamera = new ShowCamera(this, camera);
-        frameLayout.addView(showCamera);
     }
 
-    Camera.PictureCallback mpictureCallback=new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] bytes, Camera camera) {
-
-
-        }
-    };
-
+    public Boolean hasCamera()
+    {
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+    }
 
     public void CaptuerSignUpOnClick(View view)
     {
-        if(camera !=null)
+        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_iMAGE_CAPTURE);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==REQUEST_iMAGE_CAPTURE &&resultCode ==RESULT_OK)
         {
-            camera.takePicture(null,null,mpictureCallback);
+            Bundle extras =data.getExtras();
+            Bitmap photo =(Bitmap) extras.get("data");
+            MyView.setImageBitmap(photo);
         }
     }
+
 }
