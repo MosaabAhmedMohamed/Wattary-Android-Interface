@@ -20,6 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        useLibrary 'org.apache.http.legacy'
     }
 
     buildTypes {
@@ -74,6 +75,8 @@ android {
 
         //websocket implementation amryar10   14/3/2018
         implementation "com.squareup.okhttp3:okhttp:3.9.1"
+        implementation 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
+        implementation 'com.mcxiaoke.volley:library:1.0.19'
 
         //created by mosabahmed55
         implementation 'com.github.clans:fab:1.6.4'

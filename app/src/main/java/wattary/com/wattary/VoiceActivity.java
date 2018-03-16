@@ -7,6 +7,8 @@ package wattary.com.wattary;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.Manifest;
 import android.content.Context;
@@ -31,12 +33,35 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.FloatingActionButton;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener {
+
+    private static String url = "https://wattary2.herokuapp.com/main";
 
     FloatingActionMenu floatingActionMenu ;
     FloatingActionButton Air,TV,Speak,Chat;
@@ -50,7 +75,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     //
     private ListView listView;
     FloatingActionButton chatButton;
-    String sentString;
+    String toString;
+    String sendString;
+    JSONObject jsonObject = new JSONObject();
     //
     private ArrayList<String> arrayList;
     private ArrayAdapter adapter;
@@ -214,11 +241,22 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Status.setText("Tap on Mic to Speak");
         Status.setTextColor(Color.parseColor("#FFFFFF"));
         //for listview
-        if (sentString != null) {
-            arrayList.add(sentString); //--> here's the right place for arrayList.add but it can't get (text)
-            sentString = null;
+        if (toString != null) {
+            arrayList.add(toString); //--> here's the right place for arrayList.add but it can't get (text)
+            sendString = toString;
+            toString = null;
             adapter.notifyDataSetChanged();
         }
+
+        try {
+            jsonObject.put("message",sendString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendPost(url);
+
+        System.out.println(jsonObject);
     }
 
     @Override
@@ -252,7 +290,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         returnedText.setText(text);
         //for listview
         if (returnedText != null) {
-            sentString = text;
+            toString = text;
         }
     }
 
@@ -309,6 +347,49 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 break;
         }
         return message;
+    }
+
+    /*private void postData(){
+
+    }*/
+
+    private void sendPost(String URL) {
+        StringRequest strReq = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+
+            }
+
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //buggy .. comment it
+                Toast.makeText(getApplicationContext(), "Server is Offline", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return String.format("application/json; charset=utf-8");
+            }
+            @Override
+            protected Map<String,String> getParams(){
+                //Posting Params to registered URL
+                Map<String,String> params = new HashMap<String, String>();
+                //params.put("message",sendString);
+                try {
+                    jsonObject.put("message",sendString);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return params;
+            }
+        };
+        //adding request to request queue
+        Controller.getInstance().addToRequestQueue(strReq,"re");
     }
 
 }
