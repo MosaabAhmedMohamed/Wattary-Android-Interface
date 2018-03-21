@@ -33,12 +33,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -255,6 +262,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         }
 
         sendPost(url);
+        //requestWithSomeHttpHeaders();
 
         System.out.println(jsonObject);
     }
@@ -354,43 +362,72 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     }*/
 
     private void sendPost(String URL) {
-        StringRequest strReq = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
-
-                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-
-            }
-
-        }, new Response.ErrorListener() {
-
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("message", sendString);
+        JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response);
+                            String fromOmar = (String) response.get("message");
+                            Toast.makeText(VoiceActivity.this, fromOmar , Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //buggy .. comment it
-                Toast.makeText(getApplicationContext(), "Server is Offline", Toast.LENGTH_LONG).show();
+                VolleyLog.e("Error: ", error.getMessage());
             }
-        }) {
+        });
+
+        // add the request object to the queue to be executed
+        Controller.getInstance().addToRequestQueue(req);
+    }
+
+
+    /*public void requestWithSomeHttpHeaders() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://wattary2.herokuapp.com/main";
+        StringRequest postRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        Log.d("ERROR","error => "+error.toString());
+                    }
+                }
+        ) {
             @Override
-            public String getBodyContentType() {
-                return String.format("application/json; charset=utf-8");
-            }
-            @Override
-            protected Map<String,String> getParams(){
-                //Posting Params to registered URL
-                Map<String,String> params = new HashMap<String, String>();
-                //params.put("message",sendString);
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("apiKey", "xxxxxxxxxxxxxxx");
                 try {
                     jsonObject.put("message",sendString);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 return params;
             }
         };
-        //adding request to request queue
-        Controller.getInstance().addToRequestQueue(strReq,"re");
-    }
+        queue.add(postRequest);
+
+    }*/
 
 }
 class Function {
