@@ -112,6 +112,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             @Override
             public void onClick(View view) {
                 Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VoiceActivity.this,AirConditioner.class);
+                startActivity(intent);
             }
         });
 
@@ -126,6 +128,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             @Override
             public void onClick(View view) {
                 Toast.makeText(VoiceActivity.this,"TV clicked",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VoiceActivity.this,Remote.class);
+                startActivity(intent);
             }
         });
 
@@ -255,11 +259,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             adapter.notifyDataSetChanged();
         }
 
-        try {
+        /*try {
             jsonObject.put("message",sendString);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
         sendPost(url);
         //requestWithSomeHttpHeaders();

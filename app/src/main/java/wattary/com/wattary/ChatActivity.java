@@ -11,10 +11,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
+
+    private static String url = "https://wattary2.herokuapp.com/main";
 
     //Variables
     ArrayList<String> arrayList;
@@ -22,6 +35,9 @@ public class ChatActivity extends AppCompatActivity {
     ListView chatListView;
     EditText editText;
     FloatingActionButton sendMessage;
+
+    String sendString;
+    JSONObject jsonObject = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +60,10 @@ public class ChatActivity extends AppCompatActivity {
                 TextView tv = (TextView) view.findViewById(android.R.id.text1);
 
                 // Set the text color of TextView (ListView Item)
-                tv.setTextColor(Color.parseColor("#FFFFFF"));
+                tv.setTextColor(Color.parseColor("#00c000"));
+
+                // Set the text size of TextView (ListView Item)
+                tv.setTextSize(20.0f);
 
                 // Generate ListView Item using TextView
                 return view;
@@ -52,19 +71,55 @@ public class ChatActivity extends AppCompatActivity {
         };
         chatListView.setAdapter(adapter);
 
-        sendMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newItem = editText.getText().toString();
-                editText.setText(null);
-                // add new item to arraylist
-                arrayList.add(newItem);
-                // notify listview of data changed
-                adapter.notifyDataSetChanged();
-            }
+        if (editText != null) {
+            sendMessage.setEnabled(true);
+            sendMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String newItem = editText.getText().toString();
+                    sendString = editText.getText().toString();
+                    editText.setText(null);
+                    if (newItem != null) {
+                        // add new item to arraylist
+                        arrayList.add(newItem);
+                        // notify listview of data changed
+                        adapter.notifyDataSetChanged();
+                    }
+                }
 
+            });
+        }
+        else
+            sendMessage.setEnabled(false);
+
+    }
+
+    private void sendPost(String URL) {
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("message", sendString);
+        JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(response);
+                            String fromOmar = (String) response.get("message");
+                            arrayList.add(fromOmar);
+                            adapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Error: ", error.getMessage());
+            }
         });
 
-
+        // add the request object to the queue to be executed
+        Controller.getInstance().addToRequestQueue(req);
     }
 }

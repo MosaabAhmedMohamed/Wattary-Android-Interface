@@ -78,7 +78,7 @@
             app:fab_label="Speak to me"
             app:fab_size="mini"
             app:fab_colorNormal="#FFEAEBEF"
-            android:src="@drawable/caht"
+            android:src="@drawable/chat"
             android:id="@+id/SpeakActivity"
             />
 
