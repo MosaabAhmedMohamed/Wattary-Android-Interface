@@ -85,6 +85,7 @@ public class ChatActivity extends AppCompatActivity {
                         // notify listview of data changed
                         adapter.notifyDataSetChanged();
                     }
+                    sendPost(url);
                 }
 
             });
@@ -94,6 +95,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    //Set the Method of SendPost to Core
     private void sendPost(String URL) {
 
         Map<String, String> params = new HashMap<String, String>();

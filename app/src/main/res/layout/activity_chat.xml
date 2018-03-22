@@ -12,47 +12,43 @@
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/chatview"
-        android:layout_marginEnd="14dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
         app:backgroundTint="#0057A7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@android:drawable/ic_menu_send" />
 
     <EditText
         android:id="@+id/textInput"
-        android:layout_width="312dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
         android:layout_toStartOf="@+id/send"
         android:ems="10"
         android:hint="Type any Command !"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/send"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <ListView
         android:id="@+id/chatview"
         android:layout_width="match_parent"
-        android:layout_height="324dp"
+        android:layout_height="405dp"
         android:layout_above="@+id/textInput"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:stackFromBottom="true"
         android:transcriptMode="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textInput"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.123" />
 
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ package wattary.com.wattary;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.speech.tts.*;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.Manifest;
@@ -64,9 +65,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-public class VoiceActivity extends AppCompatActivity implements RecognitionListener {
+public class VoiceActivity extends AppCompatActivity implements RecognitionListener , TextToSpeech.OnInitListener {
 
     private static String url = "https://wattary2.herokuapp.com/main";
 
@@ -86,6 +88,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     String sendString;
     JSONObject jsonObject = new JSONObject();
     //
+    TextToSpeech tts;
+    //
     private ArrayList<String> arrayList;
     private ArrayAdapter adapter;
     static final int REQUEST_PERMISSION_KEY = 1;
@@ -95,10 +99,14 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
+        //Activity Identity
         returnedText = (TextView) findViewById(R.id.textofSpeech);
         Status = (TextView) findViewById(R.id.status);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
+
+        //Text to Speech
+        tts = new TextToSpeech(this,this);
 
        //Floating action Menu Implmentation
        floatingActionMenu=(FloatingActionMenu)findViewById(R.id.floatingActionMenu);
@@ -361,10 +369,20 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         return message;
     }
 
-    /*private void postData(){
+    //Set the Method of Text To Speech
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS){
+            Locale locale = tts.getLanguage();
+            int r = tts.setLanguage(locale);
 
-    }*/
+            if (r == TextToSpeech.LANG_MISSING_DATA || r == TextToSpeech.LANG_NOT_SUPPORTED){
+                Toast.makeText(VoiceActivity.this, "This App is only Support English Language, Please set your Phone language to English", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
+    //Set the Method of SendPost to Core
     private void sendPost(String URL) {
 
         Map<String, String> params = new HashMap<String, String>();
@@ -374,10 +392,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Gson gson = new Gson();
-                            String json = gson.toJson(response);
+                            //set what happend when you get the response
                             String fromOmar = (String) response.get("message");
                             Toast.makeText(VoiceActivity.this, fromOmar , Toast.LENGTH_SHORT).show();
+                            arrayList.add(fromOmar);
+                            adapter.notifyDataSetChanged();
+                            tts.speak(fromOmar,TextToSpeech.QUEUE_FLUSH,null);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -392,48 +412,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         // add the request object to the queue to be executed
         Controller.getInstance().addToRequestQueue(req);
     }
-
-
-    /*public void requestWithSomeHttpHeaders() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://wattary2.herokuapp.com/main";
-        StringRequest postRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        Log.d("Response", response);
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-                        Log.d("ERROR","error => "+error.toString());
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/json");
-                params.put("apiKey", "xxxxxxxxxxxxxxx");
-                try {
-                    jsonObject.put("message",sendString);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return params;
-            }
-        };
-        queue.add(postRequest);
-
-    }*/
-
 }
+
 class Function {
 
     public static  boolean hasPermissions(Context context, String... permissions) {
