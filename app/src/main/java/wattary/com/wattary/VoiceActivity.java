@@ -225,6 +225,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     }
 
     @Override
+    public void onStop(){
+        super.onStop();
+    }
+
+    @Override
     public void onResume() {
 
         super.onResume();
@@ -394,7 +399,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                         try {
                             //set what happend when you get the response
                             String fromOmar = (String) response.get("message");
-                            Toast.makeText(VoiceActivity.this, fromOmar , Toast.LENGTH_SHORT).show();
+                            /*Toast.makeText(VoiceActivity.this, fromOmar , Toast.LENGTH_SHORT).show();*/
                             arrayList.add(fromOmar);
                             adapter.notifyDataSetChanged();
                             tts.speak(fromOmar,TextToSpeech.QUEUE_FLUSH,null);

@@ -3,17 +3,20 @@ package wattary.com.wattary;
 //created on 6/3/2018 by amryar10
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.VideoView;
 
 public class SplashActivity extends AppCompatActivity {
 
    LinearLayout layout1,layout2;
    Animation uptodwon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +27,10 @@ public class SplashActivity extends AppCompatActivity {
         layout1.setAnimation(uptodwon);
         layout2.setAnimation(uptodwon);
 
-
         Thread Splash = new Thread(){
             @Override
             public void run(){
+
                 try {
                     sleep(2000); // the time of holding the splash
                     Intent splash = new Intent(SplashActivity.this,MainActivity.class);
