@@ -53,8 +53,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        //Video Background
-        videoView = (VideoView)findViewById(R.id.videoSplash);
+        //Video Background /*created by amryar10*/
+        videoView = (VideoView)findViewById(R.id.videoChat);
         Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.chat);
         videoView.setVideoURI(video);
 
