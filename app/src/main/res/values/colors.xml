@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#31244e</color>
-    <color name="colorPrimaryDark">#494949</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#6c91a1</color> <!-- for color master like clicking color -->
+    <color name="colorPrimaryDark">#494949</color> <!-- Status bar color. -->
+    <color name="colorAccent">#008fef</color>      <!-- Seekbars , Progress bar , CardView Color . ETC -->
 
     <!--Colors from Google API -->
     <color name="accent">#1d296c</color>

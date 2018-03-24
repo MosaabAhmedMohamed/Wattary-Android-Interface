@@ -5,9 +5,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
+    android:background="@drawable/main_bg_anim"
     tools:context="wattary.com.wattary.MainActivity">
 
     <ImageView
@@ -19,20 +20,49 @@
         android:layout_alignParentStart="true"
         android:src="@drawable/wattary" />
 
+
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/WattaryView"
         android:id="@+id/login"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:text="Login"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="login"
         />
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewLogin"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/login"
+        android:layout_centerHorizontal="true"
+        app:cardBackgroundColor="#58667c"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/cardView"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/textViewLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/akronim"
+                android:text="Login"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login"
         android:id="@+id/signup"
@@ -42,6 +72,34 @@
         android:background="?android:attr/selectableItemBackground"
         android:onClick="SignUpOnClick"
         />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewSign"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/signup"
+        android:layout_centerHorizontal="true"
+        app:cardBackgroundColor="#58667C"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/cardView"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/textViewSign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/akronim"
+                android:text="Sign Up"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
     <Button
         android:layout_width="wrap_content"
@@ -54,5 +112,27 @@
         android:background="?android:attr/selectableItemBackground"
         android:onClick="test"
         />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/test"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/facebookImage"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/facebook"/>
+
+        <ImageView
+            android:id="@+id/tweeterImage"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            app:srcCompat="@drawable/twitter" />
+    </LinearLayout>
 
 </RelativeLayout>
