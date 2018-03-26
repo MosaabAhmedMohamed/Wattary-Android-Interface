@@ -3,14 +3,11 @@ package wattary.com.wattary;
 //created on 6/3/2018 by amryar10
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.VideoView;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -23,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         layout1=(LinearLayout)findViewById(R.id.layout1);
         layout2=(LinearLayout)findViewById(R.id.layout2);
-        uptodwon= AnimationUtils.loadAnimation(this,R.anim.uptodwon);
+        uptodwon= AnimationUtils.loadAnimation(this,R.anim.uptodown);
         layout1.setAnimation(uptodwon);
         layout2.setAnimation(uptodwon);
 

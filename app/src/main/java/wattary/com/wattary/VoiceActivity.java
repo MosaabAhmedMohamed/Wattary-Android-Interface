@@ -6,7 +6,9 @@ package wattary.com.wattary;
  */
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.speech.tts.*;
 import android.support.design.widget.Snackbar;
@@ -27,17 +29,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -72,6 +81,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
     private static String url = "https://wattary2.herokuapp.com/main";
 
+    //voice recognition
+    static final int REQUEST_PERMISSION_KEY = 1;
+
     FloatingActionMenu floatingActionMenu ;
     FloatingActionButton Air,TV,Speak,Chat;
 
@@ -81,18 +93,19 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
-    //
-    private ListView listView;
-    FloatingActionButton chatButton;
+    //volley
     String toString;
     String sendString;
     JSONObject jsonObject = new JSONObject();
-    //
+    //text to speech
     TextToSpeech tts;
-    //
-    private ArrayList<String> arrayList;
-    private ArrayAdapter adapter;
-    static final int REQUEST_PERMISSION_KEY = 1;
+    //chat list
+    ListView chatListView;
+    ChatArrayAdapter adapter;
+
+    //Animation
+    RelativeLayout voiceLayout;
+    AnimationDrawable animationDrawable;
 
 
     @Override
@@ -151,29 +164,26 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
         //for listview
-        listView = (ListView) findViewById(R.id.listview);
-        arrayList=new ArrayList<String>();
-        adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1,arrayList){
+        adapter = new ChatArrayAdapter(getApplicationContext(), R.layout.message_send);
+        chatListView = (ListView) findViewById(R.id.listview);
+        chatListView.setAdapter(adapter);
+        chatListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        chatListView.setAdapter(adapter);
+        //to scroll the list view to bottom on data change
+        adapter.registerDataSetObserver(new DataSetObserver() {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                // Get the Item from ListView
-                View view = super.getView(position, convertView, parent);
-
-                // Initialize a TextView for ListView each Item
-                TextView tv = (TextView) view.findViewById(android.R.id.text1);
-
-                // Set the text color of TextView (ListView Item)
-                tv.setTextColor(Color.parseColor("#FFFFFF"));
-
-                // Set the text size of TextView (ListView Item)
-                tv.setTextSize(20.0f);
-
-                // Generate ListView Item using TextView
-                return view;
+            public void onChanged() {
+                super.onChanged();
+                chatListView.setSelection(adapter.getCount() - 1);
             }
-        };
-        listView.setAdapter(adapter);
+        });
+
+        //Animated Background /*Created by amryar10*/
+        voiceLayout = (RelativeLayout) findViewById(R.id.activity_voice);
+        animationDrawable = (AnimationDrawable) voiceLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(3500);
+        animationDrawable.setExitFadeDuration(3500);
+        animationDrawable.start();
 
         String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
         if(!Function.hasPermissions(this, PERMISSIONS)){
@@ -266,22 +276,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Status.setTextColor(Color.parseColor("#FFFFFF"));
         //for listview
         if (toString != null) {
-            arrayList.add(toString); //--> here's the right place for arrayList.add but it can't get (text)
+            sendMessageBallon(toString); //--> here's the right place for arrayList.add //User Send Message Method
             sendString = toString;
             toString = null;
-            adapter.notifyDataSetChanged();
         }
 
-        /*try {
-            jsonObject.put("message",sendString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-
         sendPost(url);
-        //requestWithSomeHttpHeaders();
-
-        System.out.println(jsonObject);
     }
 
     @Override
@@ -399,10 +399,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                         try {
                             //set what happend when you get the response
                             String fromOmar = (String) response.get("message");
-                            /*Toast.makeText(VoiceActivity.this, fromOmar , Toast.LENGTH_SHORT).show();*/
-                            arrayList.add(fromOmar);
-                            adapter.notifyDataSetChanged();
-                            tts.speak(fromOmar,TextToSpeech.QUEUE_FLUSH,null);
+                            receiveMessageBallon(fromOmar); //Server Receive Message Method
+                            tts.speak(fromOmar,TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -410,12 +408,43 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
+                //OLD VOLLEY ERROR EXCEPTION
+                /*VolleyLog.e("Error: ", error.getMessage());
+                receiveMessageBallon("Error .. Server is Offline, Please try again later");
+                tts.speak("Connection error or server is Disconnected",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method*/
+                if (error instanceof NetworkError) {
+                    receiveMessageBallon("Error .. Cannot connect to Internet, Please check your connection!");
+                    tts.speak("Cannot connect to the Internet Please check your connection",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method
+                } else if (error instanceof ServerError) {
+                    receiveMessageBallon("Error .. Server is Offline, Please try again later");
+                    tts.speak("The server could not be found Please try again after some time",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method
+                } else if (error instanceof AuthFailureError) {
+                    receiveMessageBallon("Error .. Cannot connect to Internet, Please check your connection!");
+                    tts.speak("Cannot connect to the Internet Please check your connection",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method
+                } else if (error instanceof ParseError) {
+                    receiveMessageBallon("Error .. Parsing error!, Please try again after some time!");
+                    tts.speak("Parsing error Please try again",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method
+                } else if (error instanceof TimeoutError) {
+                    receiveMessageBallon("Error .. Connection TimedOut!, Please check your internet connection!");
+                    tts.speak("Connection TimedOut Please check your connection",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method
+                }
             }
         });
 
         // add the request object to the queue to be executed
         Controller.getInstance().addToRequestQueue(req);
+    }
+
+    //Methods of Ballon Message
+    private boolean sendMessageBallon (String msg) {
+        adapter.add(new ChatMessage(true, msg));
+        return true;
+    }
+
+
+    private boolean receiveMessageBallon (String msg) {
+        adapter.add(new ChatMessage(false, msg));
+        return true;
     }
 }
 

@@ -1,23 +1,25 @@
 package wattary.com.wattary;
 
-import android.graphics.Color;
+import android.database.DataSetObserver;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -25,10 +27,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
@@ -36,10 +35,8 @@ public class ChatActivity extends AppCompatActivity {
     private static String url = "https://wattary2.herokuapp.com/main";
 
     //Variables
-    /*ArrayList<String> arrayList;
-    ArrayAdapter<String> adapter;*/
-    List<ChatModel> listChat = new ArrayList<>();
     ListView chatListView;
+    ChatArrayAdapter adapter;
     EditText editText;
     Button sendMessage;
 
@@ -70,53 +67,55 @@ public class ChatActivity extends AppCompatActivity {
         //declare
         sendMessage = (Button) findViewById(R.id.send);
         editText = (EditText) findViewById(R.id.textInput);
+
         //for listview
+        adapter = new ChatArrayAdapter(getApplicationContext(), R.layout.message_send);
         chatListView = (ListView) findViewById(R.id.chatview);
-        CustomAdapter adapter = new CustomAdapter(listChat,this);
         chatListView.setAdapter(adapter);
-
-
-        /*CustomAdapter adapter = new CustomAdapter(firstChat,this);
-        chatListView.setAdapter(adapter);*/
-
-        /*arrayList=new ArrayList<String>();
-        adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1,arrayList){
+        chatListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        chatListView.setAdapter(adapter);
+        //to scroll the list view to bottom on data change
+        adapter.registerDataSetObserver(new DataSetObserver() {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                // Get the Item from ListView
-                View view = super.getView(position, convertView, parent);
-
-                // Initialize a TextView for ListView each Item
-                TextView tv = (TextView) view.findViewById(android.R.id.text1);
-
-                // Set the text color of TextView (ListView Item)
-                tv.setTextColor(Color.parseColor("#00c000"));
-
-                // Set the text size of TextView (ListView Item)
-                tv.setTextSize(20.0f);
-
-                // Generate ListView Item using TextView
-                return view;
+            public void onChanged() {
+                super.onChanged();
+                chatListView.setSelection(adapter.getCount() - 1);
             }
-        };
-        chatListView.setAdapter(adapter);*/
+        });
 
+        sendMessage.setEnabled(false);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                /*MUST CREATED BECAUSE
+                OF TEXTWATCHER METHOD
+                */
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().trim().length()==0){
+                    sendMessage.setEnabled(false);
+                } else {
+                    sendMessage.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                /*MUST CREATED BECAUSE
+                OF TEXTWATCHER METHOD
+                */
+            }
+        });
 
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newItem = editText.getText().toString();
-                ChatModel rightSide = new ChatModel(newItem,true); // user send message
-                listChat.add(rightSide);
                 sendString = editText.getText().toString();
-
-                /*if (newItem != null) {
-                    // add new item to arraylist
-                    //arrayList.add(newItem);
-                    // notify listview of data changed
-                        /*//*adapter.notifyDataSetChanged();*//**//*
-                }*/
+                sendMessageBallon(sendString); //User Send Message Method
                 sendPost(url);  //posting function
                 editText.setText(null);
 
@@ -138,10 +137,7 @@ public class ChatActivity extends AppCompatActivity {
                             Gson gson = new Gson();
                             String json = gson.toJson(response);
                             String fromOmar = (String) response.get("message");
-                            ChatModel liftSide = new ChatModel(fromOmar,false); // get response from core
-                            listChat.add(liftSide);
-                            /*arrayList.add(fromOmar);
-                            adapter.notifyDataSetChanged();*/
+                            receiveMessageBallon(fromOmar); //Server Receive Message Method
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -149,11 +145,36 @@ public class ChatActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
+                //OLD VOLLEY ERROR EXCEPTION
+                /*VolleyLog.e("Error: ", error.getMessage());
+                receiveMessageBallon("Error .. Server is Offline, Please try again later");
+                tts.speak("Connection error or server is Disconnected",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method*/
+                if (error instanceof NetworkError) {
+                    receiveMessageBallon("Error .. Cannot connect to Internet, Please check your connection!");
+                } else if (error instanceof ServerError) {
+                    receiveMessageBallon("Error .. Server is Offline, Please try again later");
+                } else if (error instanceof AuthFailureError) {
+                    receiveMessageBallon("Error .. Cannot connect to Internet, Please check your connection!");
+                } else if (error instanceof ParseError) {
+                    receiveMessageBallon("Error .. Parsing error!, Please try again after some time!");
+                } else if (error instanceof TimeoutError) {
+                    receiveMessageBallon("Error .. Connection TimedOut!, Please check your internet connection!");
+                }
             }
         });
 
         // add the request object to the queue to be executed
         Controller.getInstance().addToRequestQueue(req);
+    }
+
+    private boolean sendMessageBallon (String msg) {
+        adapter.add(new ChatMessage(true, msg));
+        return true;
+    }
+
+
+    private boolean receiveMessageBallon (String msg) {
+        adapter.add(new ChatMessage(false, msg));
+        return true;
     }
 }
