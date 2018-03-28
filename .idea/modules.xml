@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Wattary.iml" filepath="$PROJECT_DIR$/Wattary.iml" />
+      <module fileurl="file://E:\docments\myproject\Wattary-Android-Interface\Wattary.iml" filepath="E:\docments\myproject\Wattary-Android-Interface\Wattary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Wattary-Android-Interface.iml" filepath="$PROJECT_DIR$/Wattary-Android-Interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

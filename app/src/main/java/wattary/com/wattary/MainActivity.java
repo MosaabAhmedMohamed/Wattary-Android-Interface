@@ -13,6 +13,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,18 +42,23 @@ public class MainActivity extends AppCompatActivity {
         isPermissionGranted();
         isPermissionGrantedRecord();
 
+
     }
+
+
 
     public void login(View view)
     {
         Intent intent =new Intent(MainActivity.this,LoginActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     public void SignUpOnClick(View view)
     {
         Intent intent =new Intent(MainActivity.this,SignUp.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     //test button
