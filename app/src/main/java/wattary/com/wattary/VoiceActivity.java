@@ -77,6 +77,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener , TextToSpeech.OnInitListener {
 
     private static String url = "https://wattary2.herokuapp.com/main";
@@ -117,7 +119,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Status = (TextView) findViewById(R.id.status);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
-
+        //animation
+        customType(VoiceActivity.this,"fadein-to-fadeout");
         //Text to Speech
         tts = new TextToSpeech(this,this);
 

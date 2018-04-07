@@ -97,6 +97,12 @@ android {
         implementation 'com.android.support:design:26.1.0'
 
         implementation 'com.squareup.picasso:picasso:2.5.2'
+        implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
+        
+        //animation
+        implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
+
+
 
 
     }

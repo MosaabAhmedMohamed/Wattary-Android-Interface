@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class AirConditioner extends AppCompatActivity {
 
     private static String url = "https://wattary2.herokuapp.com/main"; //--> not this  link
@@ -40,6 +42,8 @@ public class AirConditioner extends AppCompatActivity {
         /*getSupportActionBar().setTitle("Air Conditioner"); //to hide  .hide()*/
 
         //init the Values
+        //animation
+        customType(AirConditioner.this,"fadein-to-fadeout");
         plus = (Button) findViewById(R.id.plus);
         minus = (Button) findViewById(R.id.minus);
         acSwitch = (Switch) findViewById(R.id.acSwitch);

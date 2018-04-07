@@ -20,6 +20,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import static maes.tech.intentanim.CustomIntent.customType;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,14 +35,23 @@ public class MainActivity extends AppCompatActivity {
 
         //Animated Background /*Created by amryar10*/
         mainLayout = (RelativeLayout) findViewById(R.id.activity_main);
-        animationDrawable = (AnimationDrawable) mainLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(4500);
-        animationDrawable.setExitFadeDuration(4500);
-        animationDrawable.start();
-
+       // animationDrawable = (AnimationDrawable) mainLayout.getBackground();
+       // animationDrawable.setEnterFadeDuration(4500);
+      //  animationDrawable.setExitFadeDuration(4500);
+       // animationDrawable.start();
+        customType(MainActivity.this,"bottom-to-up");
+        /*
+         *  *left-to-right
+         *right-to-left
+         *bottom-to-up
+         *up-to-bottom
+         *fadein-to-fadeout
+         *rotateout-to-rotatein
+         */
 
         isPermissionGranted();
         isPermissionGrantedRecord();
+        isPermissionGrantedStorage();
 
 
     }
@@ -99,7 +110,26 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 Log.v("TAG","Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 2);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+
+    public  boolean isPermissionGrantedStorage() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
                 return false;
             }
         }
@@ -116,6 +146,26 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
 
             case 1: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            case 2: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            case 3: {
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

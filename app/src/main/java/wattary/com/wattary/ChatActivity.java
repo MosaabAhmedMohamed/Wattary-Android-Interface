@@ -30,6 +30,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class ChatActivity extends AppCompatActivity {
 
     private static String url = "https://wattary2.herokuapp.com/main";
@@ -50,6 +52,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        //animation
+        customType(ChatActivity.this,"fadein-to-fadeout");
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoChat);
         Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.chat);

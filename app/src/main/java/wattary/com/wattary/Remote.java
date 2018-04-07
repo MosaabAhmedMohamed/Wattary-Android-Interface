@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class Remote extends AppCompatActivity {
 
     private static String url = "https://wattary2.herokuapp.com/main"; //--> not this  link
@@ -36,7 +38,8 @@ public class Remote extends AppCompatActivity {
         setContentView(R.layout.activity_remote);
         //to set name ActionBar
         /*getSupportActionBar().setTitle("Remote"); //to hide  .hide()*/
-
+        //animation
+        customType(Remote.this,"fadein-to-fadeout");
         //Init. the Buttons :
         buttonUp = (Button) findViewById(R.id.buttonUp);
         buttonDown = (Button) findViewById(R.id.buttonDown);

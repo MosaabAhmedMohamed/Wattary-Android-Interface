@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import static maes.tech.intentanim.CustomIntent.customType;
+
 public class SignUp extends AppCompatActivity {
 
     private EditText FristNameET;
@@ -32,7 +34,8 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        //animation
+        customType(SignUp.this,"fadein-to-fadeout");
         FristNameET=(EditText)findViewById(R.id.FristNameET);
         LastNameET=(EditText)findViewById(R.id.LastNameET);
         MyView=(ImageView)findViewById(R.id.myViewSginup);
