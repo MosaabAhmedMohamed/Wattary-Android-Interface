@@ -1,100 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="wattary.com.wattary.SignUp">
-    <LinearLayout
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_email"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/WattaryView"
-        >
-        <ImageView
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastName_layout_name"
+        app:layout_constraintVertical_bias="0.009">
+
+        <EditText
+            android:id="@+id/LNsignUp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/wattary"
-            />
+            android:ems="10"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="43dp" />
+    </android.support.design.widget.TextInputLayout>
 
-    </LinearLayout>
-
-<android.support.design.widget.TextInputLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="vertical"
-    android:id="@+id/EditTextLayout1"
-    android:layout_below="@id/WattaryView"
-    >
-    <EditText
-        android:id="@+id/FristNameET"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/lastName_layout_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="8"
-        android:inputType="textPersonName"
-        android:layout_margin="15dp"
-        android:hint="Frist Name"
-        />
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <EditText
+            android:id="@+id/FNsignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Frist Name"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="105dp" />
+    </android.support.design.widget.TextInputLayout>
 
-</android.support.design.widget.TextInputLayout>
-
-<android.support.design.widget.TextInputLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="vertical"
-    android:id="@+id/EditTextLayout2"
-    android:layout_below="@id/EditTextLayout1">
-    <EditText
-        android:id="@+id/LastNameET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="8"
-        android:inputType="textPersonName"
-        android:layout_margin="15dp"
-        android:hint="Last Name"
-        />
-</android.support.design.widget.TextInputLayout>
-
-<LinearLayout
-
-    android:layout_width="match_parent"
-
-    android:orientation="horizontal"
-    android:layout_below="@id/EditTextLayout2"
-    android:id="@+id/CaptureLayout"
-    android:layout_height="220dp">
-   <ImageView
-       android:id="@+id/myViewSginup"
-       android:layout_width="200dp"
-       android:layout_margin="10dp"
-       android:layout_height="200dp" />
     <Button
-        android:id="@+id/CaptuerSignUp"
+        android:id="@+id/button10"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
-        android:text="Take a photo"
-        android:onClick="CaptuerSignUpOnClick"
-        />
+        android:layout_height="43dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="onLoadImageClick"
+        android:text="Take a Photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_layout_email"
+        app:layout_constraintVertical_bias="0.163" />
 
-</LinearLayout>
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_below="@id/CaptureLayout">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:layout_gravity="center"
-
-        />
-</LinearLayout>
+    <com.theartofdev.edmodo.cropper.CropImageView
+        android:id="@+id/CropImageView"
+        android:layout_width="224dp"
+        android:layout_height="170dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_layout_email"
+        app:layout_constraintVertical_bias="0.063" />
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -147,15 +147,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 // collect all gallery intents
-        Intent galleryIntent = new  Intent(Intent.ACTION_GET_CONTENT);
-        galleryIntent.setType("image/*");
-        List<ResolveInfo> listGallery =  packageManager.queryIntentActivities(galleryIntent, 0);
-        for (ResolveInfo res : listGallery) {
-            Intent intent = new  Intent(galleryIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(res.activityInfo.packageName);
-            allIntents.add(intent);
-        }
+
 
 // the main intent is the last in the  list (fucking android) so pickup the useless one
         Intent mainIntent =  allIntents.get(allIntents.size() - 1);
