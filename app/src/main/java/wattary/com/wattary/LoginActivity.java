@@ -121,8 +121,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
+
+   public void LoginCheck(View view)
+    {
+        Intent intent =new Intent(LoginActivity.this,VoiceActivity.class);
+        startActivity(intent);
+    }
 
 
     public Intent getPickImageChooserIntent() {

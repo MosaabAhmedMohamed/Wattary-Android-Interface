@@ -72,12 +72,7 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
-    //test button
-    public void test(View view)
-    {
-        Intent intent =new Intent(MainActivity.this,VoiceActivity.class);
-        startActivity(intent);
-    }
+
 
 
  // Asking for Permission
@@ -180,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
             // permissions this app might request
         }
     }
-
 
 
 
