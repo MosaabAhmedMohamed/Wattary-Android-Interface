@@ -95,7 +95,8 @@ public class SignUp extends AppCompatActivity {
         // ref = firebaseDatabase.getReference("ProfileInfo");
         //   StorageReference mStorageRef;
 
-
+        //animation
+        customType(SignUp.this,"left-to-right");
 
 
 

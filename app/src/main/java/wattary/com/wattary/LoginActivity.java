@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mCropImageView = (CropImageView)  findViewById(R.id.CropImageView);
           //animation
-        customType(LoginActivity.this,"fadein-to-fadeout");
+        customType(LoginActivity.this,"left-to-right");
 
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override

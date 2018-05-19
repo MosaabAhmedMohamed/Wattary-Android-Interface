@@ -182,11 +182,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         });
 
         //Animated Background /*Created by amryar10*/
-        voiceLayout = (RelativeLayout) findViewById(R.id.activity_voice);
-        animationDrawable = (AnimationDrawable) voiceLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(3500);
-        animationDrawable.setExitFadeDuration(3500);
-        animationDrawable.start();
+      //  voiceLayout = (RelativeLayout) findViewById(R.id.activity_voice);
+       // animationDrawable = (AnimationDrawable) voiceLayout.getBackground();
+       // animationDrawable.setEnterFadeDuration(3500);
+      //  animationDrawable.setExitFadeDuration(3500);
+       // animationDrawable.start();
 
         String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
         if(!Function.hasPermissions(this, PERMISSIONS)){

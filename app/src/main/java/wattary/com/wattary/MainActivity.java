@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
        // animationDrawable.setEnterFadeDuration(4500);
       //  animationDrawable.setExitFadeDuration(4500);
        // animationDrawable.start();
-        customType(MainActivity.this,"bottom-to-up");
+        customType(MainActivity.this,"right-to-left");
         /*
          *  *left-to-right
          *right-to-left
