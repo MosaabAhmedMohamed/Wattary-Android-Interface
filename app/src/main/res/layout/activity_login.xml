@@ -10,38 +10,46 @@
 
     >
 
-
-    <com.theartofdev.edmodo.cropper.CropImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/CropImageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="199dp"
+        android:layout_height="199dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="76dp"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        android:src="@drawable/default_image"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_bar"
+        app:layout_constraintEnd_toEndOf="@+id/progress_bar"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="@+id/progress_bar"
+        app:layout_constraintTop_toTopOf="@+id/progress_bar"
+        app:layout_constraintVertical_bias="0.915" />
+
 
     <Button
         android:id="@+id/CaptureLoginBu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="61dp"
         android:layout_centerInParent="true"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/button_shape"
         android:drawableRight="@drawable/take_a_photo"
-        android:paddingRight="30dp"
         android:gravity="center"
-        android:onClick="onClick"
+        android:paddingRight="30dp"
         android:text="Take A photo"
-        android:textSize="18dp"
-        android:textColor="#F5F5F5"
         android:textAlignment="center"
+        android:textColor="#F5F5F5"
+        android:textSize="25sp"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CropImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 
 
     <Button
@@ -50,33 +58,40 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/CaptureLoginBu"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/button_shape"
         android:drawableRight="@drawable/from_device"
-        android:paddingRight="30dp"
         android:gravity="center"
+        android:paddingRight="30dp"
         android:text="Choose from device"
-        android:textSize="18dp"
         android:textAlignment="center"
         android:textColor="#F5F5F5"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="25sp"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CaptureLoginBu"
-        app:layout_constraintVertical_bias="0.055" />
+        app:layout_constraintTop_toBottomOf="@+id/CaptureLoginBu" />
 
-    <ProgressBar
+
+    <!-- <a> circular progressbar xml</a> -->
+    <com.jackandphantom.circularprogressbar.CircleProgressbar
         android:id="@+id/progress_bar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/Galery"
-        android:layout_marginTop="87dp" />
+        android:layout_width="202dp"
+        android:layout_height="202dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        app:cpb_foregroundProgressColor="#1864c2"
+        app:cpb_foregroundProgressWidth="15"
+        app:cpb_progress="0"
+        app:cpb_roundedCorner="true"
+        app:cpb_touchEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/test"
@@ -88,12 +103,17 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:onClick="LoginCheck"
         android:text="test"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        android:onClick="LoginCheck"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Galery" />
+
 
 
 </android.support.constraint.ConstraintLayout>

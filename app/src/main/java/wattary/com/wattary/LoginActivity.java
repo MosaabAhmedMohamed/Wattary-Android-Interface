@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,6 +38,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.jackandphantom.circularprogressbar.CircleProgressbar;
+import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONObject;
@@ -49,6 +50,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static maes.tech.intentanim.CustomIntent.customType;
 
 /**
@@ -58,14 +62,16 @@ public class LoginActivity extends AppCompatActivity {
     private Button mProfileImage;
     Button GaleryBu;
     Uri mImageUri;
-    private ProgressBar mProgressBar;
+    private CircleProgressbar mProgressBar;
 
 
     private static final int PICK_IMAGE_REQUEST = 2;
 
     private static final String TAG = "";
 
-    private CropImageView mCropImageView;
+    private CircleImageView Login_ImageView;
+
+
     private Uri mCropImageUri;
 
 
@@ -92,20 +98,28 @@ public class LoginActivity extends AppCompatActivity {
         ref = firebaseDatabase.getReference("ProfileInfo");
         StorageReference mStorageRef;
 
-        mCropImageView = (CropImageView)  findViewById(R.id.CropImageView);
+        Login_ImageView = findViewById(R.id.CropImageView);
           //animation
         customType(LoginActivity.this,"left-to-right");
 
         mProfileImage.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
+
+
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
+                   // mProgressBar.setVisibility(View.VISIBLE);
+                    Login_ImageView.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.VISIBLE);
        Toast.makeText(LoginActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-        } else if(mUploadTask ==null) {
+        }
+        else if(mUploadTask==null) {
                     startActivityForResult(getPickImageChooserIntent(), 200);
+                  //  BringImageCapture();
 
       }
-
 
             }
         });
@@ -113,8 +127,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
+                   // mProgressBar.setVisibility(View.VISIBLE);
                     Toast.makeText(LoginActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 } else {
+                    mProgressBar.setVisibility(View.INVISIBLE);
                   openFileChooser();
 
 
@@ -250,9 +266,12 @@ public class LoginActivity extends AppCompatActivity {
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
+
                                 @Override
                                 public void run() {
+                                    mProgressBar.setVisibility(View.VISIBLE);
                                     mProgressBar.setProgress(0);
+
                                 }
                             }, 500);
 
@@ -346,31 +365,30 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == Activity.RESULT_OK) {
-            Uri imageUri =  getPickImageResultUri(data);
+        super.onActivityResult(requestCode, resultCode, data);
 
 
+            if (resultCode == Activity.RESULT_OK) {
+                Uri imageUri = getPickImageResultUri(data);
+                // For API >= 23 we need to check specifically that we have permissions to read external storage,
+                // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
+                boolean requirePermissions = false;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                        checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                        isUriRequiresPermissions(imageUri)) {
 
+                    // request permissions and handle the result in onRequestPermissionsResult()
+                    requirePermissions = true;
+                    mCropImageUri = imageUri;
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                }
 
-            // For API >= 23 we need to check specifically that we have permissions to read external storage,
-            // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
-            boolean requirePermissions = false;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
-                    isUriRequiresPermissions(imageUri)) {
-
-                // request permissions and handle the result in onRequestPermissionsResult()
-                requirePermissions = true;
-                mCropImageUri = imageUri;
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+                if (!requirePermissions) {
+                    //Login_ImageView.setImageUriAsync(imageUri);
+                    Login_ImageView.setImageURI(imageUri);
+                    submit();
+                }
             }
-
-            if (!requirePermissions) {
-                mCropImageView.setImageUriAsync(imageUri);
-                submit();
-            }
-        }
 
 
 
@@ -383,6 +401,14 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         }
+
+    private void BringImageCapture() {
+
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(1,1)
+                .start(LoginActivity.this);
+    }
 
     public void Send()
     {

@@ -1,13 +1,11 @@
 package wattary.com.wattary;
 
-import android.*;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,8 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.system.ErrnoException;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -40,7 +36,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.jackandphantom.circularprogressbar.CircleProgressbar;
 
 import org.json.JSONObject;
 
@@ -48,10 +44,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static maes.tech.intentanim.CustomIntent.customType;
 
@@ -67,7 +64,10 @@ public class SignUp extends AppCompatActivity {
     Uri mImageUri;
     private static final String TAG = "";
 
-    private CropImageView mCropImageView;
+    private CircleImageView Signup_ImageView;
+    private CircleProgressbar mProgressBar;
+
+
     private Uri mCropImageUri;
     public Uri file;
     private String generatedFilePath;
@@ -87,8 +87,8 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         FristName=(EditText)findViewById(R.id.FNsignUp);
         LastName=(EditText)findViewById(R.id.LNsignUp);
-        mCropImageView = (CropImageView)  findViewById(R.id.CropImageView);
-
+        Signup_ImageView =  findViewById(R.id.CropImageView);
+        mProgressBar = findViewById(R.id.signup_progress_bar);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
@@ -104,7 +104,10 @@ public class SignUp extends AppCompatActivity {
 
     public void onLoadImageClick(View view) {
         if (mUploadTask != null && mUploadTask.isInProgress()) {
+            Signup_ImageView.setVisibility(View.INVISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
             Toast.makeText(SignUp.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+
         } else if(mUploadTask ==null) {
             startActivityForResult(getPickImageChooserIntent(), 200);
 
@@ -115,11 +118,11 @@ public class SignUp extends AppCompatActivity {
     /**
      * Crop the image and set it back to the  cropping view.
      */
-    public void onCropImageClick(View view) {
-        Bitmap cropped =  mCropImageView.getCroppedImage(500, 500);
-        if (cropped != null)
-            mCropImageView.setImageBitmap(cropped);
-    }
+   // public void onCropImageClick(View view) {
+      //  Bitmap cropped =  Signup_ImageView.getCroppedImage(500, 500);
+     //   if (cropped != null)
+          //  Signup_ImageView.setImageBitmap(cropped);
+   // }
 
 
     public Intent getPickImageChooserIntent() {
@@ -244,7 +247,7 @@ public class SignUp extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                         //   mProgressBar.setProgress(0);
+                          mProgressBar.setProgress(0);
                         }
                     }, 500);
 
@@ -276,7 +279,7 @@ public class SignUp extends AppCompatActivity {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                   // mProgressBar.setProgress((int) progress);
+                   mProgressBar.setProgress((int) progress);
                 }
             })
             ;
@@ -308,8 +311,9 @@ public class SignUp extends AppCompatActivity {
             }
 
             if (!requirePermissions) {
-                mCropImageView.setImageUriAsync(imageUri);
-                submit();
+                // Signup_ImageView.setImageUriAsync(imageUri);
+                   Signup_ImageView.setImageURI(imageUri);
+                   submit();
             }
         }
 

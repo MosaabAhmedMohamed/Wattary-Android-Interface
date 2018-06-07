@@ -10,23 +10,20 @@
         android:id="@+id/input_layout_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastName_layout_name"
-        app:layout_constraintVertical_bias="0.009">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/LNsignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Enter you'r last Name"
+            android:hint="Enter you'r Frist Name"
             android:inputType="textPersonName"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="43dp" />
@@ -38,18 +35,18 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/input_layout_email">
 
         <EditText
             android:id="@+id/FNsignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Enter you'r frist Name"
+            android:hint="Enter you'r Last Name"
             android:inputType="textPersonName"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="105dp" />
@@ -59,48 +56,69 @@
         android:id="@+id/button10"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_shape"
         android:drawableRight="@drawable/take_a_photo"
         android:onClick="onLoadImageClick"
         android:paddingRight="30dp"
         android:text="Take a Photo"
+        android:textAllCaps="false"
+        android:textSize="25sp"
         android:textColor="#f5f5f5"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_layout_email"
-        app:layout_constraintVertical_bias="0.079" />
+        app:layout_constraintTop_toBottomOf="@+id/lastName_layout_name" />
 
-    <com.theartofdev.edmodo.cropper.CropImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/CropImageView"
-        android:layout_width="224dp"
-        android:layout_height="170dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="199dp"
+        android:layout_height="199dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button11"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/default_image"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button10"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button10" />
 
+    <com.jackandphantom.circularprogressbar.CircleProgressbar
+        android:id="@+id/signup_progress_bar"
+        android:layout_width="201dp"
+        android:layout_height="201dp"
+        android:layout_marginBottom="8dp"
+        app:cpb_foregroundProgressColor="#1864c2"
+        app:cpb_foregroundProgressWidth="15"
+        app:cpb_progress="0"
+        app:cpb_roundedCorner="true"
+        app:cpb_touchEnabled="true"
+        app:layout_constraintBottom_toBottomOf="@+id/CropImageView"
+        app:layout_constraintEnd_toEndOf="@+id/CropImageView"
+        app:layout_constraintStart_toStartOf="@+id/CropImageView"
+        app:layout_constraintTop_toTopOf="@+id/CropImageView"
+        app:layout_constraintVertical_bias="0.0" />
     <Button
         android:id="@+id/button11"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="28dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_shape"
         android:text="confirm"
+        android:textAllCaps="false"
+        android:textSize="25sp"
         android:textColor="#f5f5f5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CropImageView"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>

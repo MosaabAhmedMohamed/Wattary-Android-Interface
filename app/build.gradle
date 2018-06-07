@@ -96,12 +96,16 @@ android {
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
         implementation 'com.android.support:design:26.1.0'
 
+
+
+        //image implimantion
         implementation 'com.squareup.picasso:picasso:2.5.2'
         implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
-        
+        implementation 'de.hdodenhof:circleimageview:2.2.0'
+
         //animation
         implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
-
+        compile 'com.jackandphantom.android:circularprogressbar:1.2.0'
 
 
 
