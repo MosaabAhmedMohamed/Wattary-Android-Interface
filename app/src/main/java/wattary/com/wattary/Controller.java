@@ -1,6 +1,9 @@
 package wattary.com.wattary;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,11 +18,15 @@ public class Controller extends Application {
     private RequestQueue mRequestQueue;
     private static Controller mInstance;
 
+    public static final String CHANNEL_1_ID = "CAHNNEL1";
+
     @Override
     public void onCreate()
     {
         super.onCreate();
         mInstance = this;
+        CreateNotficationChannels();
+
     }
 
     public static synchronized Controller getInstance()
@@ -52,6 +59,23 @@ public class Controller extends Application {
         if (mRequestQueue != null)
         {
             mRequestQueue.cancelAll(tag);
+        }
+    }
+
+    private void CreateNotficationChannels() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_1_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+
+            channel1.setDescription("This is Channel 1");
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+
         }
     }
 }

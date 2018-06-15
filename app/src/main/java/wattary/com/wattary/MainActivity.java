@@ -5,6 +5,9 @@ package wattary.com.wattary;
  */
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         isPermissionGrantedRecord();
         isPermissionGrantedStorage();
 
+        sendOnChannel();
+
 
     }
 
@@ -72,6 +77,20 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
+    public void sendOnChannel()
+    {
+        AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent=new Intent(this,AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, 5000,pendingIntent);
+        }
+
+
+
+
+    }
 
 
 

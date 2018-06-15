@@ -11,4 +11,5 @@
     <string name="CH_Dn">CH\n-</string>
     <string name="Vol_Up">Vol\n+</string>
     <string name="Vol_Dn">Vol\n-</string>
+    <string name="Reco_tv">recommended for you :</string>
 </resources>

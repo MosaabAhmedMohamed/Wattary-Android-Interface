@@ -101,8 +101,6 @@ android {
         //noinspection GradleCompatible
         implementation 'com.android.support:design:27.1.1'
 
-
-
         //image implimantion
         implementation 'com.squareup.picasso:picasso:2.5.2'
         implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
@@ -111,7 +109,6 @@ android {
         //animation
         implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
         compile 'com.jackandphantom.android:circularprogressbar:1.2.0'
-
 
 
     }
