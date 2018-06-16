@@ -69,7 +69,7 @@ public class Controller extends Application {
             NotificationChannel channel1 = new NotificationChannel(
                     CHANNEL_1_ID,
                     "Channel 1",
-                    NotificationManager.IMPORTANCE_HIGH
+                    NotificationManager.IMPORTANCE_LOW
             );
 
             channel1.setDescription("This is Channel 1");

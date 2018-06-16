@@ -23,14 +23,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.util.TimerTask;
+
 import static maes.tech.intentanim.CustomIntent.customType;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_CAMERA= 1,REQUEST_RECORD_AUDIO=2,REQUEST_WRITE_EXTERNAL_STORAGE=3;
 
     RelativeLayout mainLayout;
     AnimationDrawable animationDrawable;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +84,15 @@ public class MainActivity extends AppCompatActivity {
     {
         AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent=new Intent(this,AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,PendingIntent.FLAG_CANCEL_CURRENT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, 5000,pendingIntent);
+            alarmManager.cancel(pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 500, 1000, pendingIntent);
+
+            // repeating every one hour
+            //.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+            //            + AlarmManager.INTERVAL_DAY * 2, AlarmManager.INTERVAL_DAY * 2, contentIntent);
         }
 
 
@@ -105,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 Log.v("TAG","Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
                 return false;
             }
         }
@@ -124,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 Log.v("TAG","Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 2);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
                 return false;
             }
         }
@@ -143,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 Log.v("TAG","Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
                 return false;
             }
         }
@@ -157,33 +165,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
 
-            case 1: {
+            case REQUEST_CAMERA: {
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(getIntent());
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
-            case 2: {
+            case REQUEST_RECORD_AUDIO : {
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(getIntent());
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
-            case 3: {
+            case REQUEST_WRITE_EXTERNAL_STORAGE : {
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(getIntent());
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
