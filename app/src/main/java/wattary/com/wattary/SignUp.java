@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.jackandphantom.circularprogressbar.CircleProgressbar;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONObject;
 
@@ -85,6 +88,10 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        builder.detectFileUriExposure();
         FristName=(EditText)findViewById(R.id.FNsignUp);
         LastName=(EditText)findViewById(R.id.LNsignUp);
         Signup_ImageView =  findViewById(R.id.CropImageView);
@@ -109,8 +116,11 @@ public class SignUp extends AppCompatActivity {
             Toast.makeText(SignUp.this, "Upload in progress", Toast.LENGTH_SHORT).show();
 
         } else if(mUploadTask ==null) {
-            startActivityForResult(getPickImageChooserIntent(), 200);
-
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setMinCropResultSize(512,512)
+                    .setAspectRatio(1, 1)
+                    .start(SignUp.this);
         }
 
     }
@@ -312,8 +322,8 @@ public class SignUp extends AppCompatActivity {
 
             if (!requirePermissions) {
                 // Signup_ImageView.setImageUriAsync(imageUri);
-                   Signup_ImageView.setImageURI(imageUri);
-                   submit();
+                Signup_ImageView.setImageURI(imageUri);
+                submit();
             }
         }
 
@@ -321,7 +331,6 @@ public class SignUp extends AppCompatActivity {
             return;
         }
     }
-
     public void Send()
     {
         String ServerUrl="https://wattary2.herokuapp.com/signup";

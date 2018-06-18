@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Animated Background /*Created by amryar10*/
         mainLayout = (RelativeLayout) findViewById(R.id.activity_main);
-       // animationDrawable = (AnimationDrawable) mainLayout.getBackground();
-       // animationDrawable.setEnterFadeDuration(4500);
-      //  animationDrawable.setExitFadeDuration(4500);
-       // animationDrawable.start();
+        // animationDrawable = (AnimationDrawable) mainLayout.getBackground();
+        // animationDrawable.setEnterFadeDuration(4500);
+        //  animationDrawable.setExitFadeDuration(4500);
+        // animationDrawable.start();
         customType(MainActivity.this,"right-to-left");
         /*
          *  *left-to-right
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
- // Asking for Permission
+    // Asking for Permission
 
     public  boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {

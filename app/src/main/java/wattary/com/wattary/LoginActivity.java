@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.Manifest;
 import android.support.annotation.NonNull;
@@ -90,6 +91,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        builder.detectFileUriExposure();
+
         mProfileImage = (Button) findViewById(R.id.CaptureLoginBu);
         firebaseDatabase = FirebaseDatabase.getInstance();
         GaleryBu=(Button)findViewById(R.id.Galery) ;
@@ -116,7 +122,11 @@ public class LoginActivity extends AppCompatActivity {
        Toast.makeText(LoginActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
         }
         else if(mUploadTask==null) {
-                    startActivityForResult(getPickImageChooserIntent(), 200);
+                    CropImage.activity()
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setMinCropResultSize(512,512)
+                            .setAspectRatio(1, 1)
+                            .start(LoginActivity.this);
                   //  BringImageCapture();
 
       }
