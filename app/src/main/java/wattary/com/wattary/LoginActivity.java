@@ -377,6 +377,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
             //Getting the Url Of the Image
+
+
             Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
             generatedFilePath = downloadUri.toString()+".jpg";
             Log.d("file",generatedFilePath);
