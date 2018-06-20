@@ -380,6 +380,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+
             generatedFilePath = downloadUri.toString()+".jpg";
             Log.d("file",generatedFilePath);
             if(generatedFilePath!=null)
