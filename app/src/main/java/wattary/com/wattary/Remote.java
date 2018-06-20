@@ -3,14 +3,21 @@ package wattary.com.wattary;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -64,12 +71,7 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Channel Up", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
-                if (view.getId() == R.id.button1) {
-                    sendString = "ChannelUP";
-                    sendPost(url);
-                    sendString = null;
-                }
+                sendPost("");
             }
         });
 
@@ -78,6 +80,7 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Channel Down", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                sendPost("");
             }
         });
 
@@ -86,6 +89,7 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Volume Down", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                sendPost("");
             }
         });
 
@@ -94,6 +98,7 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Volume Up", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                sendPost("");
             }
         });
 
@@ -102,6 +107,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "0", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -109,6 +115,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "0", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -116,6 +123,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "1", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -123,6 +131,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "2", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -130,6 +139,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "3", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -137,6 +147,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "4", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -144,6 +155,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "5", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -151,6 +163,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "6", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -158,6 +171,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "7", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -165,6 +179,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "8", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -172,6 +187,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "9", Toast.LENGTH_SHORT).show();
+                sendPost("");
             }
         });
 
@@ -180,14 +196,15 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Mute", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                sendPost("");
             }
         });
 
 
     }
 
-    private void sendPost(String URL) {
-
+    //private void sendPost(String URL) {
+      /*
         Map<String, String> params = new HashMap<String, String>();
         params.put("message", sendString);
         JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
@@ -212,5 +229,64 @@ public class Remote extends AppCompatActivity {
 
         // add the request object to the queue to be executed
         Controller.getInstance().addToRequestQueue(req);
+    }
+*/
+    public void sendPost(String Value)
+    {
+        final String TAG = "tag";
+
+        String ServerUrl = "http://35.228.93.235:5000/signin"; //-----> not this link
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        Map<String, String> postParam= new HashMap<String, String>();
+        postParam.put("PhotoUrl",Value);
+
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        Toast.makeText(Remote.this,response.toString(),Toast.LENGTH_SHORT).show();
+                        Log.v("respo",response.toString());
+                        //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Log.d(TAG,error.toString());
+                Toast.makeText(Remote.this,error.toString(),Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("PhotoUrl", "application/json; charset=utf-8");
+                return headers;
+            }
+
+
+
+        };
+
+
+
+        // Adding request to request queue
+        queue.add(jsonObjReq);
+
+        // Cancelling request
+    /* if (queue!= null) {
+    queue.cancelAll(TAG);
+    } */
+
     }
 }

@@ -105,6 +105,8 @@ android {
         implementation 'com.squareup.picasso:picasso:2.5.2'
         implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
         implementation 'de.hdodenhof:circleimageview:2.2.0'
+        compile 'com.soundcloud.android:android-crop:1.0.1@aar'
+
 
         //animation
         implementation 'com.github.hajiyevelnur92:intentanimation:1.0'

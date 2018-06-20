@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,14 +17,18 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.system.ErrnoException;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -38,9 +43,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.jackandphantom.circularprogressbar.CircleProgressbar;
+import com.soundcloud.android.crop.Crop;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -63,8 +70,8 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class SignUp extends AppCompatActivity {
 
     private EditText FristName,LastName;
-
-    Uri mImageUri;
+    private Button TakeBtn;
+    private Uri mImageUri;
     private static final String TAG = "";
 
     private CircleImageView Signup_ImageView;
@@ -88,14 +95,19 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
         builder.detectFileUriExposure();
+
         FristName=(EditText)findViewById(R.id.FNsignUp);
         LastName=(EditText)findViewById(R.id.LNsignUp);
+        TakeBtn=findViewById(R.id.tack_pic_btn);
         Signup_ImageView =  findViewById(R.id.CropImageView);
         mProgressBar = findViewById(R.id.signup_progress_bar);
+        mCropImageUri=null;
+        mImageUri=null;
+
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
@@ -106,33 +118,71 @@ public class SignUp extends AppCompatActivity {
         customType(SignUp.this,"left-to-right");
 
 
+        TakeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                if (!TextUtils.isEmpty(FristName.getText().toString())
+                        && !TextUtils.isEmpty(LastName.getText().toString()))
+                {
+                    if (mUploadTask != null && mUploadTask.isInProgress()) {
+                        // Signup_ImageView.setVisibility(View.INVISIBLE);
+                        // mProgressBar.setVisibility(View.VISIBLE);
+                        Toast.makeText(SignUp.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                        if (mUploadTask.isComplete())
+                        {
+                            mUploadTask=null;
+                            mCropImageUri=null;
+                            mImageUri=null;
+                        }
+                    } else {
+                        //  CropImage.activity()
+                        //  .setGuidelines(CropImageView.Guidelines.ON)
+                        // .setMinCropResultSize(512,512)
+                        //  .setAspectRatio(1, 1)
+                        // .start(SignUp.this);
+
+
+                           startActivityForResult(getPickImageChooserIntent(), 200);
+                           // submit();
+
+
+                    }
+                    }else
+                {
+                    Toast.makeText(SignUp.this,"Fill the empty frist !",Toast.LENGTH_SHORT).show();
+                }
+                }
+
+
+
+
+    });
     }
 
-    public void onLoadImageClick(View view) {
-        if (mUploadTask != null && mUploadTask.isInProgress()) {
-            Signup_ImageView.setVisibility(View.INVISIBLE);
-            mProgressBar.setVisibility(View.VISIBLE);
-            Toast.makeText(SignUp.this, "Upload in progress", Toast.LENGTH_SHORT).show();
 
-        } else if(mUploadTask ==null) {
-            CropImage.activity()
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setMinCropResultSize(512,512)
-                    .setAspectRatio(1, 1)
-                    .start(SignUp.this);
-        }
-
-    }
 
     /**
      * Crop the image and set it back to the  cropping view.
      */
-   // public void onCropImageClick(View view) {
-      //  Bitmap cropped =  Signup_ImageView.getCroppedImage(500, 500);
-     //   if (cropped != null)
+   public void onCropImageClick(View view) {
+         //   Bitmap cropped =  Signup_ImageView.getCroppedImage(500, 500);
+          //  if (cropped != null)
           //  Signup_ImageView.setImageBitmap(cropped);
-   // }
+
+       Crop.pickImage(this);
+       mImageUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+       Crop.of(mCropImageUri, mImageUri).asSquare().start(SignUp.this);
+
+
+
+    }
+
+    public void onCropImage()
+    {
+        mImageUri= Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(mCropImageUri,mImageUri).asSquare().start(SignUp.this);
+    }
 
 
     public Intent getPickImageChooserIntent() {
@@ -241,63 +291,61 @@ public class SignUp extends AppCompatActivity {
 
 
 
-    public void submit(){
-        if (mImageUri ==null){
+    public void submit() {
+        if (mImageUri != null) {
 
 
-
-            StorageReference storageReference = mStorageRef.child(System.currentTimeMillis()+".jpg");
+            StorageReference storageReference = mStorageRef.child(String.valueOf(System.currentTimeMillis()));
             //StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_images").child(userID);
-            mUploadTask=  storageReference.putFile(getCaptureImageOutputUri())
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                          mProgressBar.setProgress(0);
-                        }
-                    }, 500);
-
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    Toast.makeText(SignUp.this, "uploaded", Toast.LENGTH_SHORT).show();
 
 
-                    //Getting the Url Of the Image
-                    Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-                    generatedFilePath = downloadUri.toString();
-                    if(generatedFilePath!=null)
-                    {
-                        Send();
-                    }else
-                    {
-                        Toast.makeText(SignUp.this,"Try Agin",Toast.LENGTH_SHORT);
-                    }
-                    Toast.makeText(SignUp.this,generatedFilePath,Toast.LENGTH_LONG).show();
-                }
+                mUploadTask = storageReference.putFile(mImageUri)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(SignUp.this,"failed",Toast.LENGTH_LONG).show();
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mProgressBar.setProgress(0);
+                                    }
+                                }, 500);
+
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                Toast.makeText(SignUp.this, "uploaded", Toast.LENGTH_SHORT).show();
 
 
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                   mProgressBar.setProgress((int) progress);
-                }
-            })
-            ;
+                                //Getting the Url Of the Image
+                                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+                                generatedFilePath = downloadUri.toString()+".jpg";
+                                if (generatedFilePath != null) {
+                                    Log.d("signup",generatedFilePath);
+                                    Send();
+                                } else {
+                                    Toast.makeText(SignUp.this, "fill the empty ! ", Toast.LENGTH_SHORT);
+                                }
+                                // Toast.makeText(SignUp.this,generatedFilePath,Toast.LENGTH_LONG).show();
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(SignUp.this, "failed", Toast.LENGTH_LONG).show();
+
+
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                mProgressBar.setProgress((int) progress);
+                            }
+                        })
+                ;
+
         }
-        else {
-            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
-        }}
-
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -316,50 +364,82 @@ public class SignUp extends AppCompatActivity {
 
                 // request permissions and handle the result in onRequestPermissionsResult()
                 requirePermissions = true;
-                mCropImageUri = imageUri;
                 requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
             }
-
-            if (!requirePermissions) {
-                // Signup_ImageView.setImageUriAsync(imageUri);
-                Signup_ImageView.setImageURI(imageUri);
-                submit();
+            else if(requestCode==RESULT_OK&&resultCode==Crop.REQUEST_PICK)
+            {
+                mCropImageUri = imageUri;
+                Signup_ImageView.setImageURI(mCropImageUri);
+                onCropImage();
             }
+            if (!requirePermissions&requestCode!=Crop.REQUEST_CROP) {
+                // Signup_ImageView.setImageUriAsync(imageUri);
+
+                mCropImageUri = imageUri;
+                Signup_ImageView.setImageURI(mCropImageUri);
+                onCropImage();
+                return;
+
+
+
+            }
+            else if(resultCode==RESULT_OK&&requestCode==Crop.REQUEST_CROP)
+            {
+                outputCroppedImage(resultCode, data);
+            }
+            //  Signup_ImageView.setImageURI(Crop.getOutput(data));
+
         }
 
         else {
             return;
         }
     }
+
+   public void  outputCroppedImage(int code, Intent result)
+    {if(code==RESULT_OK)
+    {
+        Signup_ImageView.setImageURI(Crop.getOutput(result));
+        submit();
+    }
+
+    }
     public void Send()
     {
-        String ServerUrl="https://wattary2.herokuapp.com/signup";
+        String ServerUrl="http://35.228.93.235:5000/signup";
        String FN=FristName.getText().toString();
        String LN=LastName.getText().toString();
         RequestQueue queue = Volley.newRequestQueue(this);
 
+
+
         Map<String, String> postParam= new HashMap<String, String>();
         postParam.put("PhotoUrl", generatedFilePath);
-        postParam.put("UserName",FN+LN );
+        postParam.put("UserName",FN+" "+LN );
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
                         Toast.makeText(SignUp.this,response.toString(),Toast.LENGTH_SHORT).show();
-                        Toast.makeText(SignUp.this,"is Done ",Toast.LENGTH_SHORT).show();
+                        Log.i("respo",response.toString());
+                        //Toast.makeText(SignUp.this,"is Done ",Toast.LENGTH_SHORT).show();
                     }
+
                 }, new Response.ErrorListener() {
+
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-
+                Log.i("respo",error.toString());
+                VolleyLog.d(TAG, "Error" + error.getMessage());
+                //Log.i("rr",error.getMessage().toString());
+               Toast.makeText(SignUp.this,error.toString(),Toast.LENGTH_SHORT).show();
             }
-        }) {
+        })
+
+        {
 
             /**
              * Passing some request headers
@@ -377,6 +457,15 @@ public class SignUp extends AppCompatActivity {
 
         jsonObjReq.setTag(TAG);
         // Adding request to request queue
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjReq.setRetryPolicy(policy);
+
+
         queue.add(jsonObjReq);
 
         // Cancelling request
@@ -385,4 +474,6 @@ public class SignUp extends AppCompatActivity {
     } */
 
     }
+
+
 }

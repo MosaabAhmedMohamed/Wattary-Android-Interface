@@ -9,6 +9,8 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.speech.tts.*;
 import android.support.design.widget.Snackbar;
@@ -37,6 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -81,7 +84,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener , TextToSpeech.OnInitListener {
 
-    private static String url = "https://wattary2.herokuapp.com/main";
+    private static String url = "http://35.228.93.235:5000/main";
 
     //voice recognition
     static final int REQUEST_PERMISSION_KEY = 1;
@@ -105,9 +108,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     ListView chatListView;
     ChatArrayAdapter adapter;
 
-    //Animation
-    RelativeLayout voiceLayout;
-    AnimationDrawable animationDrawable;
+    VideoView videoView;
 
 
     @Override
@@ -121,7 +122,23 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
         //animation
         customType(VoiceActivity.this,"fadein-to-fadeout");
+        //Video Background /*created by amryar10*/
+        videoView = (VideoView)findViewById(R.id.videoVoice);
+        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.chat);
+        videoView.setVideoURI(video);
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+
+        videoView.start();
+
+
         //Text to Speech
+
         tts = new TextToSpeech(this,this);
 
        //Floating action Menu Implmentation
@@ -238,6 +255,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        videoView.start();
+    }
+
+    @Override
     public void onStop(){
         super.onStop();
     }
@@ -246,6 +269,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     public void onResume() {
 
         super.onResume();
+        videoView.start();
     }
 
     @Override

@@ -13,6 +13,7 @@ import static wattary.com.wattary.Controller.CHANNEL_1_ID;
 
 public class AlertReceiver extends BroadcastReceiver {
 
+    Recommendation recommendation;
     private NotificationManagerCompat notificationManagerCompat;
 
     @Override
@@ -21,9 +22,9 @@ public class AlertReceiver extends BroadcastReceiver {
         notificationManagerCompat= NotificationManagerCompat.from(context);
 
 
-        String title="title2";
-        String massage="massage";
-        String longmassage="Line 1";
+        String title="Recommendation";
+        String massage="Wattary have some recommended actions for you ";
+       // String longmassage=recommendation.Air_degree;
 
         Intent actvityIntent=new Intent(context,Recommendation.class);
         PendingIntent contentIntent=PendingIntent.getActivity(context,0,actvityIntent,0);
@@ -33,7 +34,7 @@ public class AlertReceiver extends BroadcastReceiver {
         // Bitmap LargeIcon = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background);
 
         Notification notification = new NotificationCompat.Builder(context,CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.wattary)
+                .setSmallIcon(R.drawable.wattaryw)
                 .setContentTitle(title)
                 .setContentText(massage)
                 .setVibrate(new long[] { 1000, 1000 })
@@ -41,10 +42,10 @@ public class AlertReceiver extends BroadcastReceiver {
                // .setSound(Uri.parse("uri://sadfasdfasdf.mp3"))
                 // .setLargeIcon(LargeIcon)
                 .setStyle(new NotificationCompat.InboxStyle()
-                        .addLine(longmassage)
-                        .addLine("line 2")
-                        .addLine("line 3")
-                        .setBigContentTitle("Big Content Title")
+                         //.addLine(longmassage)
+                        //.addLine("line 2")
+                        //.addLine("line 3")
+                        .setBigContentTitle(" Wattary have some recommended actions for you ")
                         .setSummaryText("Summary Text"))
                 .setWhen(System.currentTimeMillis())
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

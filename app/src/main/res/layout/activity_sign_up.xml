@@ -53,7 +53,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/tack_pic_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -61,7 +61,6 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/button_shape"
         android:drawableRight="@drawable/take_a_photo"
-        android:onClick="onLoadImageClick"
         android:paddingRight="30dp"
         android:text="Take a Photo"
         android:textAllCaps="false"
@@ -84,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button10" />
+        app:layout_constraintTop_toBottomOf="@+id/tack_pic_btn" />
 
     <com.jackandphantom.circularprogressbar.CircleProgressbar
         android:id="@+id/signup_progress_bar"
@@ -111,6 +110,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/button_shape"
         android:text="confirm"
+       android:onClick="onCropImageClick"
         android:textAllCaps="false"
         android:textSize="25sp"
         android:textColor="#f5f5f5"

@@ -28,12 +28,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".VoiceActivity" />
+        <activity android:name=".VoiceActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUp" />
         <activity android:name=".AirConditioner" />
         <activity android:name=".Remote" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".ChatActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -46,6 +48,7 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
     </application>
 
 </manifest>

@@ -34,7 +34,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private static String url = "https://wattary2.herokuapp.com/main";
+    private static String url = "http://35.228.93.235:5000/main";
 
     //Variables
     ListView chatListView;
@@ -87,6 +87,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+
         sendMessage.setEnabled(false);
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -126,6 +127,12 @@ public class ChatActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        videoView.start();
     }
 
     //Set the Method of SendPost to Core

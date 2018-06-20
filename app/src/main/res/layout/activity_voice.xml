@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,8 +7,16 @@
     android:id="@+id/activity_voice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5"
     tools:context="wattary.com.wattary.VoiceActivity">
+
+    <VideoView
+        android:id="@+id/videoVoice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textofSpeech"
@@ -16,17 +24,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text=""
         android:textColor="@android:color/black"
         android:textSize="26dp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ListView
@@ -35,9 +40,19 @@
         android:layout_height="300dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textofSpeech"
-        android:transcriptMode="alwaysScroll"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:divider="@null"
-        android:dividerHeight="8dp"/>
+        android:dividerHeight="8dp"
+        android:transcriptMode="alwaysScroll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textofSpeech"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -54,49 +69,49 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        app:menu_icon="@drawable/wattary"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
 
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:menu_colorNormal="@color/colorPrimaryDark"
         app:menu_fab_label=""
+        app:menu_icon="@drawable/wattary"
         app:menu_openDirection="up"
-        app:menu_showShadow="true"
-        >
+        app:menu_showShadow="true">
 
 
         <com.github.clans.fab.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fab_label="Air Conditioner Remote"
-            app:fab_size="mini"
-            app:fab_colorNormal="#FFEAEBEF"
-            android:src="@drawable/air"
             android:id="@+id/AirActivity"
-            />
-
-        <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="Speak to me"
-            app:fab_size="mini"
+            android:src="@drawable/air"
             app:fab_colorNormal="#FFEAEBEF"
-            android:src="@drawable/chat"
+            app:fab_label="Air Conditioner Remote"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/SpeakActivity"
-            />
-
-        <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_label="TV Remote"
-            app:fab_size="mini"
+            android:src="@drawable/chat"
             app:fab_colorNormal="#FFEAEBEF"
-            android:src="@drawable/tv"
+            app:fab_label="Speak to me"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/TVActivity"
-            />
-
-
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tv"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="TV Remote"
+            app:fab_size="mini" />
 
 
     </com.github.clans.fab.FloatingActionMenu>
@@ -108,50 +123,19 @@
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@null"
-        android:scaleType="fitCenter"
-        android:foregroundGravity="center_vertical"
-        android:src="@drawable/ico_mic" />
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnSpeak"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="53dp"
-        android:text="Tap on Mic to Speak"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="25dp"
-
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933" />
-
-    <!--
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="301dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:foregroundGravity="center_vertical"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ico_mic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.376"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    -->
+        app:layout_constraintTop_toBottomOf="@+id/status"
+        app:layout_constraintVertical_bias="1.0" />
 
 
     <com.github.clans.fab.FloatingActionButton
@@ -159,7 +143,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/text"
         app:fab_colorNormal="@color/colorPrimaryDark"
-        android:src="@drawable/text"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status"
+        app:layout_constraintVertical_bias="1.0" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnSpeak"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="84dp"
+        android:text="Tap on Mic to Speak"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+
+        android:textSize="25dp"
+        android:textStyle="normal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listview" />
+
+</android.support.constraint.ConstraintLayout>

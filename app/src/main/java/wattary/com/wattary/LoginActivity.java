@@ -23,9 +23,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -40,6 +42,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.jackandphantom.circularprogressbar.CircleProgressbar;
+import com.soundcloud.android.crop.Crop;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -60,9 +64,9 @@ import static maes.tech.intentanim.CustomIntent.customType;
  * Created by mosabahmed55 on 03/03/2018.
  */
 public class LoginActivity extends AppCompatActivity {
-    private Button mProfileImage;
+    private Button CaptureLoginBu;
     Button GaleryBu;
-    Uri mImageUri;
+    private Uri mImageUri;
     private CircleProgressbar mProgressBar;
 
 
@@ -96,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
         builder.detectFileUriExposure();
 
-        mProfileImage = (Button) findViewById(R.id.CaptureLoginBu);
+        CaptureLoginBu = (Button) findViewById(R.id.CaptureLoginBu);
         firebaseDatabase = FirebaseDatabase.getInstance();
         GaleryBu=(Button)findViewById(R.id.Galery) ;
         mProgressBar = findViewById(R.id.progress_bar);
@@ -108,26 +112,30 @@ public class LoginActivity extends AppCompatActivity {
           //animation
         customType(LoginActivity.this,"left-to-right");
 
-        mProfileImage.setOnClickListener(new View.OnClickListener() {
-
-
+        CaptureLoginBu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
                    // mProgressBar.setVisibility(View.VISIBLE);
-                    Login_ImageView.setVisibility(View.INVISIBLE);
-                    mProgressBar.setVisibility(View.VISIBLE);
-       Toast.makeText(LoginActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                   // Login_ImageView.setVisibility(View.INVISIBLE);
+                    //mProgressBar.setVisibility(View.VISIBLE);
+                    Toast.makeText(LoginActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                    if (mUploadTask.isComplete())
+                    {
+                        mUploadTask=null;
+                        mCropImageUri=null;
+                        mImageUri=null;
+                    }
         }
-        else if(mUploadTask==null) {
-                    CropImage.activity()
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setMinCropResultSize(512,512)
-                            .setAspectRatio(1, 1)
-                            .start(LoginActivity.this);
-                  //  BringImageCapture();
+        else  {
+                   // CropImage.activity()
+                          //  .setGuidelines(CropImageView.Guidelines.ON)
+                          //  .setMinCropResultSize(512,512)
+                          //  .setAspectRatio(1, 1)
+                           // .start(LoginActivity.this);
+                //    BringImageCapture();
+                    startActivityForResult(getPickImageChooserIntent(), 200);
+
 
       }
 
@@ -139,6 +147,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
                    // mProgressBar.setVisibility(View.VISIBLE);
                     Toast.makeText(LoginActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                    if (mUploadTask.isComplete())
+                    {
+                        mUploadTask=null;
+                        mCropImageUri=null;
+                        mImageUri=null;
+                    }
                 } else {
                     mProgressBar.setVisibility(View.INVISIBLE);
                   openFileChooser();
@@ -156,6 +170,23 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent =new Intent(LoginActivity.this,VoiceActivity.class);
         startActivity(intent);
     }
+
+
+    public void onCropImage()
+    {
+        if (mImageUri!=null) {
+            Uri uri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+            Crop.of(mImageUri, uri).asSquare().start(LoginActivity.this);
+            mImageUri = uri;
+        }
+        else if(mCropImageUri!=null)
+        {
+            Uri uri2 = Uri.fromFile(new File(getCacheDir(), "cropped"));
+            Crop.of(mCropImageUri, uri2).asSquare().start(LoginActivity.this);
+            mCropImageUri = uri2;
+        }
+    }
+
 
 
     public Intent getPickImageChooserIntent() {
@@ -266,8 +297,9 @@ public class LoginActivity extends AppCompatActivity {
     public void submit(){
 
         if (mImageUri != null) {
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-                    + "." + getFileExtension(mImageUri));
+            StorageReference fileReference = mStorageRef.child(String.valueOf(System.currentTimeMillis())
+                     //"." + getFileExtension(mImageUri)
+            );
 
             mUploadTask= fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -290,15 +322,15 @@ public class LoginActivity extends AppCompatActivity {
 
                             //Getting the Url Of the Image
                             Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-                            generatedFilePath = downloadUri.toString();
+                            generatedFilePath = downloadUri.toString()+".jpg";
                             if(generatedFilePath!=null)
-                            {
+                            { Log.d("file",generatedFilePath);
                                 Send();
                             }else
                             {
                                 Toast.makeText(LoginActivity.this,"Try Agin",Toast.LENGTH_SHORT);
                             }
-                            Toast.makeText(LoginActivity.this,generatedFilePath,Toast.LENGTH_LONG).show();
+                          //  Toast.makeText(LoginActivity.this,generatedFilePath,Toast.LENGTH_LONG).show();
                         }
 
 
@@ -322,9 +354,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-      StorageReference storageReference = mStorageRef.child(System.currentTimeMillis()+".jpg");
+      StorageReference storageReference = mStorageRef.child(String.valueOf(System.currentTimeMillis())
+              //+".jpg"
+              );
+
         //StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_images").child(userID);
-           mUploadTask=  storageReference.putFile(getCaptureImageOutputUri()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+           mUploadTask=  storageReference.putFile(getCaptureImageOutputUri())
+                   .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
         @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -342,15 +378,16 @@ public class LoginActivity extends AppCompatActivity {
 
             //Getting the Url Of the Image
             Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-            generatedFilePath = downloadUri.toString();
+            generatedFilePath = downloadUri.toString()+".jpg";
+            Log.d("file",generatedFilePath);
             if(generatedFilePath!=null)
             {
                 Send();
             }else
             {
-                Toast.makeText(LoginActivity.this,"Try Agin",Toast.LENGTH_SHORT);
+                Toast.makeText(LoginActivity.this,"Try Agin",Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(LoginActivity.this,generatedFilePath,Toast.LENGTH_LONG).show();
+           // Toast.makeText(LoginActivity.this,generatedFilePath,Toast.LENGTH_LONG).show();
         }
 
         }).addOnFailureListener(new OnFailureListener() {
@@ -375,10 +412,19 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST&&requestCode!=Crop.REQUEST_CROP && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri  = data.getData();
+            onCropImage();
 
-
-            if (resultCode == Activity.RESULT_OK) {
+           // Picasso.with(this).load(mImageUri).into(Login_ImageView);
+           // submit();
+        }
+        else if (resultCode==RESULT_OK&requestCode==Crop.REQUEST_CROP)
+        {
+            outputCroppedImage(resultCode,data);
+        }
+        else if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = getPickImageResultUri(data);
                 // For API >= 23 we need to check specifically that we have permissions to read external storage,
                 // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
@@ -389,40 +435,44 @@ public class LoginActivity extends AppCompatActivity {
 
                     // request permissions and handle the result in onRequestPermissionsResult()
                     requirePermissions = true;
-                    mCropImageUri = imageUri;
+
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
                 }
 
-                if (!requirePermissions) {
+                if (!requirePermissions&&requestCode!=Crop.REQUEST_CROP)
+                {
                     //Login_ImageView.setImageUriAsync(imageUri);
-                    Login_ImageView.setImageURI(imageUri);
-                    submit();
+                   // Login_ImageView.setImageURI(imageUri);
+                   // submit();
+                    mCropImageUri = imageUri;
+                    onCropImage();
                 }
+                else if (resultCode==RESULT_OK&requestCode==Crop.REQUEST_CROP)
+                {
+                    outputCroppedImage(resultCode,data);
+                }
+
             }
-
-
-
-        else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            mImageUri = data.getData();
-            submit();
-        }
         else {
             return;
         }
         }
 
-    private void BringImageCapture() {
+    public void  outputCroppedImage(int code, Intent result) {
+        if (code == RESULT_OK) {
+            Login_ImageView.setImageURI(Crop.getOutput(result));
+            submit();
+        }
 
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setAspectRatio(1,1)
-                .start(LoginActivity.this);
     }
+
 
     public void Send()
     {
-        String ServerUrl="https://wattary2.herokuapp.com/signin";
+        mUploadTask=null;
+        mCropImageUri=null;
+        mImageUri=null;
+        String ServerUrl="http://35.228.93.235:5000/signin";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -437,13 +487,16 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         Toast.makeText(LoginActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
-                        Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
+                        Log.v("respo",response.toString());
+                        //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Log.d(TAG,error.toString());
+                Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -463,6 +516,12 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         jsonObjReq.setTag(TAG);
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjReq.setRetryPolicy(policy);
+
+
         // Adding request to request queue
         queue.add(jsonObjReq);
 
