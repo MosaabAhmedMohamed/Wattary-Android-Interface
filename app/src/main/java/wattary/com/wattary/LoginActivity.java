@@ -413,6 +413,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
     }}
 
+    
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_IMAGE_REQUEST&&requestCode!=Crop.REQUEST_CROP && resultCode == RESULT_OK
