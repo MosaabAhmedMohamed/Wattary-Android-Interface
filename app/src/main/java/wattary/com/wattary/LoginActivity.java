@@ -414,8 +414,6 @@ public class LoginActivity extends AppCompatActivity {
     }}
 
 
-
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_IMAGE_REQUEST&&requestCode!=Crop.REQUEST_CROP && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
