@@ -67,6 +67,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button CaptureLoginBu;
     Button GaleryBu;
     private Uri mImageUri;
+    private    Uri uri;
+    private    Uri uri2;
     private CircleProgressbar mProgressBar;
 
 
@@ -95,10 +97,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
         builder.detectFileUriExposure();
+
+        mCropImageUri=null;
+        mImageUri=null;
 
         CaptureLoginBu = (Button) findViewById(R.id.CaptureLoginBu);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -134,6 +139,9 @@ public class LoginActivity extends AppCompatActivity {
                           //  .setAspectRatio(1, 1)
                            // .start(LoginActivity.this);
                 //    BringImageCapture();
+                    mUploadTask=null;
+                    mCropImageUri=null;
+                    mImageUri=null;
                     startActivityForResult(getPickImageChooserIntent(), 200);
 
 
@@ -154,7 +162,10 @@ public class LoginActivity extends AppCompatActivity {
                         mImageUri=null;
                     }
                 } else {
-                    mProgressBar.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mUploadTask=null;
+                    mCropImageUri=null;
+                    mImageUri=null;
                   openFileChooser();
 
 
@@ -175,13 +186,16 @@ public class LoginActivity extends AppCompatActivity {
     public void onCropImage()
     {
         if (mImageUri!=null) {
-            Uri uri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+            uri2=null;
+            uri = Uri.fromFile(new File(getCacheDir(), "cropped"));
             Crop.of(mImageUri, uri).asSquare().start(LoginActivity.this);
             mImageUri = uri;
+
+
         }
         else if(mCropImageUri!=null)
-        {
-            Uri uri2 = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        {   uri=null;
+            uri2 = Uri.fromFile(new File(getCacheDir(), "cropped2"));
             Crop.of(mCropImageUri, uri2).asSquare().start(LoginActivity.this);
             mCropImageUri = uri2;
         }
@@ -350,7 +364,7 @@ public class LoginActivity extends AppCompatActivity {
                     });
 
         }
-        else if (mImageUri ==null){
+        else if (mCropImageUri!=null){
 
 
 
@@ -359,7 +373,7 @@ public class LoginActivity extends AppCompatActivity {
               );
 
         //StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_images").child(userID);
-           mUploadTask=  storageReference.putFile(getCaptureImageOutputUri())
+           mUploadTask=  storageReference.putFile(mCropImageUri)
                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
         @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -417,15 +431,19 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST&&requestCode!=Crop.REQUEST_CROP && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri  = data.getData();
+            Login_ImageView.setImageURI(mImageUri);
             onCropImage();
 
            // Picasso.with(this).load(mImageUri).into(Login_ImageView);
            // submit();
         }
-        else if (resultCode==RESULT_OK&requestCode==Crop.REQUEST_CROP)
+        else if (resultCode==RESULT_OK&requestCode==Crop.REQUEST_CROP
+                &&mCropImageUri==null&&mImageUri!=null)
         {
+
             outputCroppedImage(resultCode,data);
         }
+
         else if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = getPickImageResultUri(data);
                 // For API >= 23 we need to check specifically that we have permissions to read external storage,
@@ -447,8 +465,10 @@ public class LoginActivity extends AppCompatActivity {
                    // Login_ImageView.setImageURI(imageUri);
                    // submit();
                     mCropImageUri = imageUri;
+                    Login_ImageView.setImageURI(mCropImageUri);
                     onCropImage();
                 }
+
                 else if (resultCode==RESULT_OK&requestCode==Crop.REQUEST_CROP)
                 {
                     outputCroppedImage(resultCode,data);
@@ -461,9 +481,17 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     public void  outputCroppedImage(int code, Intent result) {
-        if (code == RESULT_OK) {
+        if (code == RESULT_OK&&mImageUri!=null)
+        {
+            Login_ImageView.setImageURI(Crop.getOutput(result));
+           // Picasso.with(this).load(mImageUri).into(Login_ImageView);
+            submit();
+        }
+        else if(code == RESULT_OK&&mCropImageUri!=null)
+        {
             Login_ImageView.setImageURI(Crop.getOutput(result));
             submit();
+
         }
 
     }
@@ -472,8 +500,8 @@ public class LoginActivity extends AppCompatActivity {
     public void Send()
     {
         mUploadTask=null;
-        mCropImageUri=null;
-        mImageUri=null;
+       // mCropImageUri=null;
+       // mImageUri=null;
         String ServerUrl="http://35.228.93.235:5000/signin";
 
         RequestQueue queue = Volley.newRequestQueue(this);
