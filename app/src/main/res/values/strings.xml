@@ -12,4 +12,5 @@
     <string name="Vol_Up">Vol\n+</string>
     <string name="Vol_Dn">Vol\n-</string>
     <string name="Reco_tv">recommended for you :</string>
+    <string name="Sign_out_btn_string">Sign Out</string>
 </resources>

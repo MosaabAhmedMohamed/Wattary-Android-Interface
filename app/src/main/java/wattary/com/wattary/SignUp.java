@@ -100,8 +100,8 @@ public class SignUp extends AppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
 
-        FristName=(EditText)findViewById(R.id.FNsignUp);
-        LastName=(EditText)findViewById(R.id.LNsignUp);
+        LastName =(EditText)findViewById(R.id.FNsignUp);
+        FristName=(EditText)findViewById(R.id.LNsignUp);
         TakeBtn=findViewById(R.id.tack_pic_btn);
         Signup_ImageView =  findViewById(R.id.CropImageView);
         mProgressBar = findViewById(R.id.signup_progress_bar);
@@ -158,6 +158,8 @@ public class SignUp extends AppCompatActivity {
 
 
     });
+
+
     }
 
 
@@ -406,7 +408,7 @@ public class SignUp extends AppCompatActivity {
     }
     public void Send()
     {
-        String ServerUrl="http://35.228.93.235:5000/signup";
+        String ServerUrl="http://104.196.121.39:5000/signup";
        String FN=FristName.getText().toString();
        String LN=LastName.getText().toString();
         RequestQueue queue = Volley.newRequestQueue(this);

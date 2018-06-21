@@ -43,9 +43,6 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.jackandphantom.circularprogressbar.CircleProgressbar;
 import com.soundcloud.android.crop.Crop;
-import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONObject;
 import java.io.File;
@@ -71,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     private    Uri uri2;
     private CircleProgressbar mProgressBar;
 
+    private static  boolean Login_Value;
 
     private static final int PICK_IMAGE_REQUEST = 2;
 
@@ -104,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mCropImageUri=null;
         mImageUri=null;
+        Login_Value =false;
 
         CaptureLoginBu = (Button) findViewById(R.id.CaptureLoginBu);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -176,10 +175,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-   public void LoginCheck(View view)
+   public void SendToVoice()
     {
-        Intent intent =new Intent(LoginActivity.this,VoiceActivity.class);
-        startActivity(intent);
+        if (Login_Value==true)
+        {
+            Toast.makeText(LoginActivity.this, "why", Toast.LENGTH_SHORT).show();
+            SharedPrefs.saveSharedSetting(LoginActivity.this, "Statues", "true");
+            Intent Loginintent = new Intent(LoginActivity.this, VoiceActivity.class);
+            startActivity(Loginintent);
+            finish();
+
+        }
     }
 
 
@@ -502,7 +508,7 @@ public class LoginActivity extends AppCompatActivity {
         mUploadTask=null;
        // mCropImageUri=null;
        // mImageUri=null;
-        String ServerUrl="http://35.228.93.235:5000/signin";
+        String ServerUrl="http://104.196.121.39:5000/signin";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -519,6 +525,11 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
                         Log.v("respo",response.toString());
                         //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
+                        Login_Value=true;
+                        if(Login_Value==true)
+                        {
+                            SendToVoice();
+                        }
                     }
                 }, new Response.ErrorListener() {
 

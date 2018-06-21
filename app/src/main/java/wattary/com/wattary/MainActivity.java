@@ -9,6 +9,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
@@ -64,7 +65,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "Statues", "true"));
 
+        Toast.makeText(MainActivity.this,String.valueOf(Check),Toast.LENGTH_SHORT).show();
+        if(String.valueOf(Check)=="true")
+        {
+
+            Intent introIntent = new Intent(MainActivity.this, VoiceActivity.class);
+            introIntent.putExtra("Statues", Check);
+
+            //The Value if you click on Login Activity and Set the value is FALSE and whe false the activity will be visible
+            if (Check) {
+                startActivity(introIntent);
+                finish();
+            } //If no the Main Activity not Do Anything
+        }
+
+        }
 
     public void login(View view)
     {

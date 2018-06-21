@@ -40,7 +40,7 @@ public class Recommendation extends AppCompatActivity {
 
     public void Send()
     {
-        String ServerUrl="http://35.228.93.235:5000/learn";
+        String ServerUrl="http://104.196.121.39:5000/learn";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 

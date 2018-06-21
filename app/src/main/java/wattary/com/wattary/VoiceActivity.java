@@ -33,6 +33,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -89,6 +90,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     //voice recognition
     static final int REQUEST_PERMISSION_KEY = 1;
 
+    private Button Sign_out_btn;
+
+
     FloatingActionMenu floatingActionMenu ;
     FloatingActionButton Air,TV,Speak,Chat;
 
@@ -118,6 +122,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         //Activity Identity
         returnedText = (TextView) findViewById(R.id.textofSpeech);
         Status = (TextView) findViewById(R.id.status);
+        Sign_out_btn=findViewById(R.id.Sign_out_btn);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
         //animation
@@ -252,6 +257,33 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
         });
 
+        Sign_out_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPrefs.saveSharedSetting(VoiceActivity.this, "Statues", "false");
+                //And when you click on Logout button, You will set the value to True AGAIN
+                Intent LogOut = new Intent(VoiceActivity.this, MainActivity.class);
+                startActivity(LogOut);
+                finish();
+            }
+        });
+
+        //CekSession();
+    }
+
+    private void CekSession() {
+
+        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(VoiceActivity.this, "Statues", "false"));
+
+        Intent introIntent = new Intent(VoiceActivity.this,MainActivity.class);
+        introIntent.putExtra("Statues", Check);
+
+        //The Value if you click on Login Activity and Set the value is FALSE and whe false the activity will be visible
+        if (Check) {
+            startActivity(introIntent);
+            finish();
+        } //If no the Main Activity not Do Anything
     }
 
     @Override
