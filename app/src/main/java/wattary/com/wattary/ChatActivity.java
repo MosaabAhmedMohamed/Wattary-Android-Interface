@@ -12,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.android.volley.AuthFailureError;
@@ -35,6 +36,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class ChatActivity extends AppCompatActivity {
 
     private static String url = "http://104.196.121.39:5000/main";
+    private String UserName_value;
 
     //Variables
     ListView chatListView;
@@ -54,6 +56,13 @@ public class ChatActivity extends AppCompatActivity {
 
         //animation
         customType(ChatActivity.this,"fadein-to-fadeout");
+
+        //getting saved User name from Shared Preferences
+        UserName_value=null;
+        String v=SharedPrefs.readSharedSettingUsername(ChatActivity.this, "UserName", UserName_value);
+        UserName_value=v;
+        Toast.makeText(ChatActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
+
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoChat);
         Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.chat);
@@ -140,6 +149,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("message", sendString);
+        params.put("userName",UserName_value);
         JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override

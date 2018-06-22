@@ -86,7 +86,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener , TextToSpeech.OnInitListener {
 
     private static String url = "http://104.196.121.39:5000/main";
-
+    private String UserName_value;
     //voice recognition
     static final int REQUEST_PERMISSION_KEY = 1;
 
@@ -129,10 +129,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         //animation
         customType(VoiceActivity.this,"fadein-to-fadeout");
 
-        //getting saved User name
-        String value=null;
-        String v=SharedPrefs.readSharedSettingUsername(VoiceActivity.this, "UserName", value);
-        Toast.makeText(VoiceActivity.this, v, Toast.LENGTH_SHORT).show();
+        //getting saved User name from Shared Preferences
+        UserName_value=null;
+        String v=SharedPrefs.readSharedSettingUsername(VoiceActivity.this, "UserName", UserName_value);
+        UserName_value=v;
+        Toast.makeText(VoiceActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
 
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoVoice);
@@ -470,6 +471,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("message", sendString);
+        params.put("userName",UserName_value);
+
         JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
