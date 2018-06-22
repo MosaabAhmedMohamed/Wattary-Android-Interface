@@ -112,6 +112,7 @@ android {
         implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
         compile 'com.jackandphantom.android:circularprogressbar:1.2.0'
 
+        implementation 'me.rishabhkhanna:CustomToggle:1.0.0'
 
     }
 }

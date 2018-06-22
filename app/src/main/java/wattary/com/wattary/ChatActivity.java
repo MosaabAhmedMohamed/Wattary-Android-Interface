@@ -34,7 +34,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private static String url = "http://35.228.93.235:5000/main";
+    private static String url = "http://104.196.121.39:5000/main";
 
     //Variables
     ListView chatListView;

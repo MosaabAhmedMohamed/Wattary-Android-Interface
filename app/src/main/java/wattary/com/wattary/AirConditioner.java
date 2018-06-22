@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,9 +34,8 @@ public class AirConditioner extends AppCompatActivity {
     //private static String url = "https://wattary2.herokuapp.com/main"; //--> not this  link
 
     int temp = 24;
-    Button plus,minus;
-    Switch acSwitch;
-
+    Button plus,minus,acSwing,acFan;
+    ToggleButton acSwitch;
     String sendString;
     JSONObject jsonObject = new JSONObject();
 
@@ -51,10 +51,14 @@ public class AirConditioner extends AppCompatActivity {
         customType(AirConditioner.this,"fadein-to-fadeout");
         plus = (Button) findViewById(R.id.plus);
         minus = (Button) findViewById(R.id.minus);
-        acSwitch = (Switch) findViewById(R.id.acSwitch);
+        acSwing = (Button) findViewById(R.id.acSwing);
+        acFan = (Button) findViewById(R.id.acFan);
+        acSwitch = (ToggleButton) findViewById(R.id.acSwitch);
         //Set Enable for the buttons , Change it to true in the switch
         plus.setEnabled(false);
         minus.setEnabled(false);
+        acSwing.setEnabled(false);
+        acFan.setEnabled(false);
 
         //Switch button
         acSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -67,6 +71,9 @@ public class AirConditioner extends AppCompatActivity {
                             .setAction("Action", null).show();
                     plus.setEnabled(true);
                     minus.setEnabled(true);
+                    acSwing.setEnabled(true);
+                    acFan.setEnabled(true);
+                    sendPost("52"); //Air Conditioner Code On
                 }
                 else
                 {
@@ -75,6 +82,9 @@ public class AirConditioner extends AppCompatActivity {
                             .setAction("Action", null).show();
                     plus.setEnabled(false);
                     minus.setEnabled(false);
+                    acSwing.setEnabled(false);
+                    acFan.setEnabled(false);
+                    sendPost("53"); //Air Conditioner Code Off
                 }
             }
         });
@@ -85,7 +95,7 @@ public class AirConditioner extends AppCompatActivity {
             public void onClick(View view) {
                 temp = temp + 1;
                 display(temp);
-                sendPost("");
+                sendPost("54");
             }
         });
 
@@ -95,26 +105,57 @@ public class AirConditioner extends AppCompatActivity {
             public void onClick(View view) {
                 temp = temp - 1;
                 display(temp);
-                sendPost("");
+                sendPost("55");
             }
         });
+
+        //AC Fan
+        acFan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendPost("61");
+            }
+        });
+
+        //AC Swing
+        acSwing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendPost("62");
+            }
+        });
+
     }
     //This method displays the given temperature value on the screen.
     private void display(int number) {
         TextView tempTextView = (TextView) findViewById(R.id.temp_text_view); //object that changing textview of quantiity
         tempTextView.setText("" + number);
+        if (temp == 16)
+        {
+            minus.setEnabled(false);
+        }
+
+        else if (temp == 30)
+        {
+            plus.setEnabled(false);
+        }
+
+        else
+            minus.setEnabled(true);
+            plus.setEnabled(true);
     }
+
 
     public void sendPost(String Value)
     {
         final String TAG = "tag";
 
-        String ServerUrl = "http://35.228.93.235:5000/signin"; //-----> not this link
+        String ServerUrl = "http://104.196.121.39:5000/remote";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
         Map<String, String> postParam= new HashMap<String, String>();
-        postParam.put("PhotoUrl",Value);
+        postParam.put("code",Value);
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),
@@ -144,7 +185,7 @@ public class AirConditioner extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("PhotoUrl", "application/json; charset=utf-8");
+                headers.put("code", "application/json; charset=utf-8");
                 return headers;
             }
 
