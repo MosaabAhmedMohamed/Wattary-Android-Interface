@@ -44,6 +44,7 @@ import com.google.firebase.storage.UploadTask;
 import com.jackandphantom.circularprogressbar.CircleProgressbar;
 import com.soundcloud.android.crop.Crop;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -62,6 +63,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
  */
 public class LoginActivity extends AppCompatActivity {
     private Button CaptureLoginBu;
+
     Button GaleryBu;
     private Uri mImageUri;
     private    Uri uri;
@@ -69,17 +71,14 @@ public class LoginActivity extends AppCompatActivity {
     private CircleProgressbar mProgressBar;
 
     private static  boolean Login_Value;
-
     private static final int PICK_IMAGE_REQUEST = 2;
-
     private static final String TAG = "";
 
     private CircleImageView Login_ImageView;
 
+    String user_name;
 
     private Uri mCropImageUri;
-
-
     public Uri file;
     private String generatedFilePath;
 
@@ -103,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         mCropImageUri=null;
         mImageUri=null;
         Login_Value =false;
+        user_name=null;
 
         CaptureLoginBu = (Button) findViewById(R.id.CaptureLoginBu);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -179,8 +179,9 @@ public class LoginActivity extends AppCompatActivity {
     {
         if (Login_Value==true)
         {
-            Toast.makeText(LoginActivity.this, "why", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(LoginActivity.this, "why", Toast.LENGTH_SHORT).show();
             SharedPrefs.saveSharedSetting(LoginActivity.this, "Statues", "true");
+            SharedPrefs.saveSharedSettingUserName(LoginActivity.this,"UserName",user_name);
             Intent Loginintent = new Intent(LoginActivity.this, VoiceActivity.class);
             startActivity(Loginintent);
             finish();
@@ -521,14 +522,31 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        Toast.makeText(LoginActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
+                        String Check=null;
+                        String responseMsg=null;
+                        String Username_res=null;
+                        try {
+                            Check= response.getString("code");
+                            responseMsg= response.getString("response");
+                            Username_res = response.getString("userName");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         Log.v("respo",response.toString());
                         //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
-                        Login_Value=true;
+
+                        Login_Value=Boolean.valueOf(Check);
                         if(Login_Value==true)
                         {
+                            Toast.makeText(LoginActivity.this,Username_res,Toast.LENGTH_SHORT).show();
+                            user_name=Username_res;
                             SendToVoice();
+                        }
+                        else
+                        {
+                            Toast.makeText(LoginActivity.this,responseMsg,Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {

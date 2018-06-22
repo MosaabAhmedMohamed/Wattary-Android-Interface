@@ -68,10 +68,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "Statues", "true"));
+        String value=null;
+        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "Statues", value));
 
-        Toast.makeText(MainActivity.this,String.valueOf(Check),Toast.LENGTH_SHORT).show();
-        if(String.valueOf(Check)=="true")
+      //  Toast.makeText(MainActivity.this,String.valueOf(Check),Toast.LENGTH_SHORT).show();
+        String a= String.valueOf(Check);
+        if(a.equals("true"))
         {
 
             Intent introIntent = new Intent(MainActivity.this, VoiceActivity.class);

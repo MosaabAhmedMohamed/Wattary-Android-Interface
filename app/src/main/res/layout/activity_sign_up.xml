@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +20,9 @@
 
         <EditText
             android:id="@+id/LNsignUp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="8"
             android:hint="Enter you'r Frist Name"
             android:inputType="textPersonName"
             tools:layout_editor_absoluteX="16dp"
@@ -45,9 +45,33 @@
             android:id="@+id/FNsignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="8"
             android:hint="Enter you'r Last Name"
             android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="105dp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/Password_layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastName_layout_name">
+
+        <EditText
+            android:id="@+id/pass_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="8"
+            android:hint="Enter you'r Password"
+            android:inputType="textPersonName"
+            android:password="true"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="105dp" />
     </android.support.design.widget.TextInputLayout>
@@ -58,17 +82,16 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/button_shape"
         android:drawableRight="@drawable/take_a_photo"
         android:paddingRight="30dp"
         android:text="Take a Photo"
         android:textAllCaps="false"
-        android:textSize="25sp"
         android:textColor="#f5f5f5"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastName_layout_name" />
+        app:layout_constraintTop_toBottomOf="@+id/Password_layout_name" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/CropImageView"
@@ -100,6 +123,7 @@
         app:layout_constraintStart_toStartOf="@+id/CropImageView"
         app:layout_constraintTop_toTopOf="@+id/CropImageView"
         app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/button11"
         android:layout_width="150dp"
@@ -109,16 +133,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_shape"
+        android:onClick="onCropImageClick"
         android:text="confirm"
-       android:onClick="onCropImageClick"
         android:textAllCaps="false"
-        android:textSize="25sp"
         android:textColor="#f5f5f5"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CropImageView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.368" />
 
 
 </android.support.constraint.ConstraintLayout>
