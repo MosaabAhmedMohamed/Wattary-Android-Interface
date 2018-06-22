@@ -107,7 +107,6 @@ android {
         implementation 'de.hdodenhof:circleimageview:2.2.0'
         compile 'com.soundcloud.android:android-crop:1.0.1@aar'
 
-
         //animation
         implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
         compile 'com.jackandphantom.android:circularprogressbar:1.2.0'
@@ -118,4 +117,3 @@ android {
 }
 
 apply plugin: 'com.google.gms.google-services'
-

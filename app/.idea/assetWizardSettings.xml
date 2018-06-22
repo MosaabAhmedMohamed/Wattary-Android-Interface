@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_lightbulb_outline_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_av_timer_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,12 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="f5f5f5" />
-                            <entry key="height" value="40" />
-                            <entry key="outputName" value="ic_lightbulb" />
+                            <entry key="color" value="1e1e1e" />
+                            <entry key="outputName" value="timer" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\mosab" />
-                            <entry key="width" value="40" />
                           </map>
                         </option>
                       </PersistentState>

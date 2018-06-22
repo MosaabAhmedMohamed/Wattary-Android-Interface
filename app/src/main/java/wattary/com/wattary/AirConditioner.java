@@ -34,6 +34,7 @@ public class AirConditioner extends AppCompatActivity {
     //private static String url = "https://wattary2.herokuapp.com/main"; //--> not this  link
 
     int temp = 24;
+    int tempup = 24;
     Button plus,minus,acSwing,acFan;
     ToggleButton acSwitch;
     String sendString;
@@ -93,8 +94,8 @@ public class AirConditioner extends AppCompatActivity {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                temp = temp + 1;
-                display(temp);
+                tempup = tempup + 1;
+                display(tempup);
                 sendPost("54");
             }
         });
@@ -130,12 +131,13 @@ public class AirConditioner extends AppCompatActivity {
     private void display(int number) {
         TextView tempTextView = (TextView) findViewById(R.id.temp_text_view); //object that changing textview of quantiity
         tempTextView.setText("" + number);
+
         if (temp == 16)
         {
             minus.setEnabled(false);
         }
 
-        else if (temp == 30)
+        else if (tempup >= 30)
         {
             plus.setEnabled(false);
         }

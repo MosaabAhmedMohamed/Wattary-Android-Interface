@@ -94,7 +94,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
     FloatingActionMenu floatingActionMenu ;
-    FloatingActionButton Air,TV,Speak,Chat;
+    FloatingActionButton Air,TV,Water, electricity,Chat;
 
     private TextView returnedText;
     private TextView Status;
@@ -149,9 +149,10 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
        //Floating action Menu Implmentation
        floatingActionMenu=(FloatingActionMenu)findViewById(R.id.floatingActionMenu);
         Air=(FloatingActionButton)findViewById(R.id.AirActivity);
-        Speak=(FloatingActionButton)findViewById(R.id.SpeakActivity);
+        Water=(FloatingActionButton)findViewById(R.id.WaterActivity);
         TV=(FloatingActionButton)findViewById(R.id.TVActivity);
         Chat = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
+        electricity = (FloatingActionButton) findViewById(R.id.electricityActivity);
 
         //Activities Buttons
         Air.setOnClickListener(new View.OnClickListener() {
@@ -163,10 +164,21 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             }
         });
 
-        Speak.setOnClickListener(new View.OnClickListener() {
+        Water.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(VoiceActivity.this,"Speak clicked",Toast.LENGTH_SHORT).show();
+                Toast.makeText(VoiceActivity.this,"Water",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VoiceActivity.this,Water.class);
+                startActivity(intent);
+            }
+        });
+
+        electricity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(VoiceActivity.this,"electricity",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VoiceActivity.this,electricity.class);
+                startActivity(intent);
             }
         });
 

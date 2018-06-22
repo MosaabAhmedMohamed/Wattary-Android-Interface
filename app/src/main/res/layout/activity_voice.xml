@@ -87,6 +87,24 @@
 
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/WaterActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/timer"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="Speak to me"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/electricityActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/timer"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="Speak to me"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/AirActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,14 +113,6 @@
             app:fab_label="Air Conditioner Remote"
             app:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/SpeakActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/chat"
-            app:fab_colorNormal="#FFEAEBEF"
-            app:fab_label="Speak to me"
-            app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/TVActivity"
@@ -112,6 +122,9 @@
             app:fab_colorNormal="#FFEAEBEF"
             app:fab_label="TV Remote"
             app:fab_size="mini" />
+
+
+
 
 
     </com.github.clans.fab.FloatingActionMenu>
