@@ -85,7 +85,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener , TextToSpeech.OnInitListener {
 
-    private static String url = "http://35.228.93.235:5000/main";
+    private static String url = "http://104.196.121.39:5000/main";
 
     //voice recognition
     static final int REQUEST_PERMISSION_KEY = 1;
@@ -129,7 +129,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         customType(VoiceActivity.this,"fadein-to-fadeout");
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoVoice);
-        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.chat);
+        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.voice);
         videoView.setVideoURI(video);
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

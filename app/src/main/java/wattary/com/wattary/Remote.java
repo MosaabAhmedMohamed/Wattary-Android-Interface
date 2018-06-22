@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -29,11 +32,14 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class Remote extends AppCompatActivity {
 
-    private static String url = "https://wattary2.herokuapp.com/main"; //--> not this  link
+    private static String url = "http://104.196.121.39:5000/remote"; //--> not this  link
 
     Button buttonUp,buttonDown,buttonLeft,buttonRight,
             button1,button2,button3,button4,button5,button6,button7,
-            button8,button9,button0,buttonMute;
+            button8,button9,button0,buttonOK;
+
+    ToggleButton tvSwitch;
+    ToggleButton buttonMute;
 
     String sendString;
     JSONObject jsonObject = new JSONObject();
@@ -52,6 +58,7 @@ public class Remote extends AppCompatActivity {
         buttonDown = (Button) findViewById(R.id.buttonDown);
         buttonLeft = (Button) findViewById(R.id.buttonLeft);
         buttonRight = (Button) findViewById(R.id.buttonRight);
+        buttonOK = (Button) findViewById(R.id.buttonOK);
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
@@ -62,7 +69,82 @@ public class Remote extends AppCompatActivity {
         button8 = (Button) findViewById(R.id.button8);
         button9 = (Button) findViewById(R.id.button9);
         button0 = (Button) findViewById(R.id.button0);
-        buttonMute = (Button) findViewById(R.id.buttonMute);
+        tvSwitch = (ToggleButton) findViewById(R.id.tvSwitch);
+        buttonMute = (ToggleButton) findViewById(R.id.buttonMute);
+
+        buttonUp.setEnabled(false);
+        buttonDown.setEnabled(false);
+        buttonLeft.setEnabled(false);
+        buttonRight.setEnabled(false);
+        buttonOK.setEnabled(false);
+        button0.setEnabled(false);
+        button1.setEnabled(false);
+        button2.setEnabled(false);
+        button3.setEnabled(false);
+        button4.setEnabled(false);
+        button5.setEnabled(false);
+        button6.setEnabled(false);
+        button7.setEnabled(false);
+        button8.setEnabled(false);
+        button9.setEnabled(false);
+        button0.setEnabled(false);
+        buttonMute.setEnabled(false);
+
+
+        //Switch button
+        tvSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton view, boolean on){
+                if(on)
+                {
+                    //Do something when Switch button is on/checked
+                    Snackbar.make(view, "TV is ON", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    buttonUp.setEnabled(true);
+                    buttonDown.setEnabled(true);
+                    buttonLeft.setEnabled(true);
+                    buttonRight.setEnabled(true);
+                    buttonOK.setEnabled(true);
+                    button0.setEnabled(true);
+                    button1.setEnabled(true);
+                    button2.setEnabled(true);
+                    button3.setEnabled(true);
+                    button4.setEnabled(true);
+                    button5.setEnabled(true);
+                    button6.setEnabled(true);
+                    button7.setEnabled(true);
+                    button8.setEnabled(true);
+                    button9.setEnabled(true);
+                    button0.setEnabled(true);
+                    buttonMute.setEnabled(true);
+                    sendPost(""); //TV Conditioner Code On
+                }
+                else
+                {
+                    //Do something when Switch is off/unchecked
+                    Snackbar.make(view, "TV is off", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    buttonUp.setEnabled(false);
+                    buttonDown.setEnabled(false);
+                    buttonLeft.setEnabled(false);
+                    buttonRight.setEnabled(false);
+                    buttonOK.setEnabled(false);
+                    button0.setEnabled(false);
+                    button1.setEnabled(false);
+                    button2.setEnabled(false);
+                    button3.setEnabled(false);
+                    button4.setEnabled(false);
+                    button5.setEnabled(false);
+                    button6.setEnabled(false);
+                    button7.setEnabled(false);
+                    button8.setEnabled(false);
+                    button9.setEnabled(false);
+                    button0.setEnabled(false);
+                    buttonMute.setEnabled(false);
+                    sendPost(""); //TV Conditioner Code Off
+                }
+            }
+        });
 
 
         //Set Up the Channels and Vol.
@@ -71,7 +153,7 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Channel Up", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                sendPost("");
+                sendPost("52");
             }
         });
 
@@ -80,16 +162,7 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Channel Down", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                sendPost("");
-            }
-        });
-
-        buttonLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Volume Down", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                sendPost("");
+                sendPost("53");
             }
         });
 
@@ -98,32 +171,32 @@ public class Remote extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Volume Up", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                sendPost("");
+                sendPost("54");
+            }
+        });
+
+        buttonLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Volume Down", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                sendPost("55");
+            }
+        });
+
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendPost("63");
             }
         });
 
         //Set the Buttons of Channels { From 1 to 9 including 0 and Mute }
-        button0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(Remote.this, "0", Toast.LENGTH_SHORT).show();
-                sendPost("");
-            }
-        });
-
-        button0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(Remote.this, "0", Toast.LENGTH_SHORT).show();
-                sendPost("");
-            }
-        });
-
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "1", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("41");
             }
         });
 
@@ -131,7 +204,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "2", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("42");
             }
         });
 
@@ -139,7 +212,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "3", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("43");
             }
         });
 
@@ -147,7 +220,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "4", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("44");
             }
         });
 
@@ -155,7 +228,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "5", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("45");
             }
         });
 
@@ -163,7 +236,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "6", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("46");
             }
         });
 
@@ -171,7 +244,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "7", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("47");
             }
         });
 
@@ -179,7 +252,7 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "8", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("48");
             }
         });
 
@@ -187,19 +260,93 @@ public class Remote extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(Remote.this, "9", Toast.LENGTH_SHORT).show();
-                sendPost("");
+                sendPost("49");
             }
         });
 
-        buttonMute.setOnClickListener(new View.OnClickListener() {
+        button0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Mute", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                sendPost("");
+                Toast.makeText(Remote.this, "0", Toast.LENGTH_SHORT).show();
+                sendPost("50");
             }
         });
 
+
+        buttonMute.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if (isChecked) {
+                    Snackbar.make(view, "Muted", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    sendPost("51");
+                } else {
+                    Snackbar.make(view, "Unmuted", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    sendPost("51");
+                }
+            }
+        });
+
+
+    }
+
+
+    public void sendPost(String Value)
+    {
+        final String TAG = "tag";
+
+        String ServerUrl = "http://104.196.121.39:5000/remote";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        Map<String, String> postParam= new HashMap<String, String>();
+        postParam.put("code",Value);
+
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        Toast.makeText(Remote.this,response.toString(),Toast.LENGTH_SHORT).show();
+                        Log.v("respo",response.toString());
+                        //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Log.d(TAG,error.toString());
+                Toast.makeText(Remote.this,error.toString(),Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("code", "application/json; charset=utf-8");
+                return headers;
+            }
+
+
+
+        };
+
+
+
+        // Adding request to request queue
+        queue.add(jsonObjReq);
+
+        // Cancelling request
+    /* if (queue!= null) {
+    queue.cancelAll(TAG);
+    } */
 
     }
 
@@ -231,62 +378,4 @@ public class Remote extends AppCompatActivity {
         Controller.getInstance().addToRequestQueue(req);
     }
 */
-    public void sendPost(String Value)
-    {
-        final String TAG = "tag";
-
-        String ServerUrl = "http://35.228.93.235:5000/signin"; //-----> not this link
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        Map<String, String> postParam= new HashMap<String, String>();
-        postParam.put("PhotoUrl",Value);
-
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        Toast.makeText(Remote.this,response.toString(),Toast.LENGTH_SHORT).show();
-                        Log.v("respo",response.toString());
-                        //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Log.d(TAG,error.toString());
-                Toast.makeText(Remote.this,error.toString(),Toast.LENGTH_SHORT).show();
-
-            }
-        }) {
-
-            /**
-             * Passing some request headers
-             * */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("PhotoUrl", "application/json; charset=utf-8");
-                return headers;
-            }
-
-
-
-        };
-
-
-
-        // Adding request to request queue
-        queue.add(jsonObjReq);
-
-        // Cancelling request
-    /* if (queue!= null) {
-    queue.cancelAll(TAG);
-    } */
-
-    }
 }
