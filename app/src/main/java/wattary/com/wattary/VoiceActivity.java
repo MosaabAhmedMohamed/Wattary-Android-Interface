@@ -125,8 +125,15 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Sign_out_btn=findViewById(R.id.Sign_out_btn);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
+
         //animation
         customType(VoiceActivity.this,"fadein-to-fadeout");
+
+        //getting saved User name
+        String value=null;
+        String v=SharedPrefs.readSharedSettingUsername(VoiceActivity.this, "UserName", value);
+        Toast.makeText(VoiceActivity.this, v, Toast.LENGTH_SHORT).show();
+
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoVoice);
         Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.voice);
