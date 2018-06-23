@@ -197,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
             uri = Uri.fromFile(new File(getCacheDir(), "cropped"));
             Crop.of(mImageUri, uri).asSquare().start(LoginActivity.this);
             mImageUri = uri;
-
+            Login_ImageView.setRotation(360);
 
         }
         else if(mCropImageUri!=null)
@@ -205,6 +205,7 @@ public class LoginActivity extends AppCompatActivity {
             uri2 = Uri.fromFile(new File(getCacheDir(), "cropped2"));
             Crop.of(mCropImageUri, uri2).asSquare().start(LoginActivity.this);
             mCropImageUri = uri2;
+            Login_ImageView.setRotation(-90);
         }
     }
 

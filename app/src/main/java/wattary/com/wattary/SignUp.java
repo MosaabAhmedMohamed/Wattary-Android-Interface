@@ -406,7 +406,7 @@ public class SignUp extends AppCompatActivity {
 
    public void  outputCroppedImage(int code, Intent result)
     {if(code==RESULT_OK)
-    {
+    {   Signup_ImageView.setRotation(-90);
         Signup_ImageView.setImageURI(Crop.getOutput(result));
         submit();
     }
