@@ -13,7 +13,7 @@ public class SplashActivity extends AppCompatActivity {
 
    LinearLayout layout1,layout2;
    Animation uptodwon;
-
+   Animation dwonToUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,15 +21,16 @@ public class SplashActivity extends AppCompatActivity {
         layout1=(LinearLayout)findViewById(R.id.layout1);
         layout2=(LinearLayout)findViewById(R.id.layout2);
         uptodwon= AnimationUtils.loadAnimation(this,R.anim.uptodown);
+        dwonToUp=AnimationUtils.loadAnimation(this,R.anim.dwontoup);
         layout1.setAnimation(uptodwon);
-        layout2.setAnimation(uptodwon);
+        layout2.setAnimation(dwonToUp);
 
         Thread Splash = new Thread(){
             @Override
             public void run(){
 
                 try {
-                    sleep(2000); // the time of holding the splash
+                    sleep(2500); // the time of holding the splash
                     Intent splash = new Intent(SplashActivity.this,MainActivity.class);
                     startActivity(splash);
                     finish();
