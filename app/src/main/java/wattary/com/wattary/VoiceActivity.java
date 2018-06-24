@@ -114,6 +114,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
     VideoView videoView;
 
+    private int Checkspeech;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +137,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         String v=SharedPrefs.readSharedSettingUsername(VoiceActivity.this, "UserName", UserName_value);
         UserName_value=v;
         Toast.makeText(VoiceActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
+        Checkspeech=0;
 
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoVoice);
@@ -261,18 +265,28 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             @Override
             public void onClick(View v)
             {
-                progressBar.setVisibility(View.VISIBLE);
-                speech.startListening(recognizerIntent);
-                recordbtn.setEnabled(false);
-                Status.setText("Listening");
-                Status.setTextColor(Color.parseColor("#CCA2FF"));
+                // listening
+                if(Checkspeech==0) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    speech.startListening(recognizerIntent);
+                   recordbtn.setEnabled(false);
+                    Status.setText("Listening");
+                    Status.setTextColor(Color.parseColor("#CCA2FF"));
+                    Checkspeech=1;
 
-                /*To stop listening
+
+                }
+                else if (Checkspeech==1) {
+
+
+                // To stop listening
+
                     progressBar.setVisibility(View.INVISIBLE);
                     speech.stopListening();
-                    recordbtn.setEnabled(true);
-                 */
-            }
+                   recordbtn.setEnabled(true);
+                    Checkspeech=0;
+                }
+                }
 
 
         });

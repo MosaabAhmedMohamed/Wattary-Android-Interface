@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run(){
 
                 try {
-                    sleep(2500); // the time of holding the splash
+                    sleep(2000); // the time of holding the splash
                     Intent splash = new Intent(SplashActivity.this,MainActivity.class);
                     startActivity(splash);
                     finish();

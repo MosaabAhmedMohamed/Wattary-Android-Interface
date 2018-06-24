@@ -106,8 +106,12 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.cancel(pendingIntent);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                            + AlarmManager.INTERVAL_HOUR * 1
-                            , AlarmManager.INTERVAL_HOUR * 1, pendingIntent);
+                             + AlarmManager.INTERVAL_HOUR*1 , AlarmManager.INTERVAL_HOUR * 1, pendingIntent);
+
+
+          //  alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 5000 ,
+            //        AlarmManager.INTERVAL_HOUR * 1, pendingIntent);
+
 
             // repeating every one hour
             //.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
