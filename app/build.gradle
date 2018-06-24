@@ -110,7 +110,7 @@ android {
         //animation
         implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
         compile 'com.jackandphantom.android:circularprogressbar:1.2.0'
-
+        compile 'com.github.zjywill:OverwatchProgress:1.5'
         implementation 'me.rishabhkhanna:CustomToggle:1.0.0'
 
     }

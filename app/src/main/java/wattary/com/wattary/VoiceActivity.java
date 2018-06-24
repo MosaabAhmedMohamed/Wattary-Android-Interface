@@ -91,10 +91,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     static final int REQUEST_PERMISSION_KEY = 1;
 
     private Button Sign_out_btn;
+    private ImageButton stop_speak_btn;
 
 
     FloatingActionMenu floatingActionMenu ;
-    FloatingActionButton Air,TV,Water, electricity,Chat;
+    FloatingActionButton Air,TV,Water, electricity,Chat,Lamp;
 
     private TextView returnedText;
     private TextView Status;
@@ -128,7 +129,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Sign_out_btn=findViewById(R.id.Sign_out_btn);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
-
+        stop_speak_btn=findViewById(R.id.stop_Speak_btn);
         //animation
         customType(VoiceActivity.this,"fadein-to-fadeout");
 
@@ -136,7 +137,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         UserName_value=null;
         String v=SharedPrefs.readSharedSettingUsername(VoiceActivity.this, "UserName", UserName_value);
         UserName_value=v;
-        Toast.makeText(VoiceActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(VoiceActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
         Checkspeech=0;
 
         //Video Background /*created by amryar10*/
@@ -165,6 +166,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         TV=(FloatingActionButton)findViewById(R.id.TVActivity);
         Chat = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
         electricity = (FloatingActionButton) findViewById(R.id.electricityActivity);
+        Lamp=findViewById(R.id.LampActivity);
 
         //Activities Buttons
         Air.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +210,15 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             public void onClick(View v) {
                 Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        Lamp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent LampIntent=new Intent(VoiceActivity.this,Recommendation.class);
+                startActivity(LampIntent);
+                finish();
             }
         });
 
@@ -266,17 +277,20 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             public void onClick(View v)
             {
                 // listening
-                if(Checkspeech==0) {
+               // if(Checkspeech==0) {
                     progressBar.setVisibility(View.VISIBLE);
                     speech.startListening(recognizerIntent);
-                   recordbtn.setEnabled(false);
+                    recordbtn.setEnabled(false);
+                   // recordbtn.setVisibility(View.GONE);
+                   // stop_speak_btn.setVisibility(View.VISIBLE);
                     Status.setText("Listening");
                     Status.setTextColor(Color.parseColor("#CCA2FF"));
+                   // Toast.makeText(VoiceActivity.this,"Start",Toast.LENGTH_SHORT ).show();
                     Checkspeech=1;
 
 
-                }
-                else if (Checkspeech==1) {
+              //  }
+              /*  else if (Checkspeech==1) {
 
 
                 // To stop listening
@@ -286,9 +300,28 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                    recordbtn.setEnabled(true);
                     Checkspeech=0;
                 }
+                */
                 }
 
+/*
+        });
+        stop_speak_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // To stop listening
 
+                progressBar.setVisibility(View.INVISIBLE);
+
+                    speech.destroy();
+                    Log.d("Log", "destroy");
+
+                recordbtn.setEnabled(true);
+                stop_speak_btn.setVisibility(View.GONE);
+                recordbtn.setVisibility(View.VISIBLE);
+                Checkspeech=0;
+               // Toast.makeText(VoiceActivity.this,"stop",Toast.LENGTH_SHORT ).show();
+            }
+            */
         });
 
         Sign_out_btn.setOnClickListener(new View.OnClickListener() {

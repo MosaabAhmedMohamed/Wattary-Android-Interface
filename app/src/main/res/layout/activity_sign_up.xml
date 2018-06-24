@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context="wattary.com.wattary.SignUp">
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:src="@mipmap/wattarysignup"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_email"
         android:layout_width="match_parent"
@@ -16,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
         <EditText
             android:id="@+id/LNsignUp"
@@ -35,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,10 +90,11 @@
 
     <Button
         android:id="@+id/tack_pic_btn"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_shape"
         android:drawableRight="@drawable/take_a_photo"
         android:paddingRight="30dp"
@@ -99,7 +112,7 @@
         android:layout_height="199dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/default_image"
         app:civ_border_color="#FF000000"
         app:civ_border_width="2dp"
@@ -124,7 +137,7 @@
         app:layout_constraintTop_toTopOf="@+id/CropImageView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <!--<Button
         android:id="@+id/button11"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -144,5 +157,5 @@
         app:layout_constraintTop_toBottomOf="@+id/CropImageView"
         app:layout_constraintVertical_bias="0.368" />
 
-
+  -->
 </android.support.constraint.ConstraintLayout>

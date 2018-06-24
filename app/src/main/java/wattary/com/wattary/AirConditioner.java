@@ -48,7 +48,7 @@ public class AirConditioner extends AppCompatActivity {
 
         //init the Values
         //animation
-        customType(AirConditioner.this,"fadein-to-fadeout");
+        customType(AirConditioner.this,"left-to-right");
         plus = (Button) findViewById(R.id.plus);
         minus = (Button) findViewById(R.id.minus);
         acSwing = (Button) findViewById(R.id.acSwing);

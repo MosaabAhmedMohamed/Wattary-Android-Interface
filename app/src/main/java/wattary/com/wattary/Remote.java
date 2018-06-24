@@ -52,8 +52,7 @@ public class Remote extends AppCompatActivity {
         //to set name ActionBar
         /*getSupportActionBar().setTitle("Remote"); //to hide  .hide()*/
         //animation
-        customType(Remote.this,"fadein-to-fadeout");
-
+        customType(Remote.this,"left-to-right");
         //Init. the Buttons :
         buttonUp = (Button) findViewById(R.id.buttonUp);
         buttonDown = (Button) findViewById(R.id.buttonDown);

@@ -169,6 +169,13 @@ public class SignUp extends AppCompatActivity {
     }
 
 
+    public void SendToLogin()
+    {
+        Intent LoginIntent=new Intent(SignUp.this, LoginActivity.class);
+        startActivity(LoginIntent);
+        finish();
+    }
+
 
     /**
      * Crop the image and set it back to the  cropping view.

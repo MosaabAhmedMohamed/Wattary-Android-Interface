@@ -55,13 +55,13 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         //animation
-        customType(ChatActivity.this,"fadein-to-fadeout");
+        customType(ChatActivity.this,"right-to-left");
 
         //getting saved User name from Shared Preferences
         UserName_value=null;
         String v=SharedPrefs.readSharedSettingUsername(ChatActivity.this, "UserName", UserName_value);
         UserName_value=v;
-        Toast.makeText(ChatActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(ChatActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
 
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoChat);
