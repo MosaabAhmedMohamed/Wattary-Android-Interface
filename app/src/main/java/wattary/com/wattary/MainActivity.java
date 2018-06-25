@@ -22,6 +22,7 @@ import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -33,19 +34,13 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA= 1,REQUEST_RECORD_AUDIO=2,REQUEST_WRITE_EXTERNAL_STORAGE=3;
 
-    RelativeLayout mainLayout;
-    AnimationDrawable animationDrawable;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Animated Background /*Created by amryar10*/
-        mainLayout = (RelativeLayout) findViewById(R.id.activity_main);
-        // animationDrawable = (AnimationDrawable) mainLayout.getBackground();
-        // animationDrawable.setEnterFadeDuration(4500);
-        //  animationDrawable.setExitFadeDuration(4500);
-        // animationDrawable.start();
         customType(MainActivity.this,"right-to-left");
         /*
          *  *left-to-right
@@ -68,10 +63,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "Statues", "true"));
+        String value=null;
+        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "Statues", value));
 
-        Toast.makeText(MainActivity.this,String.valueOf(Check),Toast.LENGTH_SHORT).show();
-        if(String.valueOf(Check)=="true")
+      //  Toast.makeText(MainActivity.this,String.valueOf(Check),Toast.LENGTH_SHORT).show();
+        String a= String.valueOf(Check);
+        if(a.equals("true"))
         {
 
             Intent introIntent = new Intent(MainActivity.this, VoiceActivity.class);
@@ -109,7 +106,12 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.cancel(pendingIntent);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                             + AlarmManager.INTERVAL_HOUR * 1, AlarmManager.INTERVAL_HOUR * 1, pendingIntent);
+                             + AlarmManager.INTERVAL_HOUR*1 , AlarmManager.INTERVAL_HOUR * 1, pendingIntent);
+
+
+          //  alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 5000 ,
+            //        AlarmManager.INTERVAL_HOUR * 1, pendingIntent);
+
 
             // repeating every one hour
             //.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()

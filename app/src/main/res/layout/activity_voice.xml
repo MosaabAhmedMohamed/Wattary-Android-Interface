@@ -66,25 +66,33 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/floatingActionMenu"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="8dp"
-
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:menu_colorNormal="@color/colorPrimaryDark"
+        app:menu_colorNormal="#FFEAEBEF"
+        app:menu_colorRipple="@color/colorPrimaryDark"
         app:menu_fab_label=""
         app:menu_icon="@drawable/wattary"
         app:menu_openDirection="up"
         app:menu_showShadow="true">
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/LampActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_lightbulbblck"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="Room Light"
+            app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/WaterActivity"
@@ -92,7 +100,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/timer"
             app:fab_colorNormal="#FFEAEBEF"
-            app:fab_label="Speak to me"
+            app:fab_label="SWater"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -101,7 +109,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/timer"
             app:fab_colorNormal="#FFEAEBEF"
-            app:fab_label="Speak to me"
+            app:fab_label="electricity"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -110,7 +118,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/air"
             app:fab_colorNormal="#FFEAEBEF"
-            app:fab_label="Air Conditioner Remote"
+            app:fab_label="Air Conditioner"
             app:fab_size="mini" />
 
 
@@ -120,11 +128,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/tv"
             app:fab_colorNormal="#FFEAEBEF"
-            app:fab_label="TV Remote"
+            app:fab_label="TV"
             app:fab_size="mini" />
-
-
-
 
 
     </com.github.clans.fab.FloatingActionMenu>
@@ -149,6 +154,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status"
         app:layout_constraintVertical_bias="1.0" />
+    <ImageButton
+        android:id="@+id/stop_Speak_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:foregroundGravity="center_vertical"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:src="@drawable/ico_mic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status"
+        app:layout_constraintVertical_bias="1.0" />
+
 
 
     <com.github.clans.fab.FloatingActionButton
@@ -159,7 +185,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/text"
-        app:fab_colorNormal="@color/colorPrimaryDark"
+        app:fab_colorNormal="#FFEAEBEF"
+        app:fab_colorRipple="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status"
@@ -184,14 +211,18 @@
 
     <Button
         android:id="@+id/Sign_out_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Sign_out_btn_string"
+
+        android:background="@drawable/round_button_white"
         android:onClick="sign_out_onClick"
         app:layout_constraintBottom_toTopOf="@+id/listview"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.908"
         app:layout_constraintStart_toEndOf="@+id/textofSpeech"

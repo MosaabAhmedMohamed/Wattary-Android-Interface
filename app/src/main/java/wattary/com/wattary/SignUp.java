@@ -69,7 +69,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class SignUp extends AppCompatActivity {
 
-    private EditText FristName,LastName;
+    private EditText FristName,LastName,Passowrd;
     private Button TakeBtn;
     private Uri mImageUri;
     private static final String TAG = "";
@@ -102,6 +102,7 @@ public class SignUp extends AppCompatActivity {
 
         LastName =(EditText)findViewById(R.id.FNsignUp);
         FristName=(EditText)findViewById(R.id.LNsignUp);
+        Passowrd=(EditText)findViewById(R.id.pass_sign_up);
         TakeBtn=findViewById(R.id.tack_pic_btn);
         Signup_ImageView =  findViewById(R.id.CropImageView);
         mProgressBar = findViewById(R.id.signup_progress_bar);
@@ -122,37 +123,42 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!TextUtils.isEmpty(FristName.getText().toString())
-                        && !TextUtils.isEmpty(LastName.getText().toString()))
+                if (Passowrd.getText().length() > 8)
+
                 {
-                    if (mUploadTask != null && mUploadTask.isInProgress()) {
-                        // Signup_ImageView.setVisibility(View.INVISIBLE);
-                        // mProgressBar.setVisibility(View.VISIBLE);
-                        Toast.makeText(SignUp.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-                        if (mUploadTask.isComplete())
-                        {
-                            mUploadTask=null;
-                            mCropImageUri=null;
-                            mImageUri=null;
+                    if (!TextUtils.isEmpty(FristName.getText().toString())
+                            && !TextUtils.isEmpty(LastName.getText().toString())
+                            && !TextUtils.isEmpty(Passowrd.getText().toString())) {
+                        if (mUploadTask != null && mUploadTask.isInProgress()) {
+                            // Signup_ImageView.setVisibility(View.INVISIBLE);
+                            // mProgressBar.setVisibility(View.VISIBLE);
+                            Toast.makeText(SignUp.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                            if (mUploadTask.isComplete()) {
+                                mUploadTask = null;
+                                mCropImageUri = null;
+                                mImageUri = null;
+                            }
+                        } else {
+                            //  CropImage.activity()
+                            //  .setGuidelines(CropImageView.Guidelines.ON)
+                            // .setMinCropResultSize(512,512)
+                            //  .setAspectRatio(1, 1)
+                            // .start(SignUp.this);
+
+
+                            startActivityForResult(getPickImageChooserIntent(), 200);
+                            // submit();
+
+
                         }
                     } else {
-                        //  CropImage.activity()
-                        //  .setGuidelines(CropImageView.Guidelines.ON)
-                        // .setMinCropResultSize(512,512)
-                        //  .setAspectRatio(1, 1)
-                        // .start(SignUp.this);
-
-
-                           startActivityForResult(getPickImageChooserIntent(), 200);
-                           // submit();
-
-
+                        Toast.makeText(SignUp.this, "Fill the empty frist !", Toast.LENGTH_SHORT).show();
                     }
-                    }else
+                } else
                 {
-                    Toast.makeText(SignUp.this,"Fill the empty frist !",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Enter at least 8 number !", Toast.LENGTH_SHORT).show();
                 }
-                }
+            }
 
 
 
@@ -162,6 +168,13 @@ public class SignUp extends AppCompatActivity {
 
     }
 
+
+    public void SendToLogin()
+    {
+        Intent LoginIntent=new Intent(SignUp.this, LoginActivity.class);
+        startActivity(LoginIntent);
+        finish();
+    }
 
 
     /**
@@ -400,7 +413,7 @@ public class SignUp extends AppCompatActivity {
 
    public void  outputCroppedImage(int code, Intent result)
     {if(code==RESULT_OK)
-    {
+    {   Signup_ImageView.setRotation(-90);
         Signup_ImageView.setImageURI(Crop.getOutput(result));
         submit();
     }
@@ -409,8 +422,9 @@ public class SignUp extends AppCompatActivity {
     public void Send()
     {
         String ServerUrl="http://104.196.121.39:5000/signup";
-       String FN=FristName.getText().toString();
-       String LN=LastName.getText().toString();
+        String FN=FristName.getText().toString();
+        String LN=LastName.getText().toString();
+        String Pass=Passowrd.getText().toString();
         RequestQueue queue = Volley.newRequestQueue(this);
 
 
@@ -418,6 +432,7 @@ public class SignUp extends AppCompatActivity {
         Map<String, String> postParam= new HashMap<String, String>();
         postParam.put("PhotoUrl", generatedFilePath);
         postParam.put("UserName",FN+" "+LN );
+        postParam.put("password",Pass);
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),

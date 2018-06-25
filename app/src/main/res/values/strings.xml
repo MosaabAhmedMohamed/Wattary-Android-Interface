@@ -12,5 +12,5 @@
     <string name="Vol_Up">►</string>
     <string name="Vol_Dn">◄</string>
     <string name="Reco_tv">recommended for you :</string>
-    <string name="Sign_out_btn_string">Sign Out</string>
+    <string name="Sign_out_btn_string">Log Out</string>
 </resources>
