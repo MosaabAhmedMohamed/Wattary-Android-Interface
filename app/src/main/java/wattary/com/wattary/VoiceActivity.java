@@ -94,7 +94,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
     FloatingActionMenu floatingActionMenu ;
-    FloatingActionButton Air,TV,Water, electricity,Chat;
+    FloatingActionButton Air,TV,Water,electricity,Chat;
 
     private TextView returnedText;
     private TextView Status;
@@ -344,7 +344,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         progressBar.setVisibility(View.INVISIBLE);
         recordbtn.setEnabled(true);
         Status.setText("Tap on Mic to Speak");
-        Status.setTextColor(Color.parseColor("#FFFFFF"));
+        Status.setTextColor(Color.parseColor("#000000"));
         //for listview
         if (toString != null) {
             sendMessageBallon(toString); //--> here's the right place for arrayList.add //User Send Message Method
