@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private CircleImageView Login_ImageView;
 
-    String user_name;
+    String user_ID;
 
     private Uri mCropImageUri;
     public Uri file;
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         mCropImageUri=null;
         mImageUri=null;
         Login_Value =false;
-        user_name=null;
+        user_ID =null;
 
         CaptureLoginBu = (Button) findViewById(R.id.CaptureLoginBu);
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
         {
             //Toast.makeText(LoginActivity.this, "why", Toast.LENGTH_SHORT).show();
             SharedPrefs.saveSharedSetting(LoginActivity.this, "Statues", "true");
-            SharedPrefs.saveSharedSettingUserName(LoginActivity.this,"UserName",user_name);
+            SharedPrefs.saveSharedSettingUserName(LoginActivity.this,"UserName", user_ID);
             Intent Loginintent = new Intent(LoginActivity.this, VoiceActivity.class);
             startActivity(Loginintent);
             finish();
@@ -526,23 +526,26 @@ public class LoginActivity extends AppCompatActivity {
                         String Check=null;
                         String responseMsg=null;
                         String Username_res=null;
+                        String user_Id_res = null;
                         try {
                             Check= response.getString("code");
                             responseMsg= response.getString("response");
                             Username_res = response.getString("userName");
-
+                            user_Id_res=response.getString("userID");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                         Log.v("respo",response.toString());
-                        //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
+                       //Toast.makeText(LoginActivity.this,response.toString(),Toast.LENGTH_LONG).show();
+
 
                         Login_Value=Boolean.valueOf(Check);
                         if(Login_Value==true)
                         {
-                            Toast.makeText(LoginActivity.this,Username_res,Toast.LENGTH_SHORT).show();
-                            user_name=Username_res;
+                            Toast.makeText(LoginActivity.this,Username_res+" "+user_Id_res,Toast.LENGTH_SHORT).show();
+                            user_ID =user_Id_res;
+
                             SendToVoice();
                         }
                         else

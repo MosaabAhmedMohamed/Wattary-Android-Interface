@@ -22,7 +22,6 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 
@@ -36,7 +35,7 @@ import static maes.tech.intentanim.CustomIntent.customType;
 public class ChatActivity extends AppCompatActivity {
 
     private static String url = "http://104.196.121.39:5000/main";
-    private String UserName_value;
+    private String UserName_value_ID;
 
     //Variables
     ListView chatListView;
@@ -58,10 +57,10 @@ public class ChatActivity extends AppCompatActivity {
         customType(ChatActivity.this,"right-to-left");
 
         //getting saved User name from Shared Preferences
-        UserName_value=null;
-        String v=SharedPrefs.readSharedSettingUsername(ChatActivity.this, "UserName", UserName_value);
-        UserName_value=v;
-       // Toast.makeText(ChatActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
+        UserName_value_ID =null;
+        String v=SharedPrefs.readSharedSettingUsername(ChatActivity.this, "UserName", UserName_value_ID);
+        UserName_value_ID =v;
+       // Toast.makeText(ChatActivity.this, UserName_value_ID, Toast.LENGTH_SHORT).show();
 
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoChat);
@@ -149,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("message", sendString);
-        params.put("userName",UserName_value);
+        params.put("userID", UserName_value_ID);
         JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -197,5 +196,19 @@ public class ChatActivity extends AppCompatActivity {
     private boolean receiveMessageBallon (String msg) {
         adapter.add(new ChatMessage(false, msg));
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //animation
+        customType(ChatActivity.this,"left-to-right");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //animation
+        customType(ChatActivity.this,"left-to-right");
     }
 }

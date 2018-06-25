@@ -123,12 +123,13 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (Passowrd.getText().length() > 8)
 
-                {
                     if (!TextUtils.isEmpty(FristName.getText().toString())
                             && !TextUtils.isEmpty(LastName.getText().toString())
                             && !TextUtils.isEmpty(Passowrd.getText().toString())) {
+                        if (Passowrd.getText().length() >= 8)
+
+                        {
                         if (mUploadTask != null && mUploadTask.isInProgress()) {
                             // Signup_ImageView.setVisibility(View.INVISIBLE);
                             // mProgressBar.setVisibility(View.VISIBLE);
@@ -152,11 +153,13 @@ public class SignUp extends AppCompatActivity {
 
                         }
                     } else {
-                        Toast.makeText(SignUp.this, "Fill the empty frist !", Toast.LENGTH_SHORT).show();
-                    }
+                            Toast.makeText(SignUp.this, "Enter at least 8 number !", Toast.LENGTH_SHORT).show();
+                        }
+
+
                 } else
                 {
-                    Toast.makeText(SignUp.this, "Enter at least 8 number !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Fill the empty frist !", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -439,7 +442,27 @@ public class SignUp extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(SignUp.this,response.toString(),Toast.LENGTH_SHORT).show();
+                        String Code_res=null;
+                        String stautes_res=null;
+
+                       // Toast.makeText(SignUp.this,response.toString(),Toast.LENGTH_SHORT).show();
+                        try {
+                            Code_res=response.getString("code");
+                            stautes_res=response.getString("response");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(Code_res.equals("true"))
+                        {
+                            Toast.makeText(SignUp.this,stautes_res,Toast.LENGTH_SHORT).show();
+                            SendToLogin();
+                        }
+                        else{
+                            Toast.makeText(SignUp.this,stautes_res,Toast.LENGTH_SHORT).show();
+                        }
+
+
                         Log.i("respo",response.toString());
                         //Toast.makeText(SignUp.this,"is Done ",Toast.LENGTH_SHORT).show();
                     }
