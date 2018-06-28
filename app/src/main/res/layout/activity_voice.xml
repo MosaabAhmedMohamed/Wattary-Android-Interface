@@ -26,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:text=""
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="26dp"
         android:textStyle="normal"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -201,7 +201,7 @@
         android:layout_marginTop="84dp"
         android:text="Tap on Mic to Speak"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
 
         android:textSize="25dp"
         android:textStyle="normal"
