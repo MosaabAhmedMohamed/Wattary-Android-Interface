@@ -16,9 +16,11 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -33,8 +35,8 @@ import java.util.Map;
 import static maes.tech.intentanim.CustomIntent.customType;
 
 public class ChatActivity extends AppCompatActivity {
-
-    private static String url = "http://104.196.121.39:5000/main";
+    //private static String url = "http://104.196.121.39:5000/main";
+    private static String url =   "https://wattary2.herokuapp.com/main";
     private String UserName_value_ID;
 
     //Variables
@@ -64,7 +66,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoChat);
-        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.chat);
+        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.voice);
         videoView.setVideoURI(video);
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -182,6 +184,12 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+        int socketTimeout = 10000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        req.setRetryPolicy(policy);
 
         // add the request object to the queue to be executed
         Controller.getInstance().addToRequestQueue(req);

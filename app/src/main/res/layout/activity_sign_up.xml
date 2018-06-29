@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context="wattary.com.wattary.SignUp">
 
+    <com.comix.overwatch.HiveProgressView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/hive_progress_login"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:hive_animDuration="1000"
+        android:visibility="gone"
+        app:hive_color="@color/colorAccent"
+        app:hive_cornerRadius="20"
+        app:hive_maxAlpha="255"
+        app:hive_rainbow="true"
+        app:hive_shrink="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.262" />
+
+
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
@@ -136,6 +160,27 @@
         app:layout_constraintStart_toStartOf="@+id/CropImageView"
         app:layout_constraintTop_toTopOf="@+id/CropImageView"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView_procssing"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Processing.."
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hive_progress_login"
+        app:layout_constraintVertical_bias="0.0" />
+
 
     <!--<Button
         android:id="@+id/button11"

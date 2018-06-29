@@ -3,10 +3,10 @@ package wattary.com.wattary;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.system.ErrnoException;
 import android.text.TextUtils;
@@ -22,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -44,8 +46,6 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.jackandphantom.circularprogressbar.CircleProgressbar;
 import com.soundcloud.android.crop.Crop;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +71,9 @@ public class SignUp extends AppCompatActivity {
 
     private EditText FristName,LastName,Passowrd;
     private Button TakeBtn;
+    private TextView textView_progress;
+    private com.comix.overwatch.HiveProgressView progressViewProcssing;
+
     private Uri mImageUri;
     private static final String TAG = "";
 
@@ -88,9 +91,6 @@ public class SignUp extends AppCompatActivity {
     private StorageTask mUploadTask;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,9 +103,13 @@ public class SignUp extends AppCompatActivity {
         LastName =(EditText)findViewById(R.id.FNsignUp);
         FristName=(EditText)findViewById(R.id.LNsignUp);
         Passowrd=(EditText)findViewById(R.id.pass_sign_up);
+        textView_progress=findViewById(R.id.textView_procssing);
         TakeBtn=findViewById(R.id.tack_pic_btn);
         Signup_ImageView =  findViewById(R.id.CropImageView);
         mProgressBar = findViewById(R.id.signup_progress_bar);
+        progressViewProcssing = (com.comix.overwatch.HiveProgressView) findViewById(R.id.hive_progress_login);
+        progressViewProcssing.setRainbow(false);
+        progressViewProcssing.setColor(0x000000);
         mCropImageUri=null;
         mImageUri=null;
 
@@ -177,6 +181,32 @@ public class SignUp extends AppCompatActivity {
         Intent LoginIntent=new Intent(SignUp.this, LoginActivity.class);
         startActivity(LoginIntent);
         finish();
+    }
+
+    public void AlertMessage(String Error_responce)
+
+    {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Warning")
+                .setMessage(Error_responce)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton("LogIn", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent Signup_intent = new Intent(SignUp.this, LoginActivity.class);
+                        startActivity(Signup_intent);
+                        finish();                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 
@@ -424,10 +454,20 @@ public class SignUp extends AppCompatActivity {
     }
     public void Send()
     {
+
+
+
         String ServerUrl="http://104.196.121.39:5000/signup";
         String FN=FristName.getText().toString();
         String LN=LastName.getText().toString();
         String Pass=Passowrd.getText().toString();
+
+
+        progressViewProcssing.setVisibility(View.VISIBLE);
+        textView_progress.setVisibility(View.VISIBLE);
+        FristName.setVisibility(View.INVISIBLE);
+        LastName.setVisibility(View.INVISIBLE);
+        Passowrd.setVisibility(View.INVISIBLE);
         RequestQueue queue = Volley.newRequestQueue(this);
 
 
@@ -442,6 +482,12 @@ public class SignUp extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        progressViewProcssing.setVisibility(View.GONE);
+                        textView_progress.setVisibility(View.GONE);
+                        FristName.setVisibility(View.VISIBLE);
+                        LastName.setVisibility(View.VISIBLE);
+                        Passowrd.setVisibility(View.VISIBLE);
+
                         String Code_res=null;
                         String stautes_res=null;
 
@@ -459,7 +505,10 @@ public class SignUp extends AppCompatActivity {
                             SendToLogin();
                         }
                         else{
-                            Toast.makeText(SignUp.this,stautes_res,Toast.LENGTH_SHORT).show();
+
+                           // Toast.makeText(SignUp.this,stautes_res,Toast.LENGTH_SHORT).show();
+                            AlertMessage(stautes_res);
+
                         }
 
 
@@ -472,10 +521,17 @@ public class SignUp extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressViewProcssing.setVisibility(View.GONE);
+                textView_progress.setVisibility(View.GONE);
+                FristName.setVisibility(View.VISIBLE);
+                LastName.setVisibility(View.VISIBLE);
+                Passowrd.setVisibility(View.VISIBLE);
+
                 Log.i("respo",error.toString());
                 VolleyLog.d(TAG, "Error" + error.getMessage());
                 //Log.i("rr",error.getMessage().toString());
-               Toast.makeText(SignUp.this,error.toString(),Toast.LENGTH_SHORT).show();
+                AlertMessage(error.toString());
+              // Toast.makeText(SignUp.this,error.toString(),Toast.LENGTH_SHORT).show();
             }
         })
 

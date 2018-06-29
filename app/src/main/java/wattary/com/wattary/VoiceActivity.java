@@ -8,15 +8,11 @@ package wattary.com.wattary;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.speech.tts.*;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -27,57 +23,32 @@ import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -85,8 +56,9 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class VoiceActivity extends AppCompatActivity implements RecognitionListener , TextToSpeech.OnInitListener {
 
-    private static String url = "http://104.196.121.39:5000/main";
-    private String UserName_value;
+    //private static String url = "http://104.196.121.39:5000/main";
+    private static String url =   "https://wattary2.herokuapp.com/main";
+    private String UserName_value_ID;
     //voice recognition
     static final int REQUEST_PERMISSION_KEY = 1;
 
@@ -96,6 +68,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
     FloatingActionMenu floatingActionMenu ;
     FloatingActionButton Air,TV,Water, electricity,Chat,Lamp;
+    private int menuBtn;
 
     private TextView returnedText;
     private TextView Status;
@@ -134,12 +107,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         customType(VoiceActivity.this,"fadein-to-fadeout");
 
         //getting saved User name from Shared Preferences
-        UserName_value=null;
-        String v=SharedPrefs.readSharedSettingUsername(VoiceActivity.this, "UserName", UserName_value);
-        UserName_value=v;
-       // Toast.makeText(VoiceActivity.this, UserName_value, Toast.LENGTH_SHORT).show();
+        UserName_value_ID =null;
+        String v=SharedPrefs.readSharedSettingUsername(VoiceActivity.this, "UserName", UserName_value_ID);
+        UserName_value_ID =v;
+       // Toast.makeText(VoiceActivity.this, UserName_value_ID, Toast.LENGTH_SHORT).show();
         Checkspeech=0;
-
+        menuBtn=0;
         //Video Background /*created by amryar10*/
         videoView = (VideoView)findViewById(R.id.videoVoice);
         Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.voice);
@@ -168,6 +141,26 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         electricity = (FloatingActionButton) findViewById(R.id.electricityActivity);
         Lamp=findViewById(R.id.LampActivity);
 
+
+/*
+       floatingActionMenu.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(menuBtn==0)
+                {
+                 Status.setVisibility(View.INVISIBLE);
+                    menuBtn=1;
+                }else if(menuBtn==1)
+                {
+                    Status.setVisibility(View.VISIBLE);
+                    menuBtn=0;
+                }
+
+            }
+        });
+
+*/
         //Activities Buttons
         Air.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +211,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             public void onClick(View view) {
                 Intent LampIntent=new Intent(VoiceActivity.this,Recommendation.class);
                 startActivity(LampIntent);
-                finish();
+
             }
         });
 
@@ -338,6 +331,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
         //CekSession();
     }
+
+
 
     private void CekSession() {
 
@@ -518,7 +513,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("message", sendString);
-        params.put("userName",UserName_value);
+        params.put("userID", UserName_value_ID);
 
         JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -557,7 +552,16 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                     tts.speak("Connection TimedOut Please check your connection",TextToSpeech.QUEUE_FLUSH,null); //Text to Speech Method
                 }
             }
-        });
+        }
+
+
+        );
+
+        int socketTimeout = 10000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        req.setRetryPolicy(policy);
+
+
 
         // add the request object to the queue to be executed
         Controller.getInstance().addToRequestQueue(req);

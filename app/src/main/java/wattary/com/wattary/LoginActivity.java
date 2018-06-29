@@ -3,6 +3,7 @@ package wattary.com.wattary;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -15,12 +16,14 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.Manifest;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.system.ErrnoException;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -63,13 +66,14 @@ import static maes.tech.intentanim.CustomIntent.customType;
  */
 public class LoginActivity extends AppCompatActivity {
     private Button CaptureLoginBu;
+    private TextView textView_progress;
 
     Button GaleryBu;
     private Uri mImageUri;
     private    Uri uri;
     private    Uri uri2;
     private CircleProgressbar mProgressBar;
-
+    private com.comix.overwatch.HiveProgressView progressViewProcssing;
     private static  boolean Login_Value;
     private static final int PICK_IMAGE_REQUEST = 2;
     private static final String TAG = "";
@@ -105,9 +109,13 @@ public class LoginActivity extends AppCompatActivity {
         user_ID =null;
 
         CaptureLoginBu = (Button) findViewById(R.id.CaptureLoginBu);
+        textView_progress=findViewById(R.id.textView_procssing);
         firebaseDatabase = FirebaseDatabase.getInstance();
         GaleryBu=(Button)findViewById(R.id.Galery) ;
         mProgressBar = findViewById(R.id.progress_bar);
+        progressViewProcssing = (com.comix.overwatch.HiveProgressView) findViewById(R.id.hive_progress_login);
+        progressViewProcssing.setRainbow(false);
+        progressViewProcssing.setColor(0x000000);
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         ref = firebaseDatabase.getReference("ProfileInfo");
         StorageReference mStorageRef;
@@ -187,6 +195,32 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
         }
+    }
+
+    public void AlertMessage(String Error_responce)
+
+    {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Warning")
+                .setMessage(Error_responce)
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton("Sign Up", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent Signup_intent = new Intent(LoginActivity.this, SignUp.class);
+                        startActivity(Signup_intent);
+                        finish();                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 
@@ -340,7 +374,7 @@ public class LoginActivity extends AppCompatActivity {
                             }, 500);
 
 
-                            Toast.makeText(LoginActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
+                           // Toast.makeText(LoginActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
 
                             //Getting the Url Of the Image
                             Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
@@ -395,7 +429,7 @@ public class LoginActivity extends AppCompatActivity {
             }, 500);
 
             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-            Toast.makeText(LoginActivity.this, "uploaded", Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(LoginActivity.this, "uploaded", Toast.LENGTH_SHORT).show();
 
 
             //Getting the Url Of the Image
@@ -510,6 +544,12 @@ public class LoginActivity extends AppCompatActivity {
         mUploadTask=null;
        // mCropImageUri=null;
        // mImageUri=null;
+
+        progressViewProcssing.setVisibility(View.VISIBLE);
+        textView_progress.setVisibility(View.VISIBLE);
+        GaleryBu.setVisibility(View.INVISIBLE);
+        CaptureLoginBu.setVisibility(View.INVISIBLE);
+
         String ServerUrl="http://104.196.121.39:5000/signin";
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -523,6 +563,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
+                        progressViewProcssing.setVisibility(View.INVISIBLE);
+                        textView_progress.setVisibility(View.INVISIBLE);
+                        GaleryBu.setVisibility(View.VISIBLE);
+                        CaptureLoginBu.setVisibility(View.VISIBLE);
+
+
                         String Check=null;
                         String responseMsg=null;
                         String Username_res=null;
@@ -550,17 +596,24 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(LoginActivity.this,responseMsg,Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(LoginActivity.this,responseMsg,Toast.LENGTH_SHORT).show();
+                            AlertMessage(responseMsg);
                         }
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressViewProcssing.setVisibility(View.INVISIBLE);
+                textView_progress.setVisibility(View.INVISIBLE);
+                GaleryBu.setVisibility(View.VISIBLE);
+                CaptureLoginBu.setVisibility(View.VISIBLE);
+
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Log.d(TAG,error.toString());
-                Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_SHORT).show();
 
+                AlertMessage(error.toString());
             }
         }) {
 
