@@ -67,7 +67,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
     FloatingActionMenu floatingActionMenu ;
-    FloatingActionButton Air,TV,Water, electricity,Chat,Lamp;
+    FloatingActionButton Air,TV,Water, electricity,Chat,Lamp,on_the_door;
     private int menuBtn;
 
     private TextView returnedText;
@@ -140,10 +140,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Chat = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
         electricity = (FloatingActionButton) findViewById(R.id.electricityActivity);
         Lamp=findViewById(R.id.LampActivity);
+        on_the_door=findViewById(R.id.on_the_door);
 
-
-/*
-       floatingActionMenu.setOnMenuButtonClickListener(new View.OnClickListener() {
+      /* floatingActionMenu.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -165,7 +164,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Air.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,AirConditioner.class);
                 startActivity(intent);
             }
@@ -174,7 +173,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Water.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(VoiceActivity.this,"Water",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(VoiceActivity.this,"Water",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,Water.class);
                 startActivity(intent);
             }
@@ -183,7 +182,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         electricity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(VoiceActivity.this,"electricity",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(VoiceActivity.this,"electricity",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,electricity.class);
                 startActivity(intent);
             }
@@ -192,7 +191,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(VoiceActivity.this,"TV clicked",Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(VoiceActivity.this,"TV clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,Remote.class);
                 startActivity(intent);
             }
@@ -212,6 +211,15 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 Intent LampIntent=new Intent(VoiceActivity.this,Recommendation.class);
                 startActivity(LampIntent);
 
+            }
+        });
+
+        on_the_door.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VoiceActivity.this,on_The_Door.class);
+                startActivity(intent);
             }
         });
 

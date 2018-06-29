@@ -89,6 +89,15 @@
         app:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/on_the_door"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera_"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="ON The Door"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/LampActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,7 +112,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/timer"
             app:fab_colorNormal="#FFEAEBEF"
-            app:fab_label="Water Measure"
+            app:fab_label="Water Measurement"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -112,7 +121,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/timer"
             app:fab_colorNormal="#FFEAEBEF"
-            app:fab_label="Electricity Measure"
+            app:fab_label="Electricity Measurement"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -220,11 +229,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/Sign_out_btn_string"
-
         android:background="@drawable/round_button_white"
         android:onClick="sign_out_onClick"
         app:layout_constraintBottom_toTopOf="@+id/listview"
         android:textColor="@android:color/white"
+        android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.908"

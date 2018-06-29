@@ -51,7 +51,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".electricity" />
-        <activity android:name=".Water"></activity>
+        <activity android:name=".Water" />
+        <activity android:name=".on_The_Door"></activity>
     </application>
 
 </manifest>
