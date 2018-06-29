@@ -117,7 +117,7 @@ public class Remote extends AppCompatActivity {
                     button9.setEnabled(true);
                     button0.setEnabled(true);
                     buttonMute.setEnabled(true);
-                    sendPost(""); //TV Conditioner Code On
+                    sendPost("39"); //TV Code On
                 }
                 else
                 {
@@ -141,7 +141,7 @@ public class Remote extends AppCompatActivity {
                     button9.setEnabled(false);
                     button0.setEnabled(false);
                     buttonMute.setEnabled(false);
-                    sendPost(""); //TV Conditioner Code Off
+                    sendPost("40"); //TV Code Off
                 }
             }
         });
