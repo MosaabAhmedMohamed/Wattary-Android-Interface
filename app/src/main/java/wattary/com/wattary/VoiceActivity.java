@@ -140,7 +140,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         Chat = (FloatingActionButton) findViewById(R.id.floatingActionButtonChat);
         electricity = (FloatingActionButton) findViewById(R.id.electricityActivity);
         Lamp=findViewById(R.id.LampActivity);
-        on_the_door=findViewById(R.id.on_the_door);
+        on_the_door = findViewById(R.id.on_the_door);
 
       /* floatingActionMenu.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override

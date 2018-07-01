@@ -24,7 +24,7 @@
         app:sv_indicatorColor="#fff700"
         app:sv_pointerColor="#00ff11"
         app:sv_tickNumber="5"
-        app:sv_unit="L"
+        app:sv_unit="m3"
         app:sv_unitUnderSpeedText="true"
         app:sv_lowSpeedColor="#159900"
         app:sv_mediumSpeedColor="#b96000"
