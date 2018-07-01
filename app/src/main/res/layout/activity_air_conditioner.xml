@@ -44,19 +44,17 @@
         android:id="@+id/fantext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="8dp"
         android:text="Fan"
         android:textColor="#FFFFFF"
         android:textSize="26dp"
         app:layout_constraintBottom_toTopOf="@+id/acFan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.752"
+        app:layout_constraintHorizontal_bias="0.432"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acSwing"
-        app:layout_constraintVertical_bias="0.491" />
+        app:layout_constraintStart_toEndOf="@+id/temptext" />
 
     <Button
         android:id="@+id/minus"
@@ -115,17 +113,17 @@
         android:id="@+id/acSwing"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="240dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/round_button3"
         android:text="@string/plus"
         android:textColor="#FFFFFF"
         android:textSize="36dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.233" />
+        app:layout_constraintBottom_toTopOf="@+id/fantext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.589"
+        app:layout_constraintStart_toEndOf="@+id/plus" />
 
     <Button
         android:id="@+id/acFan"
@@ -141,8 +139,8 @@
         android:textSize="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.795"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.589"
+        app:layout_constraintStart_toEndOf="@+id/minus"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.617" />
 </android.support.constraint.ConstraintLayout>

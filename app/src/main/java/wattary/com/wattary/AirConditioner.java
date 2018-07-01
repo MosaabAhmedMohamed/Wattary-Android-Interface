@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -67,8 +69,15 @@ public class AirConditioner extends AppCompatActivity {
                 if(on)
                 {
                     //Do something when Switch button is on/checked
-                    Snackbar.make(view, "Air Conditioner is on", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+
+                    //new Top Snackbar
+                    TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content),"Air Conditioner is Switched on",TSnackbar.LENGTH_LONG);
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                    textView.setTextColor(Color.parseColor("#FFFFFF"));
+                    snackbarView.setBackgroundColor(Color.parseColor("#3DB161"));
+                    snackbar.show();
+
                     plus.setEnabled(true);
                     minus.setEnabled(true);
                     acSwing.setEnabled(true);
@@ -78,8 +87,15 @@ public class AirConditioner extends AppCompatActivity {
                 else
                 {
                     //Do something when Switch is off/unchecked
-                    Snackbar.make(view, "Air Conditioner is off", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+
+                    //new Top Snackbar
+                    TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content),"Air Conditioner is Switched off",TSnackbar.LENGTH_LONG);
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                    textView.setTextColor(Color.parseColor("#FFFFFF"));
+                    snackbarView.setBackgroundColor(Color.parseColor("#C12828"));
+                    snackbar.show();
+
                     plus.setEnabled(false);
                     minus.setEnabled(false);
                     acSwing.setEnabled(false);

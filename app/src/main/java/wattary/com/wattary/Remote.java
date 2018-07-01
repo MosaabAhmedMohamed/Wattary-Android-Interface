@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -21,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -98,8 +101,15 @@ public class Remote extends AppCompatActivity {
                 if(on)
                 {
                     //Do something when Switch button is on/checked
-                    Snackbar.make(view, "TV is ON", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+
+                    //new Top Snackbar
+                    TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content),"TV is Switched on",TSnackbar.LENGTH_LONG);
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                    textView.setTextColor(Color.parseColor("#FFFFFF"));
+                    snackbarView.setBackgroundColor(Color.parseColor("#3DB161"));
+                    snackbar.show();
+
                     buttonUp.setEnabled(true);
                     buttonDown.setEnabled(true);
                     buttonLeft.setEnabled(true);
@@ -122,8 +132,15 @@ public class Remote extends AppCompatActivity {
                 else
                 {
                     //Do something when Switch is off/unchecked
-                    Snackbar.make(view, "TV is off", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+
+                    //new Top Snackbar
+                    TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content),"TV is Switched off",TSnackbar.LENGTH_LONG);
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                    textView.setTextColor(Color.parseColor("#FFFFFF"));
+                    snackbarView.setBackgroundColor(Color.parseColor("#C12828"));
+                    snackbar.show();
+
                     buttonUp.setEnabled(false);
                     buttonDown.setEnabled(false);
                     buttonLeft.setEnabled(false);
