@@ -51,7 +51,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/button_shape"
         android:paddingRight="30dp"
-        android:text="Air Conditioner"
+        android:text="turn on Air Conditioner"
         android:visibility="gone"
         android:textAlignment="center"
         android:textAllCaps="false"

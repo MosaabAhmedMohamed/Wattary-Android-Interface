@@ -62,17 +62,34 @@ public class Recommendation extends AppCompatActivity {
         // Toast.makeText(VoiceActivity.this, UserName_value_ID, Toast.LENGTH_SHORT).show();
 
 
+        Air_con_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(  Air_con_btn.getText().toString().equals("Turn off the light in the Bathroom"))
+                {
+                    String Value_On="58";
+                    Air_con_btn.setText("turn on Air Conditioner");
+                    sendPost(Value_On);
+                }
+                else if( Air_con_btn.getText().toString().equals("Turn on the light in the Bathroom"))
+                {   String Value_Off="57";
+                    Air_con_btn.setText("turn off Air Conditioner");
+                    sendPost(Value_Off);
+                }
+            }
+        });
+
         Bath_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
               if(  Bath_btn.getText().toString().equals("Turn off the light in the Bathroom"))
               {
-                  String Value_On="Turn on the light in the Bathroom";
+                  String Value_On="14";
                   Bath_btn.setText("Turn on the light in the Bathroom");
                   sendPost(Value_On);
               }
               else if( Bath_btn.getText().toString().equals("Turn on the light in the Bathroom"))
-              {   String Value_Off="Turn off the light in the Bathroom";
+              {   String Value_Off="13";
                   Bath_btn.setText("Turn off the light in the Bathroom");
                   sendPost(Value_Off);
               }
@@ -84,13 +101,13 @@ public class Recommendation extends AppCompatActivity {
             public void onClick(View view) {
                 if(  Bed_btn.getText().toString().equals("Turn off the light in the Bedroom"))
                 {
-                    String Value_On="Turn On the light in the Bedroom";
+                    String Value_On="12";
                     Bed_btn.setText("Turn On the light in the Bedroom");
                     sendPost(Value_On);
                 }
                 else if( Bed_btn.getText().toString().equals("Turn On the light in the Bedroom"))
                 {
-                    String Value_Off="Turn off the light in the Bedroom";
+                    String Value_Off="11";
                     Bed_btn.setText("Turn off the light in the Bedroom");
                     sendPost(Value_Off);
 
@@ -104,13 +121,13 @@ public class Recommendation extends AppCompatActivity {
 
                 if(  Hall_btn.getText().toString().equals("Turn Off the light in the hallway"))
                 {
-                    String Value_On="Turn On the light in the hallway";
+                    String Value_On="16";
                     Hall_btn.setText("Turn On the light in the hallway");
                     sendPost(Value_On);
                 }
                 else if( Hall_btn.getText().toString().equals("Turn On the light in the hallway"))
                 {
-                    String Value_Off="Turn Off the light in the hallway";
+                    String Value_Off="15";
                     Hall_btn.setText("Turn Off the light in the hallway");
                     sendPost(Value_Off);
 
@@ -123,13 +140,13 @@ public class Recommendation extends AppCompatActivity {
             public void onClick(View view) {
                 if(  living_btn.getText().toString().equals("Turn Off the light in the living room"))
                 {
-                    String Value_On="Turn On the light in the living room";
+                    String Value_On="26";
                     living_btn.setText("Turn On the light in the living room");
                     sendPost(Value_On);
                 }
                 else if( living_btn.getText().toString().equals("Turn On the light in the living room"))
                 {
-                    String Value_Off="Turn Off the light in the living room";
+                    String Value_Off="25";
                     living_btn.setText("Turn Off the light in the living room");
                     sendPost(Value_Off);
 
@@ -145,13 +162,13 @@ public class Recommendation extends AppCompatActivity {
             public void onClick(View view) {
                 if(  Kitchen_btn.getText().toString().equals("Turn Off the light in the kitchen"))
                 {
-                    String Value_On="Turn On the light in the kitchen";
+                    String Value_On="24";
                     Kitchen_btn.setText("Turn On the light in the kitchen");
                     sendPost(Value_On);
                 }
                 else if( Kitchen_btn.getText().toString().equals("Turn On the light in the kitchen"))
                 {
-                    String Value_Off="Turn Off the light in the kitchen";
+                    String Value_Off="23";
                     Kitchen_btn.setText("Turn Off the light in the kitchen");
                     sendPost(Value_Off);
                 }
@@ -299,14 +316,13 @@ public class Recommendation extends AppCompatActivity {
     {
         final String TAG = "tag";
 
-        String ServerUrl = "https://wattary2.herokuapp.com/main";
+        String ServerUrl = "http://104.196.121.39:5000/remote";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
         Toast.makeText(Recommendation.this,Value,Toast.LENGTH_SHORT).show();
         Map<String, String> postParam= new HashMap<String, String>();
-        postParam.put("message", Value);
-        postParam.put("userID", UserName_value_ID);
+        postParam.put("code",Value);
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),
