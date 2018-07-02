@@ -180,6 +180,14 @@ public class Recommendation extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(Recommendation.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         Air_degree=null;

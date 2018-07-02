@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -148,6 +149,15 @@ public class AirConditioner extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(AirConditioner.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     //This method displays the given temperature value on the screen.
     private void display(int number) {
         TextView tempTextView = (TextView) findViewById(R.id.temp_text_view); //object that changing textview of quantiity

@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -305,6 +306,14 @@ public class Remote extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(Remote.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 

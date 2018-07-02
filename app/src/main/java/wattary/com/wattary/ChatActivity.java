@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -143,6 +144,14 @@ public class ChatActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         videoView.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(ChatActivity.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     //Set the Method of SendPost to Core

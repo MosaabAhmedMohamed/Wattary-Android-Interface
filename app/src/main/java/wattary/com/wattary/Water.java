@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -54,7 +57,7 @@ public class Water extends AppCompatActivity {
                     @Override
                     public void run() {
                         // do something after 1.5s = 1500 milliseconds
-                        receivedPost("getWater");
+                        receivedPost();
 
                         // move to 50 Km/s with Duration = 5 sec
                         wSpeedoMeter.speedTo(output, 5000);
@@ -62,6 +65,14 @@ public class Water extends AppCompatActivity {
                 }, 1500); //Time in millisecond
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(Water.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void sendPost(String Value)
@@ -123,57 +134,49 @@ public class Water extends AppCompatActivity {
 
     }
 
-    public void receivedPost(String Value)
+    public void receivedPost()
     {
         final String TAG = "tag";
 
-        String ServerUrl = "http://104.196.121.39:5000/getWater";
+        String ServerUrl = "http://104.196.121.39:5000/getwater";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        Map<String, String> postParam= new HashMap<String, String>();
-        postParam.put("code",Value);
 
 
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,ServerUrl , new JSONObject(postParam),
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,ServerUrl , (String) null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        Toast.makeText(Water.this,response.toString(),Toast.LENGTH_SHORT).show();
+                        String URL=null;
                         try {
                             int fromOmar = (int) response.get("message");
                             fromOmar = output;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        //Toast.makeText(LoginActivity.this,"is Done ",Toast.LENGTH_SHORT).show();
+
+                        Log.v("respo",response.toString());
+
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Log.d(TAG,error.toString());
+                Log.d("respoo",error.toString());
                 Toast.makeText(Water.this,error.toString(),Toast.LENGTH_SHORT).show();
 
             }
-        }) {
-
-            /**
-             * Passing some request headers
-             * */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("code", "application/json; charset=utf-8");
-                return headers;
-            }
+        });
 
 
-
-        };
-
-
+        int socketTimeout = 15000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjReq.setRetryPolicy(policy);
 
         // Adding request to request queue
         queue.add(jsonObjReq);

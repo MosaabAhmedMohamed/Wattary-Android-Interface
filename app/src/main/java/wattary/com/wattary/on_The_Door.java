@@ -93,6 +93,14 @@ public class on_The_Door extends AppCompatActivity {
         Delay_Get.start();
     }
 
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(on_The_Door.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void send(String Value)
     {
         final String TAG = "tag";
