@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,14 @@ public class Curtines extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(Curtines.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void send(String Value)

@@ -243,6 +243,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 // Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,Curtines.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -252,6 +253,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                 // Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,Elevator.class);
                 startActivity(intent);
+                finish();
             }
         });
 
