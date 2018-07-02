@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,6 +33,7 @@ import java.util.Map;
 public class on_The_Door extends AppCompatActivity {
   private ImageView Out_imageView;
   private Button Retake_btn;
+  private TextView textView;
 
 
     @Override
@@ -39,7 +42,7 @@ public class on_The_Door extends AppCompatActivity {
         setContentView(R.layout.activity_on__the__door);
         Out_imageView=findViewById(R.id.outDoor_imView);
         Retake_btn=findViewById(R.id.outDoor_btn);
-
+        textView=findViewById(R.id.onThedoor_TV);
        // Out_imageView.setImageURI();
 
 
@@ -47,7 +50,22 @@ public class on_The_Door extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 send("110");
-                GET();
+                Thread Delay_Get = new Thread(){
+                    @Override
+                    public void run(){
+
+                        try {
+                            sleep(5000); // the time of holding the splash
+                            GET();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Delay_Get.start();
+
+
+
 
 
             }
@@ -59,7 +77,20 @@ public class on_The_Door extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         send("110");
-        GET();
+
+        Thread Delay_Get = new Thread(){
+            @Override
+            public void run(){
+
+                try {
+                    sleep(5000); // the time of holding the splash
+                    GET();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Delay_Get.start();
     }
 
     public void send(String Value)
@@ -90,7 +121,7 @@ public class on_The_Door extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Log.d(TAG,error.toString());
-                Toast.makeText(on_The_Door.this,error.toString(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(on_The_Door.this,error.toString(),Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -139,13 +170,16 @@ public class on_The_Door extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         Toast.makeText(on_The_Door.this,response.toString(),Toast.LENGTH_SHORT).show();
                         String URL=null;
+                        String User_Name=null;
                         try {
                             URL=response.getString("imageUrl");
+                            User_Name=response.getString("userName");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         Picasso.with(on_The_Door.this).load(URL).into(Out_imageView);
-                        Toast.makeText(on_The_Door.this,URL,Toast.LENGTH_SHORT).show();
+                        textView.setText(User_Name);
+                       // Toast.makeText(on_The_Door.this,URL,Toast.LENGTH_SHORT).show();
 
                         Log.v("respo",response.toString());
 

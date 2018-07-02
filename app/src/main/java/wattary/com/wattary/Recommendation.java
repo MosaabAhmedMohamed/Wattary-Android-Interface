@@ -65,13 +65,13 @@ public class Recommendation extends AppCompatActivity {
         Air_con_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(  Air_con_btn.getText().toString().equals("Turn off the light in the Bathroom"))
+                if(  Air_con_btn.getText().toString().equals("turn off Air Conditioner"))
                 {
                     String Value_On="58";
                     Air_con_btn.setText("turn on Air Conditioner");
                     sendPost(Value_On);
                 }
-                else if( Air_con_btn.getText().toString().equals("Turn on the light in the Bathroom"))
+                else if( Air_con_btn.getText().toString().equals("turn on Air Conditioner"))
                 {   String Value_Off="57";
                     Air_con_btn.setText("turn off Air Conditioner");
                     sendPost(Value_Off);

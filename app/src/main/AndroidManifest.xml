@@ -52,7 +52,9 @@
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".electricity" />
         <activity android:name=".Water" />
-        <activity android:name=".on_The_Door"></activity>
+        <activity android:name=".on_The_Door" />
+        <activity android:name=".Curtines" />
+        <activity android:name=".Elevator"></activity>
     </application>
 
 </manifest>

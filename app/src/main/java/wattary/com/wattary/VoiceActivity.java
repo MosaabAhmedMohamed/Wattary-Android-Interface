@@ -67,7 +67,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
     FloatingActionMenu floatingActionMenu ;
-    FloatingActionButton Air,TV,Water, electricity,Chat,Lamp,on_the_door;
+    FloatingActionButton Air,TV,Water, electricity,Chat,Lamp,on_the_door,Curtains,Elevator;
     private int menuBtn;
 
     private TextView returnedText;
@@ -141,6 +141,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         electricity = (FloatingActionButton) findViewById(R.id.electricityActivity);
         Lamp=findViewById(R.id.LampActivity);
         on_the_door = findViewById(R.id.on_the_door);
+        Curtains=findViewById(R.id.curitrns_btn);
+        Elevator=findViewById(R.id.elevetor_btn);
 
       /* floatingActionMenu.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
@@ -219,6 +221,24 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             public void onClick(View view) {
                // Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,on_The_Door.class);
+                startActivity(intent);
+            }
+        });
+
+        Curtains.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VoiceActivity.this,Curtines.class);
+                startActivity(intent);
+            }
+        });
+
+        Elevator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(VoiceActivity.this,Elevator.class);
                 startActivity(intent);
             }
         });

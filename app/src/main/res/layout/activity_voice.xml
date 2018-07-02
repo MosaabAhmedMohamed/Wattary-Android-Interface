@@ -89,6 +89,33 @@
         app:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/on_the_doorr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera_"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="ON The Door"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/curitrns_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/map"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="Curtains"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/elevetor_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dock"
+            app:fab_colorNormal="#FFEAEBEF"
+            app:fab_label="Elevator"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/on_the_door"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
