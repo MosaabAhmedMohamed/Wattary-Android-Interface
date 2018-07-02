@@ -8,9 +8,11 @@ package wattary.com.wattary;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.speech.tts.*;
+import android.view.KeyEvent;
 import android.view.View;
 import android.Manifest;
 import android.content.Intent;
@@ -42,6 +44,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.comix.overwatch.HiveProgressView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.FloatingActionButton;
 
@@ -63,7 +66,6 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     static final int REQUEST_PERMISSION_KEY = 1;
 
     private Button Sign_out_btn;
-    private ImageButton stop_speak_btn;
 
 
     FloatingActionMenu floatingActionMenu ;
@@ -72,8 +74,9 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
     private TextView returnedText;
     private TextView Status;
-    ImageButton recordbtn;
-    private ProgressBar progressBar;
+    private ImageButton recordbtn;
+    private ImageButton stop_speak_btn;
+    private HiveProgressView progressBar;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
     //volley
@@ -100,9 +103,11 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         returnedText = (TextView) findViewById(R.id.textofSpeech);
         Status = (TextView) findViewById(R.id.status);
         Sign_out_btn=findViewById(R.id.Sign_out_btn);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar = (HiveProgressView) findViewById(R.id.progressBar1);
+        progressBar.setRainbow(true);
+        //progressBar.setColor(29695);
         recordbtn = (ImageButton) findViewById(R.id.btnSpeak);
-        stop_speak_btn=findViewById(R.id.stop_Speak_btn);
+        stop_speak_btn = (ImageButton) findViewById(R.id.stop_Speak_btn);
         //animation
         customType(VoiceActivity.this,"fadein-to-fadeout");
 
@@ -167,6 +172,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
            //     Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,AirConditioner.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -176,6 +182,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                // Toast.makeText(VoiceActivity.this,"Water",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,Water.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -185,6 +192,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
               //  Toast.makeText(VoiceActivity.this,"electricity",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,electricity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -194,6 +202,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             //    Toast.makeText(VoiceActivity.this,"TV clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,Remote.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -202,6 +211,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             public void onClick(View v) {
                 Intent intent =new Intent(VoiceActivity.this,ChatActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -210,6 +220,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             public void onClick(View view) {
                 Intent LampIntent=new Intent(VoiceActivity.this,Recommendation.class);
                 startActivity(LampIntent);
+                finish();
 
             }
         });
@@ -220,6 +231,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
                // Toast.makeText(VoiceActivity.this,"Air clicked",Toast.LENGTH_SHORT).show();
                 Intent intent =new Intent(VoiceActivity.this,on_The_Door.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -253,6 +265,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
         progressBar.setVisibility(View.INVISIBLE);
+        stop_speak_btn.setVisibility(View.INVISIBLE);
+        stop_speak_btn.setEnabled(false);
         speech = SpeechRecognizer.createSpeechRecognizer(this);
         speech.setRecognitionListener(this);
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -273,38 +287,25 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
 
         recordbtn.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v)
             {
                 // listening
-               // if(Checkspeech==0) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    speech.startListening(recognizerIntent);
-                    recordbtn.setEnabled(false);
-                   // recordbtn.setVisibility(View.GONE);
-                   // stop_speak_btn.setVisibility(View.VISIBLE);
-                    Status.setText("Listening");
-                    Status.setTextColor(Color.parseColor("#CCA2FF"));
-                   // Toast.makeText(VoiceActivity.this,"Start",Toast.LENGTH_SHORT ).show();
-                    Checkspeech=1;
+                recordbtn.setEnabled(false);
+                recordbtn.setVisibility(View.INVISIBLE);
 
+                progressBar.setVisibility(View.VISIBLE);
+                stop_speak_btn.setVisibility(View.VISIBLE);
+                stop_speak_btn.setEnabled(true);
+                speech.startListening(recognizerIntent);
+                Status.setText("Listening");
+                Status.setTextColor(Color.parseColor("#FF007864"));
+                // Toast.makeText(VoiceActivity.this,"Start",Toast.LENGTH_SHORT ).show();
+                Checkspeech=1;
 
-              //  }
-              /*  else if (Checkspeech==1) {
-
-
-                // To stop listening
-
-                    progressBar.setVisibility(View.INVISIBLE);
-                    speech.stopListening();
-                   recordbtn.setEnabled(true);
-                    Checkspeech=0;
-                }
-                */
                 }
 
-/*
+
         });
         stop_speak_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,16 +314,21 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
 
                 progressBar.setVisibility(View.INVISIBLE);
 
-                    speech.destroy();
-                    Log.d("Log", "destroy");
-
+                /*speech.destroy();
+                    Log.d("Log", "destroy");*/
+                speech.cancel();
+                Log.d("log", "stop_speak_btn Speech Cancel");
                 recordbtn.setEnabled(true);
-                stop_speak_btn.setVisibility(View.GONE);
+                stop_speak_btn.setVisibility(View.INVISIBLE);
+                stop_speak_btn.setEnabled(false);
                 recordbtn.setVisibility(View.VISIBLE);
+                Status.setText("Tap on Mic to Speak");
+                returnedText.setText(null);
+                Status.setTextColor(Color.parseColor("#000000"));
                 Checkspeech=0;
                // Toast.makeText(VoiceActivity.this,"stop",Toast.LENGTH_SHORT ).show();
             }
-            */
+
         });
 
         Sign_out_btn.setOnClickListener(new View.OnClickListener() {
@@ -338,6 +344,16 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         });
 
         //CekSession();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 
@@ -365,6 +381,8 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     @Override
     public void onStop(){
         super.onStop();
+        speech.cancel();
+        Log.d("log", "onStop: Speech Cancel");
     }
 
     @Override
@@ -381,13 +399,16 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
             speech.destroy();
             Log.d("Log", "destroy");
         }
-
+        speech.cancel();
+        Log.d("log", "onStop: Speech Cancel");
     }
 
     @Override
     public void onBeginningOfSpeech() {
         Log.d("Log", "onBeginningOfSpeech");
         progressBar.setVisibility(View.VISIBLE);
+        stop_speak_btn.setVisibility(View.VISIBLE);
+        stop_speak_btn.setEnabled(true);
     }
 
     @Override
@@ -400,9 +421,12 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     public void onEndOfSpeech() {
         Log.d("Log", "onEndOfSpeech");
         progressBar.setVisibility(View.INVISIBLE);
+        stop_speak_btn.setVisibility(View.INVISIBLE);
+        stop_speak_btn.setEnabled(false);
         recordbtn.setEnabled(true);
+        recordbtn.setVisibility(View.VISIBLE);
         Status.setText("Tap on Mic to Speak");
-        Status.setTextColor(Color.parseColor("#FFFFFF"));
+        Status.setTextColor(Color.parseColor("#000000"));
         //for listview
         if (toString != null) {
             sendMessageBallon(toString); //--> here's the right place for arrayList.add //User Send Message Method
@@ -418,6 +442,10 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
         String errorMessage = getErrorText(errorCode);
         Log.d("Log", "FAILED " + errorMessage);
         progressBar.setVisibility(View.INVISIBLE);
+        stop_speak_btn.setVisibility(View.INVISIBLE);
+        stop_speak_btn.setEnabled(false);
+        recordbtn.setEnabled(true);
+        recordbtn.setVisibility(View.VISIBLE);
         returnedText.setText(errorMessage);
         recordbtn.setEnabled(true);
     }
@@ -462,7 +490,7 @@ public class VoiceActivity extends AppCompatActivity implements RecognitionListe
     @Override
     public void onRmsChanged(float rmsdB) {
         Log.d("Log", "onRmsChanged: " + rmsdB);
-        progressBar.setProgress((int) rmsdB);
+        //progressBar.setProgress((int) rmsdB);
 
     }
 

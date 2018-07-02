@@ -1,5 +1,6 @@
 package wattary.com.wattary;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +61,14 @@ public class on_The_Door extends AppCompatActivity {
         super.onStart();
         send("110");
         GET();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        Intent intent =new Intent(on_The_Door.this,VoiceActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void send(String Value)
